@@ -8,11 +8,8 @@ on:
 permissions:
   contents: write
 
-env:
-  PYTHON_VERSION: 3.x
-
 jobs:
-  docs:
+  deploy:
     name: Deploy Documentation to GitHub Pages
     runs-on: ubuntu-latest
     steps:
@@ -21,13 +18,14 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
-          python-version: ${{ env.PYTHON_VERSION }}
-          cache: pip
+          python-version: 3.x
       - name: Cache
         uses: actions/cache@v4
         with:
-          key: ${{ github.ref }}
+          key: mkdocs-material-${{ env.cache_id }}
           path: .cache
+          restore-keys: |
+            mkdocs-material-
       - name: Install Dependencies
         run: pip install mkdocs-material
       - name: Deploy Documentation to GitHub Pages
