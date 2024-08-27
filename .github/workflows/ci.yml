@@ -28,5 +28,7 @@ jobs:
             mkdocs-material-
       - name: Install Dependencies
         run: pip install mkdocs-material
+      - name: Install plugins
+        run: pip install glightbox
       - name: Deploy Documentation to GitHub Pages
         run: mkdocs gh-deploy --force --no-history
