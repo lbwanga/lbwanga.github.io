@@ -286,7 +286,7 @@ super的两个含义：
 
 **引用拷贝**：引用拷贝就是两个不同的引用指向同一个对象。
 
-![](.\Java\shallow&deep-copy.png)
+![](.\images\shallow&deep-copy.png)
 
 
 
@@ -591,7 +591,7 @@ enum Season
 
 ## 异常
 
-![](Java\异常.jpeg)
+![](.\images\异常.jpeg)
 
 执行过程中发生的异常分为两大类
 
