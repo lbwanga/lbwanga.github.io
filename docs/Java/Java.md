@@ -286,7 +286,7 @@ super的两个含义：
 
 **引用拷贝**：引用拷贝就是两个不同的引用指向同一个对象。
 
-![](.\images\shallow&deep-copy.png)
+![](./images/shallow&deep-copy.png)
 
 
 
