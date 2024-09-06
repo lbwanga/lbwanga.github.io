@@ -11,8 +11,18 @@ repo_url: https://github.com/lbwanga/lbwanga.github.io
 
 # Contents
 nav:
-  - Home: index.md
-  - About: about.md
+  - Java: 
+    - Java基础: Java/Java.md
+    - Java集合: Java/Java集合.md
+    - JUC: Java/JUC.md
+#  - JVM: JVM/JVM.md
+#  - Spring: Spring/Spring6.md
+#  - SpringBoot: SpringBoot/SpringBoot3.md
+  - MySQL: MySQL/MySQL.md
+#  - Redis: Redis/Redis.md
+#  - MQ:
+#    - RabbitMQ: MQ/RabbitMQ.md
+#    - RocketMQ: MQ/RocketMQ.md
   - 设计模式: 设计模式/设计模式.md
 
 # Theme
