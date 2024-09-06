@@ -2,8 +2,9 @@
 site_name: WNotes
 site_description: 个人笔记，博客
 site_author: wang
-site_url: 
+site_url: https://lbwanga.github.io/
 strict: false
+use_directory_urls: false
 
 # Repository
 repo_name: lbwanga
