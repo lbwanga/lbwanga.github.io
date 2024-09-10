@@ -2,7 +2,7 @@
 
 Collection接口没有直接的实现子类，是通过它的子接口Set、List和Queue实现的
 
-![](Java\collection.jpeg)
+![](./Java集合/collection.jpeg)
 
 ### List
 
@@ -197,7 +197,7 @@ BlockingQueue的实现类：
 
 ## Map
 
-![](E:\笔记\notes\Java\map.jpeg)
+![](./Java集合/map.jpeg)
 
 ### HashMap
 

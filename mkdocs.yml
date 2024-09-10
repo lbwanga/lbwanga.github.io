@@ -15,7 +15,7 @@ nav:
   - Java: 
     - Java基础: Java/Java.md
     - Java集合: Java/Java集合.md
-    - JUC: Java/JUC.md
+  - JUC: JUC/JUC.md
   - 设计模式: 设计模式/设计模式.md
 
 # Theme
