@@ -39,6 +39,9 @@ theme:
     - content.tabs.link
     - navigation.tabs
     - navigation.instant
+    - navigation.path
+    - toc.follow
+    - toc.integrate
     
 
 # Customization
