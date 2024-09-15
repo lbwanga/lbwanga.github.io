@@ -12,10 +12,12 @@ repo_url: https://github.com/lbwanga/lbwanga.github.io
 
 # Contents
 nav:
+  - 简介: index.md
   - Java: 
     - Java基础: Java/Java.md
     - Java集合: Java/Java集合.md
   - JUC: JUC/JUC.md
+  - JVM: JVM/JVM.md
   - 设计模式: 设计模式/设计模式.md
 
 # Theme

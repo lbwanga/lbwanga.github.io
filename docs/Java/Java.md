@@ -844,41 +844,14 @@ interface 接口名<T,R...>{}
 
 **泛型擦除：**
 
-泛型是一个语法糖，Java虚拟机不认识泛型，泛型会在编译阶段通过泛型擦除的方式进行解语法糖.
+Java语言中的泛型只在程序源码中存在，在编译后的字节码文件中，全部泛型都被替换为原来的裸类型，并且在相应的地方插入了强制转型代码，因此对于运行期的Java语言来说，`ArrayList<int>` 与 `ArrayList<String>` 其实是同一个类型。
 
-擦除类型参数：
+
 
 在泛型类或泛型方法中，所有的类型参数都会在编译时被擦除：
 
 - 如果泛型类型参数没有指定上界，编译器会将其替换为`Object`。
 - 如果泛型类型参数指定了上界（例如`<T extends Number>`），编译器会将其替换为上界类型（这里是`Number`）。
-
-
-
-类型检查与类型转换：
-
-虽然在运行时泛型类型信息被擦除，但在编译时，编译器会进行类型检查，以确保泛型的使用符合类型安全的要求。在编译后的字节码中，会插入类型转换代码，以确保获取到正确的类型：
-
-```java
-Box stringBox = new Box();
-stringBox.set("Hello");
-String item = (String) stringBox.get();
-```
-
-
-
-擦除方法的重载：
-
-由于泛型类型在编译时被擦除，可能导致方法签名的冲突。例如：
-
-```java
-public class Example {
-    public void method(List<String> list) {}
-    public void method(List<Integer> list) {}
-}
-```
-
-这两个方法在类型擦除后，其方法签名都变为`method(List list)`，从而引发编译错误。Java不允许在同一类中声明这些方法。
 
 
 
