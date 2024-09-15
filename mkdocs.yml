@@ -6,11 +6,6 @@ site_url: https://lbwanga.github.io/
 strict: false
 use_directory_urls: false
 
----
-hide:
-  - navigation
----
-
 # Repository
 repo_name: lbwanga
 repo_url: https://github.com/lbwanga/lbwanga.github.io

@@ -1,3 +1,8 @@
+---
+hide:
+  - navigation
+---
+
 https://docs.oracle.com/javase/specs/index.html
 
 [OpenJDK Mercurial Repositories](https://hg.openjdk.org/jdk)
