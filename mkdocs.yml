@@ -5,6 +5,8 @@ site_author: wang
 site_url: https://lbwanga.github.io/
 strict: false
 use_directory_urls: false
+hide:
+  - navigation
 
 # Repository
 repo_name: lbwanga
@@ -41,7 +43,6 @@ theme:
     - navigation.instant
     - navigation.path
     - toc.follow
-    - toc.integrate
     
 
 # Customization
