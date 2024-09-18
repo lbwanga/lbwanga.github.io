@@ -408,17 +408,7 @@ finalize
 
 **final数据**：
 
-许多程序设计语言都有自己的办法告诉编译器某个数据是“常数”。常数主要应用于下述两个方面： 
-
-(1) 编译期常数，它永远不会改变 
-
-(2) 在运行期初始化的一个值，我们不希望它发生变化
-
-对于编译期的常数，编译器（程序）可将常数值“封装”到需要的计算过程里。也就是说，计算可在编译期间提前执行，从而节省运行时的一些开销。在 Java 中，这些形式的常数必须属于基本数据类型（Primitives），而且要用 final 关键字进行表达。在对这样的一个常数进行定义的时候，必须给出一个值。
-
-无论static 还是 final 字段，都只能存储一个数据，而且不得改变。 
-
-对于基本数据类型，final 会将值变成一个常数；但对于对象句柄，final 会将句柄变成一个常数。进行声明时，必须将句柄初始化到一个具体的对象。而且永远不能将句柄变成指向另一个对象。然而，对象本身是可以修改的。Java 对此未提供任何手段，可将一个对象直接变成一个常数（但是，我们可自己编写一个类，使其中的对象具有 “常数”效果）。这一限制也适用于数组，它也属于对象。
+对于基本数据类型，final 会将值变成一个常数；但对于对象句柄，final 会将句柄变成一个常数。进行声明时，必须将句柄初始化到一个具体的对象。而且永远不能将句柄变成指向另一个对象。然而，对象本身是可以修改的。Java 对此未提供任何手段，可将一个对象直接变成一个常数。这一限制也适用于数组，它也属于对象。
 
 final数据必须赋初值，以后不能修改，初始化位置：
 
@@ -442,7 +432,7 @@ final数据必须赋初值，以后不能修改，初始化位置：
 
 **final类**：
 
-将类定义成 final 后，结果只是禁止进行继承——没有更多的限制。然 而，由于它禁止了继承，所以一个 final 类中的所有方法都默认为final。因为此时再也无法覆盖它们。所以与我们将一个方法明确声明为final 一样，编译器此时有相同的效率选择。 
+将类定义成 final 后，结果只是禁止进行继承——没有更多的限制。然而，由于它禁止了继承，所以一个 final 类中的所有方法都默认为final。因为此时再也无法覆盖它们。所以与我们将一个方法明确声明为final 一样，编译器此时有相同的效率选择。 
 
 
 
@@ -593,25 +583,33 @@ enum Season
 
 ![](./Java/异常.jpeg)
 
-执行过程中发生的异常分为两大类
+Exception 和 Error 都是继承了 Throwable 类，在 Java 中只有 Throwable 类型的实例才可以被抛出（throw）或者捕获（catch），它是异常处理机制的基本组成类型。
 
-1. Error(错误)：Java虚拟机无法解决的严重问题，如`JVM`系统内部错误、资源耗尽等。比如`StackOverflowError`和`OOM（out of memory)`
+Error 是指在正常情况下，不大可能出现的情况，绝大部分的 Error 都会导致程序（比如 JVM 自身）处于非正常的、不可恢复状态。既然是非正常情况，所以不便于也不需要捕获，常见的比如 OutOfMemoryError 之类，都是 Error 的子类。
 
-2. Exception：其他因编程或偶然的外在因素导致的一般问题，可以使用针对性的代码处理，分为两大类：运行时异常和编译时异常。编译异常程序中必须处理，运行时异常程序中没有处理默认是`throws`
-   1. 运行时异常：
-      1. 空指针异常 NullPointerException
-      2. 数学运算异常 ArithmeticException
-      3. 数组下标越界异常 ArrayIndexOutOfBoundsException
-      4. 类型转换异常 ClassCastException
-      5. 数字格式不正确异常 NumberFormatException
+Exception 是程序正常运行中，可以预料的意外情况，可能并且应该被捕获，进行相应处理。
 
-   2. 编译时异常：
-      1. 数据库操作异常 SQLException
-      2. 文件操作异常 IOException
-      3. 文件不存在 FileNotFoundException
-      4. 类不存在 ClassNotFoundException
-      5. 文件末尾发生异常 EOPException
-      6. 参数异常 IllegalArguementException
+Exception 又分为**可检查**（checked）异常和**不检查**（unchecked）异常。
+
+可检查异常在源代码里必须显式地进行捕获处理，这是编译期检查的一部分。如果受检查异常没有被 `catch`或者`throws` 关键字处理的话，就没办法通过编译。
+
+不检查异常就是所谓的运行时异常，通常是可以编码避免的逻辑错误，具体根据需要来判断是否需要捕获，并不会在编译期强制要求。
+
+编译时异常（可检查异常）：
+
+1. 数据库操作异常 SQLException
+2. 文件操作异常 IOException
+3. 文件不存在 FileNotFoundException
+4. 类不存在 ClassNotFoundException
+5. 文件末尾发生异常 EOPException
+6. 参数异常 IllegalArguementException
+
+运行时异常（不检查异常）：
+1. 空指针异常 NullPointerException
+2. 数学运算异常 ArithmeticException
+3. 数组下标越界异常 ArrayIndexOutOfBoundsException
+4. 类型转换异常 ClassCastException
+5. 数字格式不正确异常 NumberFormatException
 
 
 
@@ -643,7 +641,7 @@ finally子句中包含return语句时肯产生意想不到的结果，finally中
 
 编译异常程序中必须处理，运行时异常程序中没有处理默认是`throws`
 
-子类重写父类的方法时，对抛出异常的规定：子类重写的方法抛出的异常类型要么和父类抛出的异常一致，要么为父类抛出异常类型的子类型
+子类重写父类的方法时，对抛出异常的规定：子类重写的方法抛出的异常类型要么和父类抛出的异常一致，要么为父类抛出异常类型的子类型。
 
 在`throws`过程中，如果有`try-catch`，相当于处理异常，就可以不必`throws`
 
@@ -699,7 +697,7 @@ try (Resource res = ...) { // 可以指定多个资源, ';'间隔
 
 `String` 真正不可变有下面几点原因：
 
-1. 保存字符串的数组被 `final` 修饰且为私有的，并且`String` 类没有提供/暴露修改这个字符串的方法。
+1. 保存字符串的数组被 `final` 修饰且为私有的，并且`String` 类没有提供/暴露修改这个字符串的方法。拼接、裁剪字符串等动作，都会产生新的 String 对象。
 2. `String` 类被 `final` 修饰导致其不能被继承，进而避免了子类破坏 `String` 不可变。
 
 `String` 中的 `equals` 方法是被重写过的，比较的是 String 字符串的值是否相等。 `Object` 的 `equals` 方法是比较的对象的内存地址。
@@ -714,7 +712,7 @@ try (Resource res = ...) { // 可以指定多个资源, ';'间隔
 
 和StringBuffer本质上没什么区别，就是去掉了保证线程安全的那部分，减少了开销。
 
-`StringBuilder` 与 `StringBuffer` 都继承自 `AbstractStringBuilder` 类，在 `AbstractStringBuilder` 中使用char数组保存字符串(JDK9以后是byte数组)，不过没有使用 `final` 和 `private` 关键字修饰，是**可变的**，
+`StringBuilder` 与 `StringBuffer` 都继承自 `AbstractStringBuilder` 类，在 `AbstractStringBuilder` 中使用char数组保存字符串(JDK9以后是byte数组)，不过没有使用 `final` 和 `private` 关键字修饰，是**可变的**，构建时初始字符串长度加 16。
 
 
 
@@ -982,8 +980,6 @@ Java序列化机制只会保存对象的实例变量的状态，而不会保存�
 
 反射机制允许程序在执行期间借助于ReflectionAPI取得任何类的内部信息，并能操作对象的属性及方法。
 
-加载完类之后，在堆中产生一个Class类型的对象（一个类只有一个Class对象），这个对象包含类的完整结构信息。
-
 反射相关的主要类:
 
 ```java
@@ -1117,23 +1113,22 @@ getType:以Class形式返回类型
 
 
 
-## 代理模式
-
-### 静态代理
-
-需要对每个目标类都单独写一个代理类，不灵活且麻烦
-
-### 动态代理
+## 动态代理
 
 动态代理是在运行时动态生成类字节码，并加载到 JVM 中
 
-#### JDK动态代理
+### JDK动态代理
 
 基于接口的，代理类一定是有定义的接口，在 Java 动态代理机制中 `InvocationHandler` 接口和 `Proxy` 类是核心。
 
 `Proxy` 类中使用频率最高的方法是：`newProxyInstance()` ，这个方法主要用来生成一个代理对象。
 
 ```java
+/**
+ * loader :类加载器，用于加载代理对象。
+ * interfaces : 被代理类实现的一些接口；
+ * h : 实现了 `InvocationHandler` 接口的对象；
+ */
 public static Object newProxyInstance(ClassLoader loader,
                                       Class<?>[] interfaces,
                                       InvocationHandler h)
@@ -1143,12 +1138,6 @@ public static Object newProxyInstance(ClassLoader loader,
 }
 ```
 
-这个方法一共有 3 个参数：
-
-1. **loader** :类加载器，用于加载代理对象。
-2. **interfaces** : 被代理类实现的一些接口；
-3. **h** : 实现了 `InvocationHandler` 接口的对象；
-
 要实现动态代理的话，还必须需要实现`InvocationHandler` 来自定义处理逻辑。 当我们的动态代理对象调用一个方法时，这个方法的调用就会被转发到实现`InvocationHandler` 接口类的 `invoke` 方法来调用。
 
 ```java
@@ -1156,17 +1145,16 @@ public interface InvocationHandler {
 
     /**
      * 当使用代理对象调用方法的时候实际会调用到这个方法
+     * proxy :动态生成的代理类
+     * method : 与代理类对象调用的方法相对应
+     * args : 当前 method 方法的参数
      */
     public Object invoke(Object proxy, Method method, Object[] args)
         throws Throwable;
 }
 ```
 
-1. **proxy** :动态生成的代理类
-2. **method** : 与代理类对象调用的方法相对应
-3. **args** : 当前 method 方法的参数
-
-**通过`Proxy` 类的 `newProxyInstance()` 创建的代理对象在调用方法的时候，实际会调用到实现`InvocationHandler` 接口的类的 `invoke()`方法。** 可以在 `invoke()` 方法中自定义处理逻辑，比如在方法执行前后做什么事情。
+通过`Proxy` 类的 `newProxyInstance()` 创建的代理对象在调用方法的时候，实际会调用到实现`InvocationHandler` 接口的类的 `invoke()`方法。 可以在 `invoke()` 方法中自定义处理逻辑，比如在方法执行前后做什么事情。
 
 
 
@@ -1176,9 +1164,43 @@ public interface InvocationHandler {
 2. 自定义代理类实现 `InvocationHandler`接口并重写`invoke`方法，在 `invoke` 方法中我们会调用原生方法（被代理类的方法）并自定义一些处理逻辑；
 3. 通过 `Proxy.newProxyInstance(ClassLoader loader,Class<?>[] interfaces,InvocationHandler h)` 方法创建代理对象；
 
+```java
+interface Hello {
+    void sayHello();
+}
+class HelloImpl implements  Hello {
+    @Override
+    public void sayHello() {
+        System.out.println("Hello World");
+    }
+}
+class MyInvocationHandler implements InvocationHandler {
+    private Object target;
+    public MyInvocationHandler(Object target) {
+        this.target = target;
+    }
+    @Override
+    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+        System.out.println("Invoking sayHello");
+        Object result = method.invoke(target, args);
+        return result;
+    }
+}
+public class MyDynamicProxy {
+    public static  void main (String[] args) {
+        HelloImpl hello = new HelloImpl();
+        MyInvocationHandler handler = new MyInvocationHandler(hello);
+        // 构造代码实例
+        Hello proxyHello = (Hello) Proxy.newProxyInstance(HelloImpl.class.getClassLoader(), HelloImpl.class.getInterfaces(), handler);
+        // 调用代理方法
+        proxyHello.sayHello();
+    }
+}
+```
 
 
-#### CGLIB 动态代理
+
+### CGLIB 动态代理
 
 CGLIB基于ASM字节码生成工具，它通过继承的方式实现代理类，所以不需要接口，可以代理普通类，但需要注意 final 方法（不可继承）。
 
@@ -1187,11 +1209,20 @@ CGLIB基于ASM字节码生成工具，它通过继承的方式实现代理类，
 你需要自定义 `MethodInterceptor` 并重写 `intercept` 方法，`intercept` 用于拦截增强被代理类的方法。
 
 ```java
-public class ServiceMethodInterceptor implements MethodInterceptor{
-    // 拦截被代理类中的方法
+public class ServiceMethodInterceptor implements MethodInterceptor {
+
     @Override
-    public Object intercept(Object obj, java.lang.reflect.Method method, Object[] args,MethodProxy proxy) throws Throwable {
-        
+    public Object intercept(Object obj, Method method, Object[] args, MethodProxy proxy) throws Throwable {
+        // 在方法调用之前执行
+        System.out.println("Before invoking method: " + method.getName());
+
+        // 调用原始目标类的方法
+        Object result = proxy.invokeSuper(obj, args);
+
+        // 在方法调用之后执行
+        System.out.println("After invoking method: " + method.getName());
+
+        return result;
     }
 }
 ```

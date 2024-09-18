@@ -16,7 +16,7 @@ Collection接口没有直接的实现子类，是通过它的子接口Set、List
 
 
 
-和Array区别？
+和数组区别？
 
 1. 大小和自动扩容
 2. 支持泛型
@@ -203,7 +203,7 @@ BlockingQueue的实现类：
 
 线程不安全，保证线程安全就选用 `ConcurrentHashMap`。
 
-`HashMap` 可以存储 null 的 key 和 value，但 null 作为键只能有一个，null 作为值可以有多个
+`HashMap` 可以存储 null 的 key 和 value，通常情况下，HashMap 进行 put 或者 get 操作，可以达到常数时间的性能，所以它是绝大部分利用键值对存取场景的首选。
 
 JDK1.8 之前 `HashMap` 由数组+链表组成的，数组是 `HashMap` 的主体，链表则是主要为了解决哈希冲突而存在的（“拉链法”解决冲突）。JDK1.8 以后在解决哈希冲突时有了较大的变化，当链表长度大于阈值（默认为 8）（将链表转换成红黑树前会判断，如果当前数组的长度小于 64，那么会选择先进行数组扩容，而不是转换为红黑树）时，将链表转化为红黑树，以减少搜索时间。
 
@@ -263,7 +263,9 @@ JDK1.8 之前 `HashMap` 由数组+链表组成的，数组是 `HashMap` 的主�
 
 ### ConcurrentHashMap
 
-Java 7 中 `ConcurrnetHashMap` 由很多个 `Segment` 组合，而每一个 `Segment` 是一个类似于 `HashMap` 的结构，所以每一个 `HashMap` 的内部可以进行扩容。但是 `Segment` 的个数一旦**初始化就不能改变**，默认 `Segment` 的个数是 16 个，你也可以认为 `ConcurrentHashMap` 默认支持最多 16 个线程并发。
+Java 7 中 `ConcurrnetHashMap` 由很多个 `Segment` 组合，而每一个 `Segment` 是一个类似于 `HashMap` 的结构，所以每一个 `HashMap` 的内部可以进行扩容。但是 `Segment` 的个数一旦**初始化就不能改变**，默认 `Segment` 的个数是 16 个，可以认为 `ConcurrentHashMap` 默认支持最多 16 个线程并发。
+
+
 
 Java 8 中 不再是之前的 **Segment 数组 + HashEntry 数组 + 链表**，而是 **Node 数组 + 链表 / 红黑树**。当冲突链表达到一定长度时，链表会转换成红黑树。
 
@@ -322,9 +324,11 @@ for (int i = 1; i <= 5; i++) {
 
 ### Hashtable
 
-* 键和值都不能为空
-* 使用方法基本和HashMap一样
-* Hashtable是线程安全的，通过在每个⽅法上添加同步关键字来实现的，但这也可能 导致性能下降。
+键和值都不能为null
+
+使用方法基本和HashMap一样
+
+Hashtable是线程安全的，通过在每个⽅法上添加同步关键字来实现的，但这也可能导致性能下降。
 
 ```
 底层数组Hashtable$Entry[] 初始化大小 11
@@ -346,7 +350,7 @@ for (int i = 1; i <= 5; i++) {
 
 ### TreeMap
 
-基于红黑树数据结构的实现的
+TreeMap 则是基于红黑树的一种提供顺序访问的 Map，和 HashMap 不同，它的 get、put、remove 之类操作都是 O（log(n)）的时间复杂度。
 
 实现 `NavigableMap` 接口让 `TreeMap` 有了对集合内元素的搜索的能力。
 
