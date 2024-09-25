@@ -270,16 +270,14 @@ RDB保存的是dump.rdb文件。
 
 **优势**：
 
-1. 适合大规模的数据恢复
-2. 按照业务定时备份
-3. 父进程不会执行磁盘I/О或类似操作，会fork一个子进程完成持久化工作，性能高。
-4. RDB文件在内存中的**加载速度要比AOF快很多**
-
-
+1. 适合大规模的数据恢复；
+2. 按照业务定时备份；
+3. 父进程不会执行磁盘I/О或类似操作，会fork一个子进程完成持久化工作，性能高；
+4. RDB文件在内存中的加载速度要比AOF快很多。
 
 **劣势**：
 
-1. 在一定间隔时间做一次备份，所以如果redis意外down掉的话，就会丢失从当前至最近一次快照期间的数据，**快照之间的数据会丢失**
+1. 在一定间隔时间做一次备份，所以如果redis意外down掉的话，就会丢失从当前至最近一次快照期间的数据，快照之间的数据会丢失。
 2. 内存数据的全量同步，如果数据量太大会导致IO严重影响服务器性能。因为RDB需要经常fork()以便使用子进程在磁盘上持久化。如果数据集很大，fork()可能会很耗时，并且如果数据集很大并且CPU性能不是很好，可能会导致Redis停止为客户端服务几毫秒甚至一秒钟。
 
 
@@ -319,7 +317,7 @@ RDB 在执行快照的时候，数据能修改吗？
 
 #### AOF (Append Only File)
 
-**以日志的形式来记录每个写操作**，将Redis执行过的所有写指令记录下来(读操作不记录)，只许追加文件但是不可以改写文件，恢复时，以逐一执行命令的方式来进行数据恢复。
+**以日志的形式来记录每个写操作**，将Redis执行过的所有写指令记录下来，只许追加文件但是不可以改写文件，恢复时，以逐一执行命令的方式来进行数据恢复。
 
 默认情况下，redis是没有开启AOF的。
 
@@ -588,44 +586,13 @@ Redis 主从节点发送的心态间隔是不一样的，而且作用也有一�
 - Redis 主节点默认每隔 10 秒对从节点发送 ping 命令，判断从节点的存活性和连接状态，可通过参数repl-ping-slave-period控制发送频率。
 - Redis 从节点每隔 1 秒发送 `replconf ack <offset> ` 命令，作用：
   - 检测主从节点网络连接状态；
-    - 检测命令丢失。
+  - 检测命令丢失。
 
 
 
 ### 哨兵（Sentinel）
 
 监视一个或多个主服务器及这些主服务器属下的从服务器，当主服务器进入下线状态时，自动将下线主服务器的某个从服务器升级为新的主服务器继续处理命令请求。
-
-
-
-**配置：**sentinel.conf
-
-`sentinel monitor <master-name> <ip> <port> <quorum>` : 设置要监控的master服务器，quorum表示最少有几个哨兵认可客观下线，同意故障迁移的法定票数
-
-`sentinel auth-pass <master-name> <password>`
-
-其他参数：
-
-```
-sentinel down-after-milliseconds <master-name> <milliseconds>：指定多少毫秒之后，主节点没有应答哨兵，此时哨兵主观上认为主节点下线
-sentinel parallel-syncs <master-name> <nums>：表示允许并行同步的slave个数，当Master挂了后，哨兵会选出新的Master，此时，剩余的slave会向新的master发起同步数据
-sentinel failover-timeout <master-name> <milliseconds>：故障转移的超时时间，进行故障转移时，如果超过设置的毫秒，表示故障转移失败
-sentinel notification-script <master-name> <script-path> ：配置当某一事件发生时所需要执行的脚本
-sentinel client-reconfig-script <master-name> <script-path>：客户端重新配置主节点参数脚本
-```
-
-注意：主机后续可能会变成从机，所以也需要设置 masterauth 项访问密码，不然后续可能报错master_link_status:down
-
-
-
-**启动哨兵方式：**
-
-1. `redis-sentinel /path/to/sentinel.conf`
-2. `redis-server /path/to/sentinel.conf --sentinel`
-
-
-
-文件的内容，在运行期间会被sentinel动态进行更改。Master-Slave切换后，master_redis.conf、slave_redis.conf和sentinel.conf的内容都会发生改变，即master_redis.conf中会多一行slaveof的配置，sentinel.conf的监控目标会随之调换
 
 
 
@@ -677,8 +644,6 @@ sentinel client-reconfig-script <master-name> <script-path>：客户端重新配
 **槽指派**
 
 redis集群通过分片的方式来保存数据库中的键值对：集群的整个数据库被分为16384个槽(slot)，数据库中的每个键都属于16384槽中的的其中一个，集群中的每个节点可以处理0个或最多16384个槽。
-
-Redis集群有16384个哈希槽每个key通过CRC16校验后对16384取模来决定放置哪个槽，集群的每个节点负责一部分hash槽。
 
 如果键所在的槽正好就指派给当前节点，那么节点直接执行这个命令；否则会指引客户端转向正确的节点再次发送要执行的命令。
 

@@ -18,11 +18,13 @@ nav:
     - Java集合: Java/Java集合.md
   - JUC: JUC/JUC.md
   - JVM: JVM/JVM.md
+  - MySQL: MySQL/MySQL.md
   - Redis: 
      - Redis基础: Redis/Redis基础.md
      - Redis数据结构: Redis/数据结构.md
      - Redis高级: Redis/Redis高级.md
   - 设计模式: 设计模式/设计模式.md
+  - Spring: Spring/Spring6.md
 
 # Theme
 theme:

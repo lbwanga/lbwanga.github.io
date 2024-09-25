@@ -6,7 +6,7 @@ Collection接口没有直接的实现子类，是通过它的子接口Set、List
 
 ### List
 
-有序，可重复，支持索引，常用的有ArrayList，LinkedList，Vector
+有序，可重复，支持索引，常用的有ArrayList，LinkedList，Vector，Stack
 
 #### ArrayList
 
@@ -31,11 +31,11 @@ Collection接口没有直接的实现子类，是通过它的子接口Set、List
 
 如果使用指定大小的构造器，初始容量为指定大小，如果需要扩容则扩容为**1.5倍。**
 
-
+扩容时创建一个新的更大的数组，将原来数组中的元素逐个复制到新数组中，最后将ArrayList内部指向原数组的引用指向新数组。
 
 #### Vector
 
-底层是`Object[]` 数组。
+Vector 内部是使用对象数组来保存数据，可以根据需要自动的增加容量，当数组已满时，会创建新的数组，并拷贝原有数组数据。
 
 线程同步的，即线程安全, 操作方法带 `synchronized`
 
@@ -59,16 +59,32 @@ Collection接口没有直接的实现子类，是通过它的子接口Set、List
 
 
 
+#### CopyonWriteArraylist
+
+CopyOnWriteArrayList底层也是通过一个数组保存数据，使用volatile关键字修饰数组，保证当前线程对数组对象重新赋值后，其他线程可以及时感知到。
+
+在写入操作时，加了一把互斥锁ReentrantLock以保证线程安全。读是没有加锁的。
+
+```java
+public boolean add(E e) {
+    synchronized (lock) {
+        Object[] es = getArray();
+        int len = es.length;
+        es = Arrays.copyOf(es, len + 1);
+        es[len] = e;
+        setArray(es);
+        return true;
+    }
+}
+```
+
+写入新元素时，首先会先将原来的数组拷贝一份并且让原来数组的长度+1后就得到了一个新数组，新数组里的元素和旧数组的元素一样并且长度比旧数组多一个长度，然后将新加入的元素放置都在新数组最后一个位置后，用新数组的地址替换掉老数组的地址就能得到最新的数据了。
+
 ### Set
 
-**Comparable 和 Comparator 的区别**
+Set不允许存在重复的元素，与List不同，set中的元素是无序的。常用的实现有HashSet，LinkedHashSet和TreeSet。
 
-`Comparable` 接口和 `Comparator` 接口都是 Java 中用于排序的接口，它们在实现类对象之间比较大小、排序等方面发挥了重要作用：
-
-- `Comparable` 接口实际上是出自`java.lang`包 它有一个 `compareTo(Object obj)`方法用来排序
-- `Comparator`接口实际上是出自 `java.util` 包它有一个`compare(Object obj1, Object obj2)`方法用来排序
-
-
+当向Set集合中插入元素时，会先根据元素的hashCode值来确定元素的存储位置，然后再通过equals方法来判断是否已经存在相同的元素，如果存在则不会再次插入，保证了元素的唯一性。
 
 |               | 线程安全 | 底层数据结构 | 应用场景                 |
 | ------------- | -------- | ------------ | ------------------------ |
@@ -80,9 +96,7 @@ Collection接口没有直接的实现子类，是通过它的子接口Set、List
 
 #### HashSet
 
-无序，唯一
-
-HashSet实际上是HashMap , HashMap底层是（数组+链表+红黑树）
+HashSet通过HashMap实现，HashMap的Key即HashSet存储的元素，所有Key都是用相同的Value，一个名为PRESENT的Object类型常量。使用Key保证元素唯一性，但不保证有序性。由于HashSet是HashMap实现的，因此线程不安全。
 
 HashSet如何检查键值重复？`HashSet`的`add()`方法直接调用`HashMap`的`put()`方法：先比较hashcode，如果发现有相同 `hashcode` 值的对象，这时会调用`equals()`方法来检查 `hashcode` 相等的对象是否真的相同。
 
@@ -114,13 +128,7 @@ public HashSet() {
 
 #### LinkedHashSet
 
-HashSet的子类
-
-底层是一个LinkedHashMap，底层维护了一个数组+双向链表
-
-根据元素的hashCode值决定元素的存储位置，同时使用链表维护元素的次序，使得元素看起来是以插入顺序保存的
-
-不允许元素重复
+HashSet的子类，底层是一个LinkedHashMap，使用双向链表维护元素插入顺序。
 
 
 
@@ -197,6 +205,8 @@ BlockingQueue的实现类：
 
 ## Map
 
+主要实现有TreeMap、HashMap、HashTable、LinkedHashMap、ConcurrentHashMap
+
 ![](./Java集合/map.jpeg)
 
 ### HashMap
@@ -205,21 +215,15 @@ BlockingQueue的实现类：
 
 `HashMap` 可以存储 null 的 key 和 value，通常情况下，HashMap 进行 put 或者 get 操作，可以达到常数时间的性能，所以它是绝大部分利用键值对存取场景的首选。
 
-JDK1.8 之前 `HashMap` 由数组+链表组成的，数组是 `HashMap` 的主体，链表则是主要为了解决哈希冲突而存在的（“拉链法”解决冲突）。JDK1.8 以后在解决哈希冲突时有了较大的变化，当链表长度大于阈值（默认为 8）（将链表转换成红黑树前会判断，如果当前数组的长度小于 64，那么会选择先进行数组扩容，而不是转换为红黑树）时，将链表转化为红黑树，以减少搜索时间。
+JDK1.8 之前 `HashMap` 由数组+链表组成的，数组是 `HashMap` 的主体，链表则是主要为了解决哈希冲突而存在的（“拉链法”解决冲突）。
 
-**`HashMap` 默认的初始化大小为 16。到达临界值（临界值是16*loadFactor(0.75)=12）之后，容量变为原来的 2 倍。并且， `HashMap` 总是使用 2 的幂作为哈希表的大小。**因为对长度取模的操作可以用位运算来替代（` hash%length==hash&(length-1)`），能够有效保留hashcode低位并且提高效率。
+![](./Java集合/HashMap-Java7.png)
 
-初始化传的不是2的幂时，会向上寻找离得近的2的幂作为初始化大小。
+JDK1.8 以后在解决哈希冲突时有了较大的变化，当链表长度大于阈值（默认为 8）（将链表转换成红黑树前会判断，如果当前数组的长度小于 64，那么会选择先进行数组扩容，而不是转换为红黑树）时，将链表转化为红黑树，以减少搜索时间。
 
-添加元素：
+![](./Java集合/HashMap-Java8.png)
 
-```
-1. 添加一个元素时，先得到hash值然后转换为索引值( (n - 1) & hash )
-2. 找到存储数据的table，看索引位置是否有元素
-3. 如果没有，直接插入（该节点直接放在数组中）
-4. 如果有，调用equals比较判断该元素与要存入的元素的 hash 值以及 key 是否相同，如果相同则覆盖，如果不同插入到链表末端。equals不能简单的认为是比较内容或是地址，程序员可以进行重写 
-5. 在java8中，如果一条链表的元素个数 >= TREEIFY_THRESHOLD-1(默认8)，并且table大小 >= MIN_TREEIFY_CAPACITY(默认64)，就会进行树化(红黑树)
-```
+`HashMap` 默认的初始化大小为 16。到达临界值（临界值是16*loadFactor(0.75)=12）之后，容量变为原来的 2 倍。并且， `HashMap` 总是使用 2 的幂作为哈希表的大小。初始化传的不是2的幂时，会向上寻找离得近的2的幂作为初始化大小。
 
 
 
@@ -235,39 +239,77 @@ JDK1.8 之前 `HashMap` 由数组+链表组成的，数组是 `HashMap` 的主�
 
 死循环和数据丢失
 
-1. JDK1.7 及之前版本的 `HashMap` 在多线程环境下**扩容操作可能存在死循环问题**，这是由于当一个桶位中有多个元素需要进行扩容时，多个线程同时对链表进行操作，头插法可能会导致链表中的节点指向错误的位置，从而形成一个环形链表，进而使得查询元素的操作陷入**死循环**无法结束。[JDK 1.7 hashmap循环链表的产生（图文并茂，巨详细）_hashmap循环链表是如何产生的-CSDN博客](https://blog.csdn.net/qq_44833552/article/details/125575981)
+1. JDK1.7中的 HashMap 使用头插法插入元素，在多线程的环境下，扩容的时候有可能导致环形链表的出现，形成死循环。因此，JDK1.8使用尾插法插入元素，在扩容时会保持链表元素原本的顺序，不会出现环形链表的问题。[JDK 1.7 hashmap循环链表的产生（图文并茂，巨详细）_hashmap循环链表是如何产生的-CSDN博客](https://blog.csdn.net/qq_44833552/article/details/125575981)
 
-2. 多个线程对 `HashMap` 的 `put` 操作会有**数据覆盖**的风险。并发环境下，推荐使用 `ConcurrentHashMap` 。
-
-
-
-**HashMap遍历方式：**
-
-1. 使用迭代器（Iterator）EntrySet 的方式进行遍历；
-2. 使用迭代器（Iterator）KeySet 的方式进行遍历；
-3. 使用 For Each EntrySet 的方式进行遍历；
-4. 使用 For Each KeySet 的方式进行遍历；
-5. 使用 Lambda 表达式的方式进行遍历；
-6. 使用 Streams API 单线程的方式进行遍历；
-7. 使用 Streams API 多线程的方式进行遍历。
-
-`entrySet` 的性能比 `keySet` 的性能高出了一倍之多，因此我们应该尽量使用 `entrySet` 来实现 Map 集合的遍历。
-
-`EntrySet` 的性能比 `KeySet` 的性能高出了一倍，因为 `KeySet` 相当于循环了两遍 Map 集合，而 `EntrySet` 只循环了一遍。
+2. 多个线程对 `HashMap` 的 `put` 操作会有数据覆盖的风险。并发环境下，推荐使用 `ConcurrentHashMap` 。
 
 
 
-不能在遍历中使用集合 `map.remove()` 来删除数据，这是非安全的操作方式，但我们可以使用迭代器的 `iterator.remove()` 的方法来删除数据，这是安全的删除集合的方式。同样的我们也可以使用 Lambda 中的 `removeIf` 来提前删除数据，或者是使用 Stream 中的 `filter` 过滤掉要删除的数据进行循环，这样都是安全的，当然我们也可以在 `for` 循环前删除数据在遍历也是线程安全的。
+**添加元素的流程**：
+
+1. 根据要添加的键的哈希码计算在数组中的位置（索引）。 (n - 1) & hash 
+2. 检查该位置是否为空（即没有键值对存在）。如果为空，则直接在该位置创建一个新的Entry对象来存储键值对。将要添加的键值对作为该Entry的键和值，并保存在数组的对应位置。
+3. 如果该位置已经存在其他键值对，检查该位置的第一个键值对的哈希码和键是否与要添加的键值对相同。如果相同，则表示找到了相同的键，直接将新的值替换旧的值，完成更新操作。
+4. 如果第一个键值对的哈希码和键不相同，则需要遍历链表或红黑树来查找是否有相同的键：如果键值对集合是链表结构，从链表的头部开始逐个比较键的哈希码和equals()方法，直到找到相同的键或达到链表末尾。如果键值对集合是红黑树结构，在红黑树中使用哈希码和equals()方法进行查找。根据键的哈希码，定位到红黑树中的某个节点，然后逐个比较键，直到找到相同的键或达到红黑树末尾。
+5. 检查链表长度是否达到阈值（默认为8）。如果链表长度超过阈值，且HashMap的数组长度大于等于64，则会将链表转换为红黑树。
+6. 检查负载因子是否超过阈值（默认为0.75）。如果键值对的数量（size）与数组的长度的比值大于阈值，则需要进行扩容操作。
+7. 扩容操作：1. 创建一个新的两倍大小的数组。2. 将旧数组中的键值对重新计算哈希码并分配到新数组中的位置。3. 更新HashMap的数组引用和阈值参数。
+
+![](./Java集合/HashMap-put.png)
+
+
+
+**扩容机制**：
+
+hashMap默认的负载因子是0.75，即如果hashmap中的元素个数超过了总容量75%，则会触发扩容，扩容分为两个步骤：
+
+1. 对哈希表长度的扩展（2倍）；
+
+2. 将旧哈希表中的数据放到新的哈希表中。
+
+因为我们使用的是2次幂的扩展(指长度扩为原来2倍)，所以，元素的位置要么是在原位置，要么是在原位置再移动2次幂的位置。
+
+因此，我们在扩充HashMap的时候，不需要重新计算hash，只需要看看原来的hash值新增的那个bit是1还是0就好了，是0的话索引没变，是1的话索引变成“原索引+oldCap”。
+
+
+
+**hashmap key可以为null吗？**
+
+可以为 null。
+
+hashMap中使用hash()方法来计算key的哈希值，当key为空时，直接另key的哈希值为0，不走key.hashCode()方法；
+
+```java
+static final int hash(Object key) {
+    int h;
+    return (key == null) ? 0 : (h = key.hashCode()) ^ (h >>> 16);
+}
+```
 
 
 
 ### ConcurrentHashMap
 
-Java 7 中 `ConcurrnetHashMap` 由很多个 `Segment` 组合，而每一个 `Segment` 是一个类似于 `HashMap` 的结构，所以每一个 `HashMap` 的内部可以进行扩容。但是 `Segment` 的个数一旦**初始化就不能改变**，默认 `Segment` 的个数是 16 个，可以认为 `ConcurrentHashMap` 默认支持最多 16 个线程并发。
+在 JDK 1.7 中，提供了一种机制叫分段锁。整个哈希表被分为多个段，每个段都独立锁定。
+
+一个 ConcurrentHashMap 里包含一个 Segment 数组，Segment 的结构和 HashMap 类似，是一种数组和链表结构，一个 Segment 里包含一个 HashEntry 数组，每个 HashEntry 是一个链表结构的元素，每个 Segment 守护着一个 HashEntry 数组里的元素，当对 HashEntry 数组的数据进行修改时，必须首先获得它对应的 Segment 锁（使用ReentrantLock）。
+
+![](./Java集合/concurrent-hashmap-Java7.png)
+
+Segment 的个数一旦初始化就不能改变，默认 Segment 的个数是 16 个，可以认为 `ConcurrentHashMap` 默认支持最多 16 个线程并发。
 
 
 
-Java 8 中 不再是之前的 **Segment 数组 + HashEntry 数组 + 链表**，而是 **Node 数组 + 链表 / 红黑树**。当冲突链表达到一定长度时，链表会转换成红黑树。
+在JDK1.8中，ConcurrentHashMap的实现原理摒弃了分段锁，而是选择了与HashMap类似的数组+链表+红黑树的方式实现，以某个位置的头结点（链表的头结点或红黑树的 root 结点）为锁，加锁则采用CAS和synchronized实现。
+
+添加元素时首先会判断容器是否为空：
+
+- 如果为空则使用 volatile 加 CAS 来初始化
+- 如果容器不为空，则根据存储的元素计算该位置是否为空。
+  - 如果根据存储的元素计算结果为空，则利用 CAS 设置该节点；
+  - 如果根据存储的元素计算结果不为空，则使用 synchronized ，然后，遍历桶中的数据，并替换或新增节点到桶中，最后再判断是否需要转为红黑树，这样就能保证并发访问时的线程安全了。
+
+![](./Java集合/HashMap-Java8.png)
 
 
 
@@ -324,29 +366,21 @@ for (int i = 1; i <= 5; i++) {
 
 ### Hashtable
 
+Hashtable的底层数据结构主要是数组加上链表，数组是主体，链表是解决hash冲突存在的。
+
 键和值都不能为null
 
 使用方法基本和HashMap一样
 
-Hashtable是线程安全的，通过在每个⽅法上添加同步关键字来实现的，但这也可能导致性能下降。
+Hashtable是线程安全的，通过在每个⽅法上添加 synchronized 关键字来实现的，但这也可能导致性能下降。
 
-```
-底层数组Hashtable$Entry[] 初始化大小 11
-临界值 threshold = 8 (11*0.75)
-扩容机制
-```
-
-|           | 线程安全   | 效率                   | 对null key/value的支持 | 扩容机制                               | 底层数据结构            |
-| --------- | ---------- | ---------------------- | ---------------------- | -------------------------------------- | ----------------------- |
-| HashMap   | 线程不安全 | 高                     | 允许                   | 默认初始化大小16，每次扩容为原来的2倍  | 数组+链表+红黑树        |
-| HashTable | 线程安全   | 基本被淘汰，不建议使用 | 不允许                 | 默认初始化大小11，每次扩容为原来的2n+1 | 数组+链表，没有树化机制 |
+|                   | 线程安全   | 效率                   | 对null key/value的支持 | 扩容机制                               | 底层数据结构            |
+| ----------------- | ---------- | ---------------------- | ---------------------- | -------------------------------------- | ----------------------- |
+| HashMap           | 线程不安全 | 高                     | 允许                   | 默认初始化大小16，每次扩容为原来的2倍  | 数组+链表+红黑树        |
+| HashTable         | 线程安全   | 基本被淘汰，不建议使用 | 不允许                 | 默认初始化大小11，每次扩容为原来的2n+1 | 数组+链表，没有树化机制 |
+| ConcurrentHashMap | 线程安全   | 高                     | 不允许                 | 2倍扩容                                | 数组+链表+红黑树        |
 
 
-
-**ConcurrentHashMap 和 Hashtable 的区别：**
-
-1. 底层数据结构：ConcurrentHashMap和HashMap一样，使用数组+链表/红黑树，HashTable使用数组+链表，没有树化机制
-2. 实现线程安全的方式：`ConcurrentHashMap` 取消了 `Segment` 分段锁，采用 `Node + CAS + synchronized` 来保证并发安全，`synchronized` 只锁定当前链表或红黑二叉树的首节点。HashTable使用 `synchronized` 来保证线程安全，效率非常低下
 
 ### TreeMap
 
