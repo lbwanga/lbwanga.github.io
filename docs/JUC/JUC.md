@@ -841,6 +841,8 @@ ThreadLocal，即线程变量，是一个以 ThreadLocal 对象为键、任意�
 
 队列同步器 AbstractQueuedSynchronizer，是用来构建锁或者其他同步组件的基础框架，它使用了一个 int 成员变量表示同步状态，通过内置的 FIFO 队列来完成资源获取线程的排队工作。
 
+AQS核心思想是，如果被请求的共享资源空闲，那么就将当前请求资源的线程设置为有效的工作线程，将共享资源设置为锁定状态；如果共享资源被占用，就需要一定的阻塞等待唤醒机制来保证锁分配，将暂时获取不到锁的线程加入到队列中。
+
 ```java
 public abstract class AbstractQueuedSynchronizer extends AbstractOwnableSynchronizer{
     // 指向同步队列的头部
@@ -2285,7 +2287,13 @@ Java8 中的 `ConcurrentHashMap` 使用的 `Synchronized` 锁加 CAS 的机制�
 
 ### CAS
 
-CAS 的全称是 Compare-And-Swap，依赖于CPU的原子性指令实现。在 Java 中，实现 CAS 操作的一个关键类是`Unsafe`。
+CAS 的全称是 Compare-And-Swap，依赖于CPU的原子性指令实现。在 Java 中，实现 CAS 操作的一个关键类是`Unsafe`。它包含三个操作数：
+
+1. 变量内存地址，V表示
+2. 旧的预期值，A表示
+3. 准备设置的新值，B表示
+
+当执行CAS指令时，只有当V等于A时，才会用B去更新V的值，否则就不会执行更新操作。
 
 
 

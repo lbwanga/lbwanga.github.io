@@ -1,3 +1,8 @@
+---
+hide:
+  - navigation
+---
+
 ## IoC、DI和AOP思想提出
 
 **IoC 控制反转思想的提出**：
@@ -1742,3 +1747,17 @@ public class ApplicationContextConfig {
 5. spring的事务在抛异常的时候会回滚，如果是catch捕获了，事务无效。可以在catch里面加上throw new RuntimeException();
 
 6. 和锁同时使用需要注意：由于Spring事务是通过AOP实现的，所以在方法执行之前会有开启事务，之后会有提交事务逻辑。而synchronized代码块执行是在事务之内执行的，可以推断在synchronized代码块执行完时，事务还未提交，其他线程进入synchronized代码块后，读取的数据不是最新的。 所以必须使synchronized锁的范围大于事务控制的范围，把synchronized加到Controller层或者大于事务边界的调用层！
+
+
+
+**Spring事务如果没有回滚可能是什么原因？**
+
+1. 非 public 修饰的方法中的事务不自动回滚，解决方案是将方法的权限修饰符改为 public 即可。
+
+2. 当 @Transactional 遇上 try/catch 事务不自动回滚，解决方案有两种：一种是在 catch 中将异常重新抛出去，另一种是使用代码手动将事务回滚。
+
+3. 调用类内部的 @Transactional 方法事务不自动回滚，解决方案是给调用的方法上也加上 @Transactional
+
+4. 抛出检查异常时事务不自动回滚，解决方案是给 @Transactional 注解上，添加 rollbackFor 参数并设置 Exception.class 值即可
+
+5. 数据库不支持事务，事务也不会自动回滚，比如 MySQL 中设置了使用 MyISAM 引擎，因为它本身是不支持事务的，这种情况下，即使在程序中添加了 @Transactional 注解，那么依然不会有事务的行为，也就不会执行事务的自动回滚了。解决方式就是将 MySQL 的存储引擎设置为 InnoDB，InnoDB支持事务。
