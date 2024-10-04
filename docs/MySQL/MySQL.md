@@ -1,3 +1,10 @@
+---
+hide:
+  - navigation
+---
+
+
+
 [MySQL :: MySQL 8.4 Reference Manual](https://dev.mysql.com/doc/refman/8.4/en/)
 
 

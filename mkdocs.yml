@@ -25,6 +25,7 @@ nav:
      - Redis高级: Redis/Redis高级.md
   - 设计模式: 设计模式/设计模式.md
   - Spring: Spring/Spring6.md
+  - SpringMVC: SpringMVC/SpringMVC.md
 
 # Theme
 theme:

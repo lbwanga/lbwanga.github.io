@@ -7,9 +7,11 @@ hide:
 
 **IoC 控制反转思想的提出**：
 
-IoC思想： Inversion of Control，控制反转，强调的是原来在程序中创建Bean的权利反转给第三方。例如：原来在程序中手动的去 new UserServiceImpl()，手动的去new UserDaoImpl()，而根据IoC思想的指导， 寻求一个第三方去创建UserServiceImpl对象和UserDaoImpl对象。这样程序与具体对象就失去的直接联系。
+IoC思想： Inversion of Control，控制反转，强调的是原来在程序中创建Bean的权利反转给第三方。例如：原来在程序中手动的去 new UserServiceImpl()，手动的去new UserDaoImpl()，而根据IoC思想的指导， 寻求一个第三方去创建UserServiceImpl对象和UserDaoImpl对象。
 
-工厂设计模式，BeanFactory来充当第三方的角色，以使用配置文件配置Bean的基本信息，来产生Bean实例
+工厂设计模式，BeanFactory来充当第三方的角色，以使用配置文件配置Bean的基本信息，来产生Bean实例。
+
+Spring通过控制反转实现了对象的创建和对象间的依赖关系管理。开发者只需要定义好Bean及其依赖关系，Spring容器负责创建和组装这些对象。
 
 **DI 依赖注入思想的提出**：
 
@@ -22,13 +24,15 @@ IoC和DI的关系：
 
 **AOP 面向切面思想的提出**：
 
-AOP，Aspect Oriented Programming，面向切面编程，是对面向对象编程OOP的升华。OOP是纵向对一个事物的抽象，一个对象包括静态的属性信息，包括动态的方法信息等。而AOP是横向的对不同事物的抽象，属性与属性、方法与方法、对象与对象都可以组成一个切面，而用这种思维去设计编程的方式叫做面向切面编程
+AOP，Aspect Oriented Programming，面向切面编程，能够将那些与业务无关，却为业务模块所共同调用的逻辑封装起来，以减少系统的重复代码，降低模块间的耦合度。
 
 
 
 ## IoC
 
 ### BeanFactory
+
+BeanFactory为IoC功能提供了底层基础
 
 1）导入Spring的jar包或Maven坐标；
 
@@ -92,7 +96,7 @@ ApplicationContext除了继承了BeanFactory外，还继承了ApplicationEventPu
 | FileSystemXmlApplicationContext       | 通过文件系统路径读取 XML 格式的配置文件创建 IoC 容器对象 |
 | AnnotationConfigApplicationContext    | 通过读取Java配置类注解创建 IoC 容器对象                  |
 | XmlWebApplicationContext              | web环境下，加载类路径下的xml配置的ApplicationContext     |
-| AnnotationConfigWebApplicationContext | web环境下，加载磁盘路径下的xml配置的ApplicationContext   |
+| AnnotationConfigWebApplicationContext | web环境下，读取Java配置类注解创建 IoC 容器对象           |
 
 
 
@@ -104,7 +108,7 @@ ApplicationContext除了继承了BeanFactory外，还继承了ApplicationEventPu
 
 | XML配置方式                                 | 描述                                                         |
 | ------------------------------------------- | ------------------------------------------------------------ |
-| `<bean id="" class="">`                     | Bean的id和全限定名配置                                       |
+| `<bean id="" class="">`                     | Bean的id和全限定名配置。唯一标识默认类名首字母小写           |
 | `<bean name="">`                            | 通过name设置Bean的别名，通过别名也能直接获取到Bean实例       |
 | `<bean scope="">`                           | Bean的作用范围，BeanFactory作为容器时取值singleton和prototype |
 | `<bean lazy-init="">`                       | Bean的实例化时机，是否延迟加载。BeanFactory作为容器时无效    |
@@ -140,11 +144,13 @@ Bean的范围配置：
 * singleton：单例，默认值，Spring容器创建的时候，就会进行Bean的实例化，并存储到容器内部的单例池中 ，每次getBean时都是从单例池中获取相同的Bean实例； 
 * prototype：原型，Spring容器初始化时不会创建Bean实例，当调用getBean时才会实例化Bean，每次 getBean都会创建一个新的Bean实例。
 
+Web环境下还有：request, session, application, websocket
+
 
 
 Bean的延迟加载：
 
-当lazy-init设置为true时为延迟加载，也就是当Spring容器创建的时候，不会立即创建Bean实例，等待用到时在创 建Bean实例并存储到单例池中去，后续在使用该Bean直接从单例池获取即可，本质上该Bean还是单例的。
+当lazy-init设置为true时为延迟加载，也就是当Spring容器创建的时候，不会立即创建Bean实例，等待用到时再创建Bean实例并存储到单例池中去，后续在使用该Bean直接从单例池获取即可，本质上该Bean还是单例的。
 
 
 
@@ -152,13 +158,14 @@ Bean的初始化和销毁方法配置：
 
 Bean在被实例化后，可以执行指定的初始化方法完成一些初始化的操作，Bean在销毁之前也可以执行指定的销毁方法完成一些操作。
 
-除此之外，我们还可以通过实现 InitializingBean 接口，完成一些Bean的初始化操作。
+除此之外，我们还可以通过实现 InitializingBean 接口完成一些Bean的初始化操作；DisposableBean 接口完成在销毁bean时执行某些操作
 
 ```java
 public class UserDaoImpl implements UserDao, InitializingBean {
     public UserDaoImpl() {System.out.println("UserDaoImpl创建了...");}
     public void init(){System.out.println("初始化方法...");}
     public void destroy(){System.out.println("销毁方法...");}
+    
     //执行时机早于init-method配置的方法
     public void afterPropertiesSet() throws Exception {
         System.out.println("InitializingBean..."); 
@@ -172,12 +179,12 @@ public class UserDaoImpl implements UserDao, InitializingBean {
 
 Spring的实例化方式主要如下两种： 
 
-* 构造方式实例化：底层通过构造方法对Bean进行实例化 
+* 构造方式实例化：底层通过构造函数对Bean进行实例化 
 * 工厂方式实例化：底层通过调用自定义的工厂方法对Bean进行实例化
 
-构造方式实例化Bean又分为无参构造方法实例化和有参构造方法实例化，Spring中配置的几乎都是无参构造方式。
+构造函数实例化Bean又分为无参构造方法实例化和有参构造方法实例化，Spring中配置的几乎都是无参构造方式。
 
-有参构造在实例化Bean时，需要参数的注入，通过标签，嵌入在标签内部提供构造参数：
+有参构造在实例化Bean时，需要参数的注入，通过标签嵌入在标签内部提供构造参数：
 
 ```xml
 <bean id="userDao" class="com.itheima.dao.impl.UserDaoImpl">
@@ -193,7 +200,7 @@ Spring的实例化方式主要如下两种：
 
 3. 实现FactoryBean规范延迟实例化Bean
 
-1）静态工厂方法实例化Bean，其实就是定义一个工厂类，提供一个静态方法用于生产Bean实例，在将该工厂类及其静态方法配置给Spring即可。
+1）静态工厂方法实例化Bean，其实就是定义一个工厂类，提供一个静态方法用于生产Bean实例，class为工厂类，factory-method为工厂方法。
 
 ```java
 //工厂类
@@ -240,18 +247,19 @@ public class UserDaoFactoryBean2 {
 3）Spring提供了FactoryBean的接口规范，实现该接口产生Bean实例：
 
 ```java
-public class UserDaoFactoryBean3 implements FactoryBean<UserDao> {
-    public UserDao getObject() throws Exception { //获得实例对象方法
-        return new UserDaoImpl();
-    }
-    public Class<?> getObjectType() { //获得实例对象类型方法
-        return UserDao.class;
+public interface FactoryBean<T> {
+    String OBJECT_TYPE_ATTRIBUTE = "factoryBeanObjectType";
+
+    @Nullable
+    T getObject() throws Exception; //获得实例对象
+
+    @Nullable
+    Class<?> getObjectType(); //获得实例对象类型
+
+    default boolean isSingleton() {
+        return true;
     }
 }
-```
-
-```XML
-<bean id="userDao" class="com.itheima.factory.UserDaoFactoryBean3"/>
 ```
 
 Spring容器创建时，FactoryBean被实例化并存储到了单例池singletonObjects中，但是 getObject() 方法尚未被执行，UserDaoImpl也没被实例化，当首次用到UserDaoImpl时，才调用getObject() ， 此工厂方式产生的Bean实例不会存储到单例池singletonObjects中，会存储到 factoryBeanObjectCache 缓存池中，并且后期每次使用到userDao都从该缓存池中返回的是同一个userDao实例。
@@ -275,101 +283,46 @@ Spring容器创建时，FactoryBean被实例化并存储到了单例池singleton
 
 ref 用于引用其他Bean的id。value 用于注入普通属性值。
 
+经验法则是使用构造方式注入强制依赖，使用set方式注入可选依赖，但是最好使用带有编程验证参数的构造函数注入。
+
 依赖注入的数据类型有如下三种： 
 
 * 普通数据类型，例如：String、int、boolean等，通过value属性指定。 
 * 引用数据类型，例如：UserDaoImpl、DataSource等，通过ref属性指定。 
 * 集合数据类型，例如：List、Map、Properties等。
 
-List 集合 – 普通数据：
-
 ```xml
-<property name="strList">
-    <list>
-        <value>haohao</value>
-        <value>miaomiao</value>
-    </list>
-</property>
-```
-
-List 集合 – 引用数据:
-
-```xml
-<property name="objList">
-    <list>
-        <bean class="com.itheima.dao.impl.UserDaoImpl"></bean>
-        <bean class="com.itheima.dao.impl.UserDaoImpl"></bean>
-        <bean class="com.itheima.dao.impl.UserDaoImpl"></bean>
-    </list>
-</property>
-```
-
-```xml
-<bean id="userDao" class="com.itheima.dao.impl.UserDaoImpl"/>
-<bean id="userDao2" class="com.itheima.dao.impl.UserDaoImpl"/>
-<bean id="userDao3" class="com.itheima.dao.impl.UserDaoImpl"/>
-<!--配置UserService-->
-<bean id="userService" class="com.itheima.service.impl.UserServiceImpl">
-    <property name="objList">
+<bean id="moreComplexObject" class="example.ComplexObject">
+    <!-- results in a setAdminEmails(java.util.Properties) call -->
+    <property name="adminEmails">
+        <props>
+            <prop key="administrator">administrator@example.org</prop>
+            <prop key="support">support@example.org</prop>
+            <prop key="development">development@example.org</prop>
+        </props>
+    </property>
+    <!-- results in a setSomeList(java.util.List) call -->
+    <property name="someList">
         <list>
-            <ref bean="userDao"></ref>
-            <ref bean="userDao2"></ref>
-            <ref bean="userDao3"></ref>
+            <value>a list element followed by a reference</value>
+            <ref bean="myDataSource" />
         </list>
     </property>
+    <!-- results in a setSomeMap(java.util.Map) call -->
+    <property name="someMap">
+        <map>
+            <entry key="an entry" value="just some string"/>
+            <entry key="a ref" value-ref="myDataSource"/>
+        </map>
+    </property>
+    <!-- results in a setSomeSet(java.util.Set) call -->
+    <property name="someSet">
+        <set>
+            <value>just some string</value>
+            <ref bean="myDataSource" />
+        </set>
+    </property>
 </bean>
-```
-
- Set 集合:
-
-```xml
-<!-- 注入泛型为字符串的Set集合 -->
-<property name="valueSet">
-    <set>
-        <value>muzi</value>
-        <value>muran</value>
-    </set>
-</property>
-<!-- 注入泛型为对象的Set集合 -->
-<property name="objSet">
-    <set>
-        <ref bean="userDao"></ref>
-        <ref bean="userDao2"></ref>
-        <ref bean="userDao3"></ref>
-    </set>
-</property>
-```
-
-Map 集合:
-
-```xml
-<!--注入值为字符串的Map集合-->
-<property name="valueMap">
-    <map>
-        <entry key="aaa" value="AAA" />
-        <entry key="bbb" value="BBB" />
-        <entry key="ccc" value="CCC" />
-    </map>
-</property>
-<!--注入值为对象的Map集合-->
-<property name="objMap">
-    <map>
-        <entry key="ud" value-ref="userDao"/>
-        <entry key="ud2" value-ref="userDao2"/>
-        <entry key="ud3" value-ref="userDao3"/>
-    </map>
-</property>
-```
-
-注入 Properties 键值对:
-
-```xml
-<property name="properties">
-    <props>
-        <prop key="xxx">XXX</prop>
-        <prop key="yyy">YYY</prop>
-    </props>
-</property>
 ```
 
 
@@ -529,7 +482,7 @@ Spring的后处理器是Spring对外开发的重要扩展点，允许我们介�
 
 ![](./Spring/bean工厂后置处理器.jpeg)
 
-BeanFactoryPostProcessor是一个接口规范，实现了该接口的类只要交由Spring容器管理的话，那么Spring就会回调该接口的方法，用于对BeanDefinition注册和修改的功能。 BeanFactoryPostProcessor 定义如下：
+BeanFactoryPostProcessor是一个接口规范，实现了该接口的类只要交由Spring容器管理的话，那么Spring就会回调该接口的方法，用于对BeanDefinition注册和修改的功能。可以实现多个BeanPostProcessor并通过Ordered接口设置顺序。BeanFactoryPostProcessor 定义如下：
 
 ```java
 public interface BeanFactoryPostProcessor {
@@ -575,7 +528,9 @@ public class MyBeanFactoryPostProcessor2 implements BeanDefinitionRegistryPostPr
 
 ![](./Spring/bean后置处理器.jpeg)
 
-Bean被实例化后，到最终缓存到名为singletonObjects单例池之前，中间会经过Bean的初始化过程，例如：属性的填充、初始方法init的执行等，其中有一个对外进行扩展的点BeanPostProcessor，称为Bean后处理。跟上面的 Bean工厂后处理器相似，它也是一个接口，实现了该接口并被容器管理的BeanPostProcessor，会在流程节点上被 Spring自动调用。
+Bean被实例化后，到最终缓存到名为singletonObjects单例池之前，中间会经过Bean的初始化过程，例如：属性的填充、初始方法init的执行等，其中有一个对外进行扩展的点BeanPostProcessor，称为Bean后处理。跟 Bean工厂后处理器相似，它也是一个接口，实现了该接口并被容器管理的BeanPostProcessor，会在流程节点上被 Spring自动调用。可以实现多个BeanPostProcessor并通过Ordered接口设置顺序。
+
+实现 BeanPostProcessor 接口的类也是一个bean，可以像其他bean一样依赖注入。
 
 ```java
 public interface BeanPostProcessor {
@@ -615,7 +570,7 @@ Spring Bean的初始化过程涉及如下几个过程：
 
 
 
-Aware 接口：用于向Spring管理的Bean提供对Spring容器的访问能力。这些接口允许Bean获取Spring框架中一些特定的资源或服务，如BeanFactory、ApplicationContext等。
+Aware 接口：用于向Spring管理的Bean提供对Spring容器的访问能力。这些接口允许Bean获取Spring框架中一些特定的资源或服务，如BeanFactory、ApplicationContext等。实现ApplicationContextAware接口可以获得ApplicationContext的引用，实现BeanNameAware接口可以获得关联对象定义中名称的引用。
 
 
 
@@ -643,7 +598,7 @@ Spring提供了三级缓存存储完整Bean实例 和 半成品Bean实例 ，用
 public class DefaultSingletonBeanRegistry ... {
     //1、最终存储单例Bean成品的容器，即实例化和初始化都完成的Bean，称之为"一级缓存"
     Map<String, Object> singletonObjects = new ConcurrentHashMap(256);
-    //2、早期Bean单例池，缓存半成品对象，且当前对象已经被其他对象引用了，称之为"二级缓存"
+    //2、早期Bean单例池，缓存已经实例化但还未完全初始化的bean，且当前对象已经被其他对象引用了，称之为"二级缓存"
     Map<String, Object> earlySingletonObjects = new ConcurrentHashMap(16);
     //3、单例Bean的工厂池，缓存半成品对象，对象未被引用，使用时在通过工厂创建Bean，称之为"三级缓存"
     Map<String, ObjectFactory<?>> singletonFactories = new HashMap(16);
@@ -985,12 +940,12 @@ Bean依赖注入的注解，主要是使用注解的方式替代xml的 标签完
 
 Spring主要提供如下注解，用于在Bean内部进行属性注入的：
 
-| 属性注入注解 | 描述                                                   |
-| ------------ | ------------------------------------------------------ |
-| @Value       | 使用在字段或方法上，用于注入普通数据                   |
-| @Autowired   | 使用在字段或方法上，用于根据类型（byType）注入引用数据 |
-| @Qualifier   | 使用在字段或方法上，结合@Autowired，根据名称注入       |
-| @Resource    | 使用在字段或方法上，根据类型或名称进行注入             |
+| 属性注入注解 | 描述                                             |
+| ------------ | ------------------------------------------------ |
+| @Value       | 使用在字段或方法上，用于注入普通数据             |
+| @Autowired   | 使用在字段或方法上，根据类型注入                 |
+| @Qualifier   | 使用在字段或方法上，结合@Autowired，根据名称注入 |
+| @Resource    | 使用在字段或方法上，根据类型或名称进行注入       |
 
 
 
@@ -1007,7 +962,7 @@ Spring主要提供如下注解，用于在Bean内部进行属性注入的：
 1. 属性注入：属性上加上注解完成注入，不需要生成setter()方法
 2. set注入：setter()方法之上加上注解
 3. 构造方法注入：构造方法之上加上注解
-4. 普通方法注入：普通方法之上加上注解，可以注入单个属性，或者集合
+4. 普通方法注入：普通方法之上加上注解，可以注入单个属性、集合和`Map<String, T>`
 5. 形参注入：`public UserServiceImpl(@Autowired UserDao userDao) {this.userDao = userDao;}`
 6. 只有一个构造器，无注解：当有参数的构造方法只有一个时，注解可以省略。
 
@@ -1260,11 +1215,9 @@ public class MapperScannerRegistrar implements ImportBeanDefinitionRegistrar, Re
 
 ## AOP
 
-AOP，Aspect Oriented Programming，面向切面编程，是对面向对象编程OOP的升华。OOP是纵向对一个 事物的抽象，一个对象包括静态的属性信息，包括动态的方法信息等。而AOP是横向的对不同事物的抽象，属性与属性、方法与方法、对象与对象都可以组成一个切面，而用这种思维去设计编程的方式叫做面向切面编程。
+AOP能够将那些与业务无关，却为业务模块所共同调用的逻辑或责任（例如事务处理、日志管理、权限控制等）封装起来，便于减少系统的重复代码，降低模块间的耦合度，并有利于未来的可拓展性和可维护性。
 
-AOP能够将那些与业务无关，却为业务模块所共同调用的逻辑或责任封装起来，便于减少系统的重复代码，降低模块间的耦合度，并有利于未来的可拓展性和可维护性。
-
-
+Spring AOP 就是基于动态代理的，如果要代理的对象，实现了某个接口，那么 Spring AOP 会使用 JDK动态代理去创建代理对象，而对于没有实现接口的对象，Spring AOP 会使用 Cglib 生成一个被代理对象的子类来作为代理。
 
 AOP思想的实现方案：
 
@@ -1357,8 +1310,8 @@ execution([访问修饰符]返回值类型 包名.类名.方法名(参数))
 | 通知名称 | 配置方式                  | 执行时机                                                 |
 | -------- | ------------------------- | -------------------------------------------------------- |
 | 前置通知 | `< aop:before >`          | 目标方法执行之前执行                                     |
-| 后置通知 | `< aop:after-returning >` | 目标方法执行之后执行，目标方法异常时，不在执行           |
-| 环绕通知 | `< aop:around >`          | 目标方法执行前后执行，目标方法异常时，环绕后方法不在执行 |
+| 后置通知 | `< aop:after-returning >` | 目标方法执行之后执行，目标方法异常时不再执行             |
+| 环绕通知 | `< aop:around >`          | 目标方法执行前后执行，目标方法异常时，环绕后方法不再执行 |
 | 异常通知 | `< aop:after-throwing > ` | 目标方法抛出异常时执行                                   |
 | 最终通知 | `< aop:after >`           | 不管目标方法是否有异常，最终都会执行                     |
 
@@ -1746,18 +1699,6 @@ public class ApplicationContextConfig {
 
 5. spring的事务在抛异常的时候会回滚，如果是catch捕获了，事务无效。可以在catch里面加上throw new RuntimeException();
 
-6. 和锁同时使用需要注意：由于Spring事务是通过AOP实现的，所以在方法执行之前会有开启事务，之后会有提交事务逻辑。而synchronized代码块执行是在事务之内执行的，可以推断在synchronized代码块执行完时，事务还未提交，其他线程进入synchronized代码块后，读取的数据不是最新的。 所以必须使synchronized锁的范围大于事务控制的范围，把synchronized加到Controller层或者大于事务边界的调用层！
+6. spring的事务使用this调用时失效。因为Spring事务是通过代理对象来控制的，只有通过代理对象的方法调用才会应用事务管理的相关规则。当使用`this`直接调用时，是绕过了Spring的代理机制，因此不会应用事务设置。
 
-
-
-**Spring事务如果没有回滚可能是什么原因？**
-
-1. 非 public 修饰的方法中的事务不自动回滚，解决方案是将方法的权限修饰符改为 public 即可。
-
-2. 当 @Transactional 遇上 try/catch 事务不自动回滚，解决方案有两种：一种是在 catch 中将异常重新抛出去，另一种是使用代码手动将事务回滚。
-
-3. 调用类内部的 @Transactional 方法事务不自动回滚，解决方案是给调用的方法上也加上 @Transactional
-
-4. 抛出检查异常时事务不自动回滚，解决方案是给 @Transactional 注解上，添加 rollbackFor 参数并设置 Exception.class 值即可
-
-5. 数据库不支持事务，事务也不会自动回滚，比如 MySQL 中设置了使用 MyISAM 引擎，因为它本身是不支持事务的，这种情况下，即使在程序中添加了 @Transactional 注解，那么依然不会有事务的行为，也就不会执行事务的自动回滚了。解决方式就是将 MySQL 的存储引擎设置为 InnoDB，InnoDB支持事务。
+7. 和锁同时使用需要注意：由于Spring事务是通过AOP实现的，所以在方法执行之前会有开启事务，之后会有提交事务逻辑。而synchronized代码块执行是在事务之内执行的，可以推断在synchronized代码块执行完时，事务还未提交，其他线程进入synchronized代码块后，读取的数据不是最新的。 所以必须使synchronized锁的范围大于事务控制的范围，把synchronized加到Controller层或者大于事务边界的调用层！

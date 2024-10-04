@@ -2925,7 +2925,7 @@ public E take() throws InterruptedException {
 
 #### Future 接口
 
-Future 接口和实现 Future 接口的 FutureTask 类用来表示异步计算的结果。当我们把 Runnable 接口或 Callable 接口的实现类提交（submit）给 ThreadPoolExecutor 或 ScheduledThreadPoolExecutor 时，ThreadPoolExecutor 或 ScheduledThreadPoolExecutor 会向我们返回一个 FutureTask 对象。
+FutureTask整合了Runnable、Callable、Future三个接口，使得我们的多线程任务执行后可以异步获取到多线程的执行结果。当我们把 Runnable 接口或 Callable 接口的实现类提交（submit）给 ThreadPoolExecutor 或 ScheduledThreadPoolExecutor 时，ThreadPoolExecutor 或 ScheduledThreadPoolExecutor 会向我们返回一个 FutureTask 对象。
 
 ```java
 public interface Future<V> {
@@ -3410,3 +3410,117 @@ private void resize() {
 
 
 ## CompletableFuture
+
+FutureTask中，如果想要获取到多线程执行的结果，有两种办法，一种是轮询`FutureTask.isDone()`方法，当结果为true的时候获取执行结果，第二种则是调用`FutureTask.get()`方法。但是无论那种方式都无法实现真正意义上的异步回调，因为任务执行需要时间，所以都会使得主线程被迫阻塞，等待执行结果返回后才能接着往下执行。
+
+而CompletableFuture的出现则可以实现真正意义上的实现异步，不会在使用时因为任务还没执行完成导致获取执行结果的线程也被迫阻塞，CompletableFuture将处理执行结果的过程也放到异步线程里去完成，采用回调函数的概念解决问题。
+
+`CompletableFuture` 同时实现了 `Future` 和 `CompletionStage` 接口，Future表示异步计算的结果，CompletionStage 接口可以清晰地描述任务之间的时序关系，如**串行关系、并行关系、汇聚关系**等。
+
+
+
+没有 `async` 的方法将在当前线程或前一个任务完成的线程中同步执行。不会创建新线程。带 `async` 的方法异步地执行，会分配给线程池中的一个线程来执行。
+
+
+
+**创建 CompletableFuture**：
+
+常见的创建 `CompletableFuture` 对象的方法如下：
+
+1. 通过 new 关键字。
+2. 基于 `CompletableFuture` 自带的静态工厂方法：`runAsync()`、`supplyAsync()` 。
+
+```java
+static <U> CompletableFuture<U> supplyAsync(Supplier<U> supplier);
+// 使用自定义线程池(推荐)
+static <U> CompletableFuture<U> supplyAsync(Supplier<U> supplier, Executor executor);
+static CompletableFuture<Void> runAsync(Runnable runnable);
+// 使用自定义线程池(推荐)
+static CompletableFuture<Void> runAsync(Runnable runnable, Executor executor);
+```
+
+默认情况下 CompletableFuture 会使用公共的 ForkJoinPool 线程池，这个线程池默认创建的线程数是 CPU 的核数。
+
+
+
+**串行关系**
+
+主要是 thenApply、thenAccept、thenRun 和 thenCompose 这四个系列的接口。
+
+```java
+CompletionStage<R> thenApply(fn);
+CompletionStage<R> thenApplyAsync(fn);
+CompletionStage<Void> thenAccept(consumer);
+CompletionStage<Void> thenAcceptAsync(consumer);
+CompletionStage<Void> thenRun(action);
+CompletionStage<Void> thenRunAsync(action);
+CompletionStage<R> thenCompose(fn);
+CompletionStage<R> thenComposeAsync(fn);
+```
+
+thenApply 系列函数里参数 fn 的类型是接口 Function<T, R>，这个接口里与 CompletionStage 相关的方法是 `R apply(T t)`，这个方法既能接收参数也支持返回值，所以 thenApply 系列方法返回的是`CompletionStage<R>`。
+
+thenAccept 系列方法里参数 consumer 的类型是接口`Consumer<T>`，这个接口里与 CompletionStage 相关的方法是 `void accept(T t)`，这个方法虽然支持参数，但却不支持回值，所以 thenAccept 系列方法返回的是`CompletionStage<Void>`。
+
+thenRun 系列方法里 action 的参数是 Runnable，所以 action 既不能接收参数也不支持返回值，所以 thenRun 系列方法返回的也是`CompletionStage<Void>`。
+
+thenCompose 系列方法，这个系列的方法会新创建出一个子流程，最终结果和 thenApply 系列是相同的。
+
+
+
+**AND 汇聚关系**
+
+主要是 thenCombine、thenAcceptBoth 和 runAfterBoth 系列的接口，这些接口的区别也是源自 fn、consumer、action 这三个核心参数不同
+
+```java
+CompletionStage<R> thenCombine(other, fn);
+CompletionStage<R> thenCombineAsync(other, fn);
+CompletionStage<Void> thenAcceptBoth(other, consumer);
+CompletionStage<Void> thenAcceptBothAsync(other, consumer);
+CompletionStage<Void> runAfterBoth(other, action);
+CompletionStage<Void> runAfterBothAsync(other, action);
+CompletableFuture<Void> allOf(CompletableFuture<?>... cfs)
+```
+
+
+
+**OR 汇聚关系**
+
+主要是 applyToEither、acceptEither 和 runAfterEither 系列的接口，这些接口的区别也是源自 fn、consumer、action 这三个核心参数不同。
+
+```java
+CompletionStage applyToEither(other, fn);
+CompletionStage applyToEitherAsync(other, fn);
+CompletionStage acceptEither(other, consumer);
+CompletionStage acceptEitherAsync(other, consumer);
+CompletionStage runAfterEither(other, action);
+CompletionStage runAfterEitherAsync(other, action);
+CompletableFuture<Object> anyOf(CompletableFuture<?>... cfs)
+```
+
+
+
+**异常处理**
+
+```java
+CompletionStage exceptionally(fn);
+CompletionStage<R> whenComplete(consumer);
+CompletionStage<R> whenCompleteAsync(consumer);
+CompletionStage<R> handle(fn);
+CompletionStage<R> handleAsync(fn);
+```
+
+exceptionally() 的使用非常类似于 try{}catch{}中的 catch{}，但是由于支持链式编程方式，所以相对更简单。
+
+whenComplete() 和 handle() 系列方法就类似于 try{}finally{}中的 finally{}，无论是否发生异常都会执行 whenComplete() 中的回调函数 consumer 和 handle() 中的回调函数 fn。whenComplete() 和 handle() 的区别在于 whenComplete() 不支持返回结果，而 handle() 是支持返回结果的。
+
+
+
+**使用建议**：
+
+1. 使用自定义线程池。`CompletableFuture` 默认使用`ForkJoinPool.commonPool()` 作为执行器，这个线程池是全局共享的，可能会被其他任务占用，导致性能下降或者饥饿。因此，建议使用自定义的线程池来执行 `CompletableFuture` 的异步任务，可以提高并发度和灵活性。
+
+2. `CompletableFuture`的`get()`方法是阻塞的，尽量避免使用。如果必须要使用的话，需要添加超时时间，否则可能会导致主线程一直等待，无法执行其他任务。
+3. 正确进行异常处理
+4. 合理组合多个任务
+
