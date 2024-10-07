@@ -26,6 +26,7 @@ nav:
   - 设计模式: 设计模式/设计模式.md
   - Spring: Spring/Spring6.md
   - SpringMVC: SpringMVC/SpringMVC.md
+  - SpringBoot: SpringBoot/SpringBoot.md
 
 # Theme
 theme:

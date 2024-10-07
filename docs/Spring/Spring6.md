@@ -1040,7 +1040,7 @@ public Object objectDemo02(@Qualifier("userDao") UserDao userDao,
 public class ApplicationContextConfig {}
 ```
 
-* @Configuration注解标识的类为配置类，替代原有xml配置文件，该注解第一个作用是标识该类是一个配置类，第 二个作用是具备@Component作用
+* @Configuration注解标识的类为配置类，替代原有xml配置文件，该注解第一个作用是标识该类是一个配置类，第二个作用是具备@Component作用。这个注解还有一个更加强大的功能，它可以保障配置类中使用方法创建的bean的唯一性，为@Configuration注解设置proxyBeanMethods属性值为true即可，此属性默认值为true。注意，必须使用spring容器对象调用此方法才有保持bean唯一性的特性。
 
 * @ComponentScan 组件扫描配置，替代原有xml文件中的 `<component-scan>`
 
