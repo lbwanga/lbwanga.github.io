@@ -470,6 +470,12 @@ public class Singleton {
 | Timed Waiting （限期等待） | 有几个方法有超时参数，调用将进入 Timed Waiting 状态，这一状态将一直保持到超时期满或者接收到唤醒通知。 |
 | Teminated（终止）          | run 方法正常退出而死亡，或者因为没有捕获的异常终止了 run 方法而死亡 |
 
+为什么 JVM 没有区分就绪态（READY）和运行态（RUNNING）这两种状态呢？
+
+现今主流的 JVM 实现都把 Java 线程一一映射到操作系统底层的线程上，把调度委托给了操作系统，我们在虚拟机层面看到的状态实质是对底层状态的映射及包装。
+
+JVM 本身没有做什么实质的调度，把底层的 ready 及 running 状态映射上来也没多大意义，因此，统一成为runnable 状态是不错的选择。
+
 ![](./JUC/线程状态.jpeg)
 
 **NEW --> RUNNABLE**：

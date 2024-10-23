@@ -13,6 +13,12 @@ IoC思想： Inversion of Control，控制反转，强调的是原来在程序�
 
 Spring通过控制反转实现了对象的创建和对象间的依赖关系管理。开发者只需要定义好Bean及其依赖关系，Spring容器负责创建和组装这些对象。
 
+好处：
+
+1. 降低耦合性：减少代码之间的直接依赖，代码更容易维护和扩展
+2. 增强灵活性：依赖关系可以通过配置文件或注解更改，更灵活
+3. 简化管理：容器管理对象的创建和生命周期
+
 **DI 依赖注入思想的提出**：
 
 DI：Dependency Injection，依赖注入，某个Bean的完整创建依赖于其他Bean（或普通参数）的注入
@@ -24,7 +30,7 @@ IoC和DI的关系：
 
 **AOP 面向切面思想的提出**：
 
-AOP，Aspect Oriented Programming，面向切面编程，能够将那些与业务无关，却为业务模块所共同调用的逻辑封装起来，以减少系统的重复代码，降低模块间的耦合度。
+AOP，Aspect Oriented Programming，面向切面编程，能够将那些与业务无关，却为业务模块所共同调用的逻辑封装起来，以减少系统的重复代码，降低模块间的耦合度。通过声明的方式动态地应用到业务方法上，而不是将这些代码直接嵌入到业务代码中。
 
 
 
@@ -32,7 +38,18 @@ AOP，Aspect Oriented Programming，面向切面编程，能够将那些与业�
 
 ### BeanFactory
 
-BeanFactory为IoC功能提供了底层基础
+BeanFactory为IoC功能提供了底层基础，是Spring的核心容器。
+
+BeanFacroty功能：控制反转、依赖注入、Bean的生命周期的各种功能，都由他的实现类 DefaultListableBeanFactory 提供
+
+BeanFatory：
+
+1. 不会主动调用 BeanFactory 后处理器
+2. 不会主动添加 Bean 后处理器
+3. 不会主动初始化单例，调用getBean时才初始化
+4. 不会解析BeanFactory，不会解析 `#{} 和 ${}`
+
+使用步骤：
 
 1）导入Spring的jar包或Maven坐标；
 
@@ -75,27 +92,21 @@ BeanFactory与ApplicationContext的关系:
 
 1. BeanFactory是Spring的早期接口，称为Spring的Bean工厂，ApplicationContext是后期更高级接口，称之为 Spring 容器；
 2. ApplicationContext在BeanFactory基础上对功能进行了扩展，例如：监听功能、国际化功能等。BeanFactory的 API更偏向底层，ApplicationContext的API大多数是对这些底层API的封装；
-3. Bean创建的主要逻辑和功能都被封装在BeanFactory中，ApplicationContext不仅继承了BeanFactory，而且 ApplicationContext内部还维护着BeanFactory的引用，所以，ApplicationContext与BeanFactory既有继承关系，又 有融合关系。 
+3. Bean创建的主要逻辑和功能都被封装在BeanFactory中，ApplicationContext不仅继承了BeanFactory，而且 ApplicationContext内部还维护着BeanFactory的引用，所以，ApplicationContext与BeanFactory既有继承关系，又有组合关系。 
 4. Bean的初始化时机不同，原始BeanFactory是在首次调用getBean时才进行Bean的创建，而ApplicationContext则是配置文件加载，容器一创建就将Bean都实例化并初始化好
 
-ApplicationContext除了继承了BeanFactory外，还继承了ApplicationEventPublisher（事件发布器）、 ResouresPatternResolver（资源解析器）、MessageSource（消息资源）等。但是ApplicationContext的核心功能还是BeanFactory。
+ApplicationContext除了继承了BeanFactory外，还继承了ApplicationEventPublisher（事件发布器）、 ResouresPatternResolver（资源解析器）、MessageSource（国际化功能）、EnvironmentCapable（环境配置管理）等。但是ApplicationContext的核心功能还是BeanFactory。
 
 ![](./Spring/ApplicationContext.png)
 
-只在Spring基础环境下，即只导入spring-context坐标时，此时ApplicationContext的继承体系：
-
-![](./Spring/ApplicationContext基础继承体系.jpeg)
-
-如果Spring基础环境中加入了其他组件解决方案，如web层解决方案，即导入spring-web坐标，此时 ApplicationContext的继承体系：
-
-![](./Spring/ApplicationContextWeb.jpeg)
+ApplicationContext的实现类：
 
 | 实现类                                | 简介                                                     |
 | ------------------------------------- | -------------------------------------------------------- |
 | ClassPathXmlApplicationContext        | 通过读取类路径下的 XML 格式的配置文件创建 IoC 容器对象   |
 | FileSystemXmlApplicationContext       | 通过文件系统路径读取 XML 格式的配置文件创建 IoC 容器对象 |
 | AnnotationConfigApplicationContext    | 通过读取Java配置类注解创建 IoC 容器对象                  |
-| XmlWebApplicationContext              | web环境下，加载类路径下的xml配置的ApplicationContext     |
+| XmlWebApplicationContext              | web环境下，加载类路径下的xml配置文件创建 IoC 容器对象    |
 | AnnotationConfigWebApplicationContext | web环境下，读取Java配置类注解创建 IoC 容器对象           |
 
 
@@ -524,7 +535,17 @@ public class MyBeanFactoryPostProcessor2 implements BeanDefinitionRegistryPostPr
 
 注解开发方式的基本原理就是通过扫描包下的注解，获取添加了注解的类的全类名，然后使用Bean工厂后置处理器注册 BeanDefinition。
 
+常见的 BeanFactory 后处理器：
+
+* ConfigurationClassPostProcessor：解析@ComponentScan，@Bean， @Import，@ImportResource
+
+* MapperScannerConfigurer：解析@MapperScanner
+
+
+
 ##### BeanPostProcessor
+
+Bean 后处理器的作用：为Bean生命周期各个阶段提供扩展
 
 ![](./Spring/bean后置处理器.jpeg)
 
@@ -535,33 +556,43 @@ Bean被实例化后，到最终缓存到名为singletonObjects单例池之前，
 ```java
 public interface BeanPostProcessor {
     @Nullable
-    //在属性注入完毕，init初始化方法执行之前被回调
+    // 在属性注入完毕，init初始化方法执行之前被回调
     default Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
         return bean;
     }
     @Nullable
-    //在初始化方法执行之后，被添加到单例池singletonObjects之前被回调
+    // 在初始化方法执行之后，被添加到单例池singletonObjects之前被回调
+    // 返回的对象会替换原本的bean，例如代理增强
     default Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
         return bean;
     }
 }
 ```
 
+InstantiationAwareBeanPostProcessor，DestructionAwareBeanPostProcessor是BeanPostProcessor 的子接口，也提供了相应的扩展接口。
+
+常见的Bean后处理器：
+
+* AutowiredAnnotationBeanPostProcessor：依赖注入阶段解析@Autowired，@Value 注解
+* CommonAnnotationBeanPostProcessor：依赖注入阶段解析@Resource，初始化前解析@PostConstruct，销毁前@PreDestroy 注解
+* ConfigurationPropertiesBindingPostProcessor：初始化前解析@ConfigurationProperties 注解
 
 
-#### Spring Bean的生命周期
+
+#### Bean的生命周期
 
 Spring Bean的生命周期是从 Bean 实例化之后，即通过反射创建出对象之后，到Bean成为一个完整对象，最终存储到单例池中，这个过程被称为Spring Bean的生命周期。Spring Bean的生命周期大体上分为三个阶段： 
 
 * Bean的实例化阶段：Spring框架会取出BeanDefinition的信息进行判断当前Bean的范围是否是singleton的， 是否不是延迟加载的，是否不是FactoryBean等，最终将一个普通的singleton的Bean通过反射进行实例化； 
 * Bean的初始化阶段：Bean创建之后还仅仅是个"半成品"，还需要对Bean实例的属性进行填充、执行一些Aware 接口方法、执行BeanPostProcessor方法、执行InitializingBean接口的初始化方法、执行自定义初始化init方法 等。该阶段是Spring最具技术含量和复杂度的阶段，Aop增强功能，后面要学习的Spring的注解功能等、 spring高频面试题Bean的循环引用问题都是在这个阶段体现的； 
 * Bean的完成阶段：经过初始化阶段，Bean就成为了一个完整的Spring Bean，被存储到单例池 singletonObjects中去了，即完成了Spring Bean的整个生命周期。
+* 使用和销毁
 
 
 
 Spring Bean的初始化过程涉及如下几个过程： 
 
-* Bean实例的属性填充 
+* 属性注入 
 * Aware接口属性注入 
 * BeanPostProcessor的before()方法回调 
 * InitializingBean接口的初始化方法回调 
@@ -570,7 +601,13 @@ Spring Bean的初始化过程涉及如下几个过程：
 
 
 
-Aware 接口：用于向Spring管理的Bean提供对Spring容器的访问能力。这些接口允许Bean获取Spring框架中一些特定的资源或服务，如BeanFactory、ApplicationContext等。实现ApplicationContextAware接口可以获得ApplicationContext的引用，实现BeanNameAware接口可以获得关联对象定义中名称的引用。
+![](./Spring/bean生命周期.png)
+
+
+
+Aware 接口：
+
+接口允许Bean获取Spring框架中一些特定的资源或服务，如BeanFactory、ApplicationContext等。实现ApplicationContextAware接口可以获得ApplicationContext的引用，实现BeanNameAware接口可以获得关联对象定义中名称的引用。
 
 
 
@@ -582,11 +619,21 @@ Spring在进行属性注入时，会分为如下几种情况：
 
 
 
-##### 循环依赖
+#### 循环依赖
+
+Spring创建bean分三步：
+
+* 实例化，即new一个对象
+* 属性注入，即调用setter设置属性值
+* 初始化，执行一些Aware接口的方法，initMethod等
+
+
+
+两个或多个对象之间相互依赖，导致bean无法实例化。解决循环依赖问题的关键是提前暴露未完全创建完毕的对象，实例化之后，在三级缓存中保存一个bean工厂，通过该工厂可以对外暴露未完整的Bean。
 
 循环依赖问题在Spring中主要有三种情况：
 
-- 第一种：通过构造方法进行依赖注入时产生的循环依赖问题。Spring 无法解决循环依赖，因为构造器注入需要所有依赖在实例化时就准备就绪。
+- 第一种：通过构造方法进行依赖注入时产生的循环依赖问题。Spring 无法解决循环依赖，构造器注入在实例化时 UserService 就需要UserDao，而此时 UserService 的工厂并没有放入三级缓存，而UserDao依赖UserService 时无法得到。
 - 第二种：通过setter方法进行依赖注入且是在多例（原型）模式下产生的循环依赖问题。Spring 无法解决循环依赖，因为每次都会创建新的实例，无法利用缓存机制。
 - 第三种：通过setter方法进行依赖注入且是在单例模式下产生的循环依赖问题。三级缓存解决。
 
@@ -596,32 +643,48 @@ Spring提供了三级缓存存储完整Bean实例 和 半成品Bean实例 ，用
 
 ```java
 public class DefaultSingletonBeanRegistry ... {
-    //1、最终存储单例Bean成品的容器，即实例化和初始化都完成的Bean，称之为"一级缓存"
+    //1、存储实例化和初始化都完成的Bean，称之为"一级缓存"
     Map<String, Object> singletonObjects = new ConcurrentHashMap(256);
-    //2、早期Bean单例池，缓存已经实例化但还未完全初始化的bean，且当前对象已经被其他对象引用了，称之为"二级缓存"
+    //2、存储已经实例化但还未属性注入和初始化的bean，用于提前暴露对象，称之为"二级缓存"
     Map<String, Object> earlySingletonObjects = new ConcurrentHashMap(16);
-    //3、单例Bean的工厂池，缓存半成品对象，对象未被引用，使用时在通过工厂创建Bean，称之为"三级缓存"
+    //3、存储单例Bean的工厂，当需要时通过工厂创建Bean，称之为"三级缓存"
     Map<String, ObjectFactory<?>> singletonFactories = new HashMap(16);
 }
 ```
 
 UserService和UserDao循环依赖的过程：
 
-1. UserService 实例化对象，但尚未初始化，将UserService存储到三级缓存； 
+1. UserService 实例化对象，但尚未初始化，将UserService的工厂存储到三级缓存； 
 
 2. UserService 属性注入，需要UserDao，从缓存中获取，没有UserDao； 
 
-3. UserDao实例化对象，但尚未初始化，将UserDao存储到到三级缓存； 
+3. UserDao实例化对象，但尚未初始化，将UserDao的工厂存储到到三级缓存； 
 
-4. UserDao属性注入，需要UserService，从三级缓存获取UserService，UserService从三级缓存移入二级缓存； 
+4. UserDao属性注入，需要UserService，从三级缓存中通过工厂的 `getObject()` 获取不完整的UserService，然后UserService从三级缓存移入二级缓存； 
 
-5. UserDao执行其他生命周期过程，最终成为一个完成Bean，存储到一级缓存，删除二三级缓存； 
+5. UserDao执行其他生命周期过程，最终成为一个完整的Bean，存储到一级缓存，删除二三级缓存； 
 
 6. UserService 注入UserDao； 
 
 7. UserService执行其他生命周期过程，最终成为一个完成Bean，存储到一级缓存，删除二三级缓存。
 
 ![](./Spring/三级缓存.png)
+
+
+
+为什么需要三级缓存？二级缓存可以吗？
+
+二级缓存也可以解决循环依赖问题，但是涉及到动态代理（AOP）时，会导致注入的Bean是未代理的原始对象。
+
+代理对象的生成是基于后置处理器的，是在被代理对象初始化后调用生成的，Spring先在三级缓存中放置一个工厂，如果产生循环依赖，那么就调用这个工厂提早得到代理对象。
+
+![](./Spring/三级缓存-代理问题.jpg)
+
+
+
+一级缓存可以吗？
+
+理论上是可以的，只要在设计一级缓存时能准确标识当前bean是完整的还是未完整的即可；但是使用二级缓存可以简化开发、提高效率。
 
 
 
@@ -1223,6 +1286,14 @@ AOP思想的实现方案：
 
 ![](./Spring/AOP思想实现方案.jpeg)
 
+AOP的其他实现：
+
+1. 通过修改字节码实现，AspectJ 通过在编译阶段修改字节码的方式将切面逻辑直接织入到目标类中，是静态代理。
+
+2. 在类加载时通过特殊的类加载器将切面织入目标类。Java Agent通过在类加载时织入的方式动态增强现有类的行为。
+
+
+
 可以在BeanPostProcessor的after方法中使用动态代理对Bean进行增强，实际存储到单例池singleObjects中的不是当前目标对象本身，而是当前目标对象的代理对象Proxy，这样在调用目标对象方法时，实际调用的是代理对象Proxy的同名方法，起到了目标方法前后都进行增强的功能。
 
 ```java
@@ -1702,3 +1773,132 @@ public class ApplicationContextConfig {
 6. spring的事务使用this调用时失效。因为Spring事务是通过代理对象来控制的，只有通过代理对象的方法调用才会应用事务管理的相关规则。当使用`this`直接调用时，是绕过了Spring的代理机制，因此不会应用事务设置。
 
 7. 和锁同时使用需要注意：由于Spring事务是通过AOP实现的，所以在方法执行之前会有开启事务，之后会有提交事务逻辑。而synchronized代码块执行是在事务之内执行的，可以推断在synchronized代码块执行完时，事务还未提交，其他线程进入synchronized代码块后，读取的数据不是最新的。 所以必须使synchronized锁的范围大于事务控制的范围，把synchronized加到Controller层或者大于事务边界的调用层！
+
+
+
+## 其他
+
+### @Autowired 失效
+
+Java配置类在添加了 BeanFactory 后处理器后，传统接口方式的注入和初始化仍然成功，而@Autowired 和 @PostConstruct 的注入和初始化失败
+
+```java
+@Configuration
+public class MyConfig1 {
+    @Autowired
+    public void setApplicationContext(ApplicationContext applicationContext) {
+        log.debug("注入 ApplicationContext")
+    }
+    @PostConstruct
+    public void init() {
+        log.debug("初始化");
+    }
+    @Bean
+    public BeanFactoryPostProcessor processor1() {
+        return beanFactory -> {
+            log.debug("执行processor1");
+        };
+    }
+}
+```
+
+配置类@Autowired失效分析：
+
+Java配置类不包含BeanFactoryPostProcessor的情况：
+
+```mermaid
+sequenceDiagram
+    participant ApplicationContext
+    participant BeanFactoryPostProcessor
+    participant BeanPostProcessor
+    participant Java配置类
+    ApplicationContext ->> BeanFactoryPostProcessor: 1.执行BeanFactoryPostProcessor
+    ApplicationContext ->> BeanPostProcessor: 2. 注册BeanPostProcessor
+    ApplicationContext ->> Java配置类: 3. 创建和初始化
+    BeanPostProcessor ->> Java配置类: 3.1 依赖注入扩展（如@Value @Autowired）
+    BeanPostProcessor ->> Java配置类: 3.2 初始化扩展（如@PostConstruct）
+    ApplicationContext ->> Java配置类: 3.3 执行Aware 及 InitializationBean
+    Java配置类 -->> ApplicationContext: 4. 创建成功
+
+```
+
+Java配置类中包含BeanFactoryPostProcessor的情况，要创建BeanFactoryPostProcessor必须提前创建Java配置类，而此时的BeanPostProcessor 还未准备好，导致@Autowired等注解失效。
+
+```mermaid
+sequenceDiagram
+    participant ApplicationContext
+    participant BeanFactoryPostProcessor
+    participant BeanPostProcessor
+    participant Java配置类
+    ApplicationContext ->> Java配置类: 3. 创建和初始化
+    ApplicationContext ->> Java配置类: 3.1 执行Aware 及 InitializationBean
+    Java配置类 -->> ApplicationContext: 3.2 创建成功
+    ApplicationContext ->> BeanFactoryPostProcessor: 1.执行BeanFactoryPostProcessor
+    ApplicationContext ->> BeanPostProcessor: 2. 注册BeanPostProcessor
+
+```
+
+解决方法：使用内置的接口方式的注入和初始化，内置的注入和初始化不受扩展功能影响，总会被执行。
+
+```java
+@Configuration
+public class Config2 implements InitializingBean, ApplicationContextAware {
+    
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        log.debug("初始化");
+    }
+
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+		log.debug("注入 ApplicationContext")
+    }
+    @Bean
+    public BeanFactoryPostProcessor processor1() {
+        return beanFactory -> {
+            log.debug("执行processor1");
+        };
+    }
+}
+```
+
+
+
+### @Scope 失效
+
+单例注入多例时会失效
+
+因为对于单例对象来讲，依赖注入只会发生一次，使用的始终是第一次注入的多例对象。
+
+解决：理念都是相同的，都是推迟其他 scope bean 的获取
+
+1. 仍然使用 @Lazy 生成代理。代理对象虽然还是同一个，但当每次使用代理对象的任意方法时，由代理创建新的对象
+
+2. `@Scope(value="prototype", proxyMode="ScopedProxyMode.TARGET_CLASS")`
+
+3. 使用对象工厂
+
+   ```java
+   @Autowired
+   private ObjectFactory<Bean1> bean1;
+   
+   public Bean1 getBean1() {
+       return bean1.getObject();
+   }
+   ```
+
+4. 注入Spring容器
+
+   ```java
+   @Autowired
+   private ApplicationContext context;
+   
+   public Bean1 getBean1() {
+       return context.getBean(Bean1.class);
+   }
+   ```
+
+   
+
+
+

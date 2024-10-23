@@ -1168,18 +1168,12 @@ protected void initStrategies(ApplicationContext context) {
 
 **执行流程：**
 
-1. 客户端（浏览器）发送请求， `DispatcherServlet`拦截请求。
-
+1. 客户端（浏览器）发送请求，请求达到服务器后， `DispatcherServlet`拦截请求。
 2. `DispatcherServlet` 根据请求信息调用 `HandlerMapping` 。`HandlerMapping` 根据 URL 去匹配查找能处理的 `Handler`（ `Controller` 控制器） ，并会将请求涉及到的拦截器和 `Handler` 一起封装。
-
 3. `DispatcherServlet` 调用 `HandlerAdapter`适配器执行 `Handler` 。
-
 4. `Handler` 完成对用户请求的处理后，会返回一个 `ModelAndView` 对象给`DispatcherServlet`，`ModelAndView` 顾名思义，包含了数据模型以及相应的视图的信息。`Model` 是返回的数据对象，`View` 是个逻辑上的 `View`。
-
 5. `ViewResolver` 会根据逻辑 `View` 查找实际的 `View`。
-
 6. `DispaterServlet` 把返回的 `Model` 传给 `View`（视图渲染）。
-
 7. 把 `View` 返回给请求者（浏览器）
 
 

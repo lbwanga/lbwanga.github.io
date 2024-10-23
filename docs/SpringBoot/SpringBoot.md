@@ -629,7 +629,7 @@ public @interface SpringBootApplication {}
 
 主要流程就是初始化数据和创建容器。
 
-![](./SpringBoot/启动流程.jpg)
+
 
 ![](./SpringBoot/自动配置进阶原理.svg)
 
@@ -664,7 +664,7 @@ public @interface SpringBootApplication {}
 
 
 
-自定义配置有提示。
+自定义配置有提示：
 
 程序编译后，在META-INF目录中会生成对应的提示文件，然后拷贝生成出的文件到自己开发的META-INF目录中，并对其进行编辑。其中groups属性定义了当前配置的提示信息总体描述，当前配置属于哪一个属性封装类，properties属性描述了当前配置中每一个属性的具体设置，包含名称、类型、描述、默认值等信息。hints属性默认是空白的，没有进行设置。hints属性可以参考springboot源码中的制作，设置当前属性封装类专用的提示信息。
 

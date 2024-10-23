@@ -476,13 +476,20 @@ final数据必须赋初值，以后不能修改，初始化位置：
 
 **接口和抽象类有什么共同点和区别**？
 
-1. 抽象类主要用于代码复用，是一种is-a关系。接口仅仅是对方法的抽象，是一种 has-a 关系，表示具有某一组行为特性，是为了解决解耦问题，隔离接口和具体的实现，提高代码的扩展性。
+1. 接口主要用于对类的行为进行约束，你实现了某个接口就具有了对应的行为。抽象类主要用于代码复用，强调的是所属关系。
 
-2. 接⼝⽀持多继承，⼀个类可以实现多个接口，⼀个类只能继承⼀个抽象类。
+2. 接⼝⽀持多继承，⼀个类可以实现多个接口，而⼀个类只能继承⼀个抽象类。
 
-3. 接⼝中的⽅法默认是 `public abstract` 的。接⼝中的变量默认是 `public static final` 的。 抽象类中的抽象⽅法默认是 `protected` 的，具体⽅法的访问修饰符可以是 public 、 protected 或 private 
+3. 接⼝中的变量默认是 `public static final` 的。 抽象类的成员变量可以有任何修饰符（`private`, `protected`, `public`），可以在子类中被重新定义或赋值。
 
 4. 接口不含构造器，抽象类可以包含构造器
+
+5. 方法：
+
+6. - Java 8 之前，接口中的方法默认是 `public abstract` ，也就是只能有方法声明。自 Java 8 起，可以在接口中定义 `default`（默认） 方法和 `static` （静态）方法。自 Java 9 起，接口可以包含 `private` 方法。
+   - 抽象类可以包含抽象方法和非抽象方法。抽象方法没有方法体，必须在子类中实现。非抽象方法有具体实现，可以直接在抽象类中使用或在子类中重写。
+
+7. 在 Java 8 及以上版本中，接口引入了新的方法类型：`default` 方法、`static` 方法和 `private` 方法。这些方法让接口的使用更加灵活。
 
 
 
@@ -714,46 +721,6 @@ try (Resource res = ...) { // 可以指定多个资源, ';'间隔
 
 
 
-**字符串常量池**：
-
-```java
-String s1 = "str";
-// 先从常量池查看是否有"str"的引用，如果有直接返回引用；如果没有则堆中创建然后将引用保存到常量池中。s1最终指向的是常量池的空间地址
-
-String s2 = new String("str");
-// 先在堆中创建对象，里面维护的value属性保存常量池"str"的引用。如果常量池有"str"引用，直接返回；如果没有则堆中创建然后将引用保存到常量池中。s2最终指向的是堆中的空间地址。
-```
-
-```java
-String str1 = "str";
-String str2 = "ing";
-String str3 = "str" + "ing";//常量相加: 编译器会优化，常量池中只有"string", str3指向常量池中的"string"
-String str4 = str1 + str2;//变量相加: str4指向堆再通过堆中value指向常量池中的"string", 常量池中有”str", "ing", "string"
-String str5 = "string";
-System.out.println(str3 == str4);//false
-System.out.println(str3 == str5);//true
-System.out.println(str4 == str5);//false
-
-final String str1 = "str";
-final String str2 = "ing";
-// 下面两个表达式其实是等价的
-String c = "str" + "ing";// 常量池中的对象
-String d = str1 + str2; // 常量池中的对象
-System.out.println(c == d);// true 字符串使用 final 关键字声明之后，可以让编译器当做常量来处理。
-```
-
-
-
-**String.intern()**
-
-`String.intern()` 是一个 native（本地）方法，其作用是将指定的字符串对象的引用保存在字符串常量池中，可以简单分为两种情况：
-
-1. 如果字符串常量池中保存了对应的字符串对象的引用，就直接返回该引用。
-
-2. 如果字符串常量池中没有保存了对应的字符串对象的引用，那就在常量池中创建一个指向该字符串对象的引用并返回
-
-
-
 总结：
 
 * String（不可变，线程安全）
@@ -770,6 +737,13 @@ System.out.println(c == d);// true 字符串使用 final 关键字声明之后�
 
 ## 泛型
 
+泛型的好处：
+
+* 程序更加易读
+* 安全性有所保证
+
+
+
 泛型又称参数化类型，解决数据的安全性问题
 
 * 编译时，检查添加元素的类型，提高了安全性
@@ -778,7 +752,9 @@ System.out.println(c == d);// true 字符串使用 final 关键字声明之后�
 
 * 可以在类声明时通过一个标识表示类中某个属性的类型，或者是某个方法的返回值类型，或是参数类型
 
-* 泛型指定数据类型时要求是引用类型，不能是基本数据类型
+* 类型参数不支持基本类型，只支持引用类型，这是因为泛型会被擦除为具体类型，而Object不能存储基本类型的值。
+
+* 不能实例化泛型数组，因为类型擦除会将数组变为Object数组，如果允许实例化，极易造成类型转换异常。
 
 * 给泛型指定类型后，可以传入该类型或其子类类型
 
@@ -791,15 +767,13 @@ System.out.println(c == d);// true 字符串使用 final 关键字声明之后�
 **泛型类**
 
 ```java
-class 类名<T,R...>{//泛型标识符可以有多个，一般单个大写字母
-	// 
+class 类名<T,R...>{
 }
 ```
 
 注意细节：
 
-1. 普通成员可以使用泛型(属性, 方法)
-2. 使用泛型的数组，不能初始化。例如不能：`T[] t = new T[8]`; //因为数组在new时不能确定T的类型无法在内存开辟空间。
+1. 普通方法和属性可以使用泛型
 3. 静态方法和属性中不能使用泛型。因为静态是和类相关的，类加载时对象还没有创建
 4. 泛型类的类型，是在创建对象时确定的
 5. 如果创建对象时没有指定类型，默认Object
@@ -807,7 +781,8 @@ class 类名<T,R...>{//泛型标识符可以有多个，一般单个大写字母
 **泛型接口**
 
 ```java
-interface 接口名<T,R...>{}
+interface 接口名<T,R...>{
+}
 ```
 
 注意细节：
@@ -832,17 +807,27 @@ interface 接口名<T,R...>{}
 
 ```java
 <?>: 支持任意泛型类型
-<? extends A>: 支持A类和A类的子类，规定了泛型的上限
-<? super A>: 支持A类和A类的父类，不限于直接父类，规定了下限
+<? extends A>: 支持A类和A类的子类，规定了泛型的上限。
+<? super A>: 支持A类和A类的父类，不限于直接父类，规定了下限。
 ```
+
+
+
+**PECS**
+
+Producer Extends，Consumer Super（生产者使用 `extends`，消费者使用 `super`）。
+
+使用 `? extends` 的组合来声明一个泛型的上界，表示只能是指定类型或是其子类。当集合是“生产者”，即从集合中读取数据时，使用 `extends`。这样可以从集合中读取类型为 `T` 或其子类的对象，但不能往集合中添加null外的新对象，因为确切的类型不确定。
+
+使用 `? super` 的组合来声明一个泛型的下界，来表示可以接收本类型或者其父类型。由于最多只能接收父类型泛型，所以不会有类型转换失败的风险，因此可以添加元素，不过添加的元素类型只能是指定类型和其子类。读取元素时将不能确定具体的类型，只能用Object来接收。
+
+![](./Java/PECS.jpg)
 
 
 
 **泛型擦除：**
 
-Java语言中的泛型只在程序源码中存在，在编译后的字节码文件中，全部泛型都被替换为原来的裸类型，并且在相应的地方插入了强制转型代码，因此对于运行期的Java语言来说，`ArrayList<int>` 与 `ArrayList<String>` 其实是同一个类型。
-
-
+虚拟机没有泛型类型对象，Java语言中的泛型只在程序源码中存在，在编译后的字节码文件中，全部泛型都被替换为原来的裸类型，并且在相应的地方插入了强制转型代码，因此对于运行期的Java语言来说，`ArrayList<Integer>` 与 `ArrayList<String>` 其实是同一个类型。
 
 在泛型类或泛型方法中，所有的类型参数都会在编译时被擦除：
 
@@ -1223,8 +1208,9 @@ public class ServiceMethodInterceptor implements MethodInterceptor {
         // 在方法调用之前执行
         System.out.println("Before invoking method: " + method.getName());
 
-        // 调用原始目标类的方法
-        Object result = proxy.invokeSuper(obj, args);
+        // Object result = method.invoke(target, args); // 用反射调用目标方法
+        // Object result = proxy.invoke(target, args); // 没有用反射，需要目标对象 Spring使用这种方式
+        Object result = proxy.invokeSuper(obj, args); // 没有用反射，需要代理对象
 
         // 在方法调用之后执行
         System.out.println("After invoking method: " + method.getName());
@@ -1234,10 +1220,10 @@ public class ServiceMethodInterceptor implements MethodInterceptor {
 }
 ```
 
-1. **obj** : 被代理的对象（需要增强的对象）
-2. **method** : 被拦截的方法（需要增强的方法）
+1. **obj** : 代理对象
+2. **method** : 被拦截的方法，目标类中的方法
 3. **args** : 方法入参
-4. **proxy** : 用于调用原始方法
+4. **proxy** : CGLIB 提供的一个对象，它可以用来调用被代理类中的原始方法
 
 可以通过 `Enhancer`类来动态获取被代理类，当代理类调用方法的时候，实际调用的是 `MethodInterceptor` 中的 `intercept` 方法。
 
