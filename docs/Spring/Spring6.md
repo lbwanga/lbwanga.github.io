@@ -340,14 +340,10 @@ ref 用于引用其他Bean的id。value 用于注入普通属性值。
 
 ##### 自动装配方式
 
-如果被注入的属性类型是Bean引用的话，那么可以在标签中使用 autowire 属性去配置自动注入方式，属性值有两个：
-
-* byName：通过属性名自动装配，即去匹配 setXxx 与 id="xxx"（name="xxx"）是否一致； 
-* byType：通过Bean的类型从容器中匹配，匹配出多个相同Bean类型时，报错。
-
-```xml
-<bean id="userService" class="com.itheima.service.impl.UserServiceImpl" autowire="byType">
-```
+* no（默认）：不自动装配，需要显示定义依赖
+* byName：通过bean名称自动装配
+* byType：通过bean类型自动装配
+* constructor：通过构造函数自动装配
 
 
 
@@ -689,6 +685,13 @@ UserService和UserDao循环依赖的过程：
 
 
 #### Spring IoC 整体流程总结
+
+容器初始化流程分别是：
+
+1. 启动：配置加载、创建容器
+2. BeanDefinition 注册：读取解析配置中的Bean定义，形成BeanDefinition对象
+3. 实例化和依赖注入
+4. 初始化
 
 ![](./Spring/IoC整体流程.jpeg)
 
@@ -1657,17 +1660,23 @@ read-only属性：设置当前的只读状态，如果是查询则设置为true�
 
 timeout属性：设置事务执行的超时时间，单位是秒，如果超过该时间限制但事务还没有完成，则自动回滚事务 ，不在继续执行。默认值是-1，即没有超时时间限制。
 
-隔离级别：
+**隔离级别**：
 
-| 隔离级别         | 解释                                                         |
-| ---------------- | ------------------------------------------------------------ |
-| DEFAULT          | 默认隔离级别，取决于当前数据库隔离级别，例如MySQL默认隔离级别是REPEATABLE_READ |
-| READ_UNCOMMITTED | A事务可以读取到B事务尚未提交的事务记录，不能解决任何并发问题，安全性最低，性能最高 |
-| READ_COMMITTED   | A事务只能读取到其他事务已经提交的记录，不能读取到未提交的记录。可以解决脏读问题，但是不能解决不可重复读和幻读 |
-| REPEATABLE_READ  | A事务多次从数据库读取某条记录结果一致，可以解决不可重复读，不可以解决幻读 |
-| SERIALIZABLE     | 串行化，可以解决任何并发问题，安全性最高，但是性能最低       |
+| 隔离级别                  | 解释                                                         |
+| ------------------------- | ------------------------------------------------------------ |
+| DEFAULT                   | 默认隔离级别，取决于当前数据库隔离级别，例如MySQL默认隔离级别是REPEATABLE_READ |
+| READ_UNCOMMITTED 读未提交 | A事务可以读取到B事务尚未提交的事务记录，会导致脏读、不可重读读、幻读 |
+| READ_COMMITTED 读已提交   | A事务只能读取到其他事务已经提交的记录。可以解决脏读问题，但是不能解决不可重复读和幻读 |
+| REPEATABLE_READ 可重复读  | A事务多次从数据库读取某条记录结果一致，可以解决脏读、不可重复读，不可以解决幻读 |
+| SERIALIZABLE 串行化       | 强制事务按顺序执行                                           |
 
-传播行为：指在多个事务方法相互调用时，控制事务如何传播和影响彼此的行为的规则
+数据库是可以控制事务的传播和隔离级别的，Spring在之上又进一步进行了封装，可以在不同的项目、不同的操作中再次对事务的传播行为和隔离级别进行策略控制；
+项目中Spring 的事务隔离级别与数据库的隔离级别不一致时，以 Spring 事务为准，因为他重写了数据库的隔离级别，但没有直接修改数据库的隔离级别；
+项目中，如果 Spring 事务隔离级别设置为（isolation = Isolation.DEFAULT）默认，则以数据库的隔离级别为准。
+
+**传播行为**：
+
+指在多个事务方法相互调用时，控制事务如何传播和影响彼此的行为的规则
 
 | 传播行为           | 解释                                                         |
 | ------------------ | ------------------------------------------------------------ |
@@ -1758,21 +1767,16 @@ public class ApplicationContextConfig {
 
 
 
-**注意事项**:
+**Spring事务什么情况下会失效？**
 
-1. 不要在接口上声明@Transactional ，而要在具体类的方法上使用 @Transactional 注解，否则注解可能无效。
-
-2. 不要图省事，将@Transactional放置在类级的声明中，放在类声明，会使得所有方法都有事务。故@Transactional应该放在方法级别，不需要使用事务的方法，就不要放置事务，比如查询方法。否则对性能是有影响的。
-
-3. 使用了@Transactional的方法，对同一个类里面的方法调用， @Transactional无效。比如有一个类Test，它的一个方法A，A再调用Test本类的方法B（不管B是否public还是private），但A没有声明注解事务，而B有。则外部调用A之后，B的事务是不会起作用的。（经常在这里出错）
-
-4. 使用了@Transactional的方法，只能是public，@Transactional注解的方法都是被外部其他类调用才有效，故只能是public。在 protected、private 或者默认的方法上使用 @Transactional 注解，它也不会报错，但事务无效。
-
-5. spring的事务在抛异常的时候会回滚，如果是catch捕获了，事务无效。可以在catch里面加上throw new RuntimeException();
-
-6. spring的事务使用this调用时失效。因为Spring事务是通过代理对象来控制的，只有通过代理对象的方法调用才会应用事务管理的相关规则。当使用`this`直接调用时，是绕过了Spring的代理机制，因此不会应用事务设置。
-
-7. 和锁同时使用需要注意：由于Spring事务是通过AOP实现的，所以在方法执行之前会有开启事务，之后会有提交事务逻辑。而synchronized代码块执行是在事务之内执行的，可以推断在synchronized代码块执行完时，事务还未提交，其他线程进入synchronized代码块后，读取的数据不是最新的。 所以必须使synchronized锁的范围大于事务控制的范围，把synchronized加到Controller层或者大于事务边界的调用层！
+1. rollbackFor没设置对，比如默认没有任何设置（默认只会回滚RunException和Error），则方法内抛出IOException则不会回滚，需要配置`@Transactional(rollbackFor=Exception.class)`
+2. spring的事务在抛异常的时候会回滚，如果是catch捕获了，事务无效。可以在catch里面加上throw new RuntimeException();
+3. 同一个类中的方法调用事务会失效。同一个类的实例方法中直接调用另一个带有`@Transactional`注解的方法时，调用是通过`this`引用直接完成的，这样就绕过了代理，不会经过事务处理。
+4. @Transactional应用在非public方法上，事务失效
+5. @Transactional应用在final和static方法上，事务失效。AOP（Spring默认JDK动态代理，SpringBoot默认CGLIB）默认CGLIB，无法对final方法子类化，static属于类，无法被代理。
+6. 传播机制配置错误
+7. 多线程环境，@Transactional是基于ThreadLocal存储上下文的，多线程环境下每个线程都有自己的上下文，事务失效
+8. 存储引擎不支持
 
 
 
@@ -1900,5 +1904,16 @@ public class Config2 implements InitializingBean, ApplicationContextAware {
 
    
 
+### 设计模式
 
+工厂模式：核心容器使用了工厂模式，通过BeanFactory和ApplicationContext实现对对象的创建和管理。
 
+单例模式：默认情况下Spring bean都是单例的。
+
+代理模式：AOP通过JDK动态代理或者CGLIB字节码生成技术来创建目标对象的代理。
+
+模板方法模式：JdbcTemplate为数据库操作提供一个模板，可以重写定制具体的操作逻辑。
+
+观察者模式：Spring的事件发布/订阅机制，ApplicationContext可以发布事件，而任何实现了ApplicationListenner接口的bean都可以注册为监听器来接收这些事件。
+
+责任链模式：SpringMVC中的拦截器，多个拦截器串联起来就形成责任链。

@@ -19,11 +19,9 @@ V：View，视图层，指工程中的html或jsp等页面，作用是与用户�
 
 C：Controller，控制层，指工程中的servlet，作用是接收请求和响应浏览器
 
-MVC的工作流程： 用户通过视图层发送请求到服务器，在服务器中请求被Controller接收，Controller调用相应的Model层处理请求，处理完毕将结果返回到Controller，Controller再根据请求处理的结果找到相应的View视图，渲染数据后最终响应给浏览器
 
 
-
-SpringMVC是一个基于Spring开发的MVC轻量级框架，Spring3.0后发布的组件，SpringMVC和Spring可以无缝整合，使用DispatcherServlet作为前端控制器，且内部提供了处理器映射器、处理器适配器、视图解析器等组件，可以简化JavaBean封装，Json转化、文件上传等操作。
+SpringMVC是Spring对MVC的实现，对传统的MVC做了扩展，将model层分为了业务模型Service和数据模型Repository，controller层拆分为了前端控制器DispatchServlet和后端控制器Controller，简化了Web开发。
 
 ![](./SpringMVC/SpringMVC.jpeg)
 
@@ -740,9 +738,9 @@ public interface HandlerInterceptor {
 
 |                 | 作用                                                         | 参数                                                         | 返回值                                                       |
 | --------------- | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| preHandle       | 对拦截到的请求进行预处理，返回true放行执行处理器方法，false不放行 | Handler是拦截到的Controller方 法处理器                       | 一旦返回false，代表终止向后执行，所有后置方法都不执行， 最终方法只执行对应preHandle 返回了true的 |
-| postHandle      | 在处理器的方法执行后，对拦截到的请求进行后处理，可以在方法中对模型数据和 视图进行修改 | Handler是拦截到的Controller方 法处理器；modelAndView是返 回的模型视图对象 |                                                              |
-| afterCompletion | 视图渲染完成后(整个流程结束之后)，进行最后的处理，如果请求流程中有异常，可 以处理异常对象 | Handler是拦截到的Controller方 法处理器；ex是异常对象         |                                                              |
+| preHandle       | 在控制器方法执行之前调用，如果返回false，请求被拦截，不会进入控制器 | Handler是拦截到的Controller方 法处理器                       | 一旦返回false，代表终止向后执行，所有后置方法都不执行， 最终方法只执行对应preHandle 返回了true的 |
+| postHandle      | 在控制器方法执行后，视图渲染之前调用，可以在方法中对模型数据和视图进行修改 | Handler是拦截到的Controller方 法处理器；modelAndView是返回的模型视图对象 |                                                              |
+| afterCompletion | 视图渲染完成后调用，用于清理资源或记录执行时间               | Handler是拦截到的Controller方 法处理器；ex是异常对象         |                                                              |
 
 
 
@@ -790,6 +788,22 @@ public interface HandlerInterceptor {
            <bean class="com.itheima.interceptor.MyInterceptor01"></bean>
        </mvc:interceptor>
    </mvc:interceptors>
+   ```
+   
+   或
+   
+   ```java
+   @Configuration
+   public class WebConfig implements WebMvcConfigurer {
+   
+       @Override
+       public void addInterceptors(InterceptorRegistry registry) {
+           // 注册自定义拦截器，并指定拦截路径
+           registry.addInterceptor(new MyInterceptor())
+                   .addPathPatterns("/**")  // 拦截所有路径
+                   .excludePathPatterns("/login", "/register");  // 排除特定路径
+       }
+   }
    ```
 
 
@@ -1101,7 +1115,7 @@ protected WebApplicationContext createWebApplicationContext(@Nullable Applicatio
 
 * 父容器：Spring 通过ContextLoaderListener为入口产生的applicationContext容器，内部主要维护的是 applicationContext.xml（或相应配置类）配置的Bean信息；
 * 子容器：SpringMVC通过DispatcherServlet的init() 方法产生的applicationContext容器，内部主要维护的是spring-mvc.xml（或相应配置类）配置的Bean信息，且内部还通过parent属性维护这父容器的引用。 
-* Bean的检索顺序：根据上面子父容器的概念，可以知道Controller存在与子容器中，而Controller中要注入 Service时，会先从子容器本身去匹配，匹配不成功时在去父容器中去匹配，于是最终从父容器中匹配到的 UserService，这样子父容器就可以进行联通了。但是父容器只能从自己容器中进行匹配，不能从子容器中进行匹配。
+* Bean的检索顺序：根据上面子父容器的概念，可以知道Controller存在于子容器中，而Controller中要注入 Service时，会先从子容器本身去匹配，匹配不成功时在去父容器中去匹配，于是最终从父容器中匹配到的 UserService，这样子父容器就可以进行联通了。但是父容器只能从自己容器中进行匹配，不能从子容器中进行匹配。
 
 
 
@@ -1169,8 +1183,8 @@ protected void initStrategies(ApplicationContext context) {
 **执行流程：**
 
 1. 客户端（浏览器）发送请求，请求达到服务器后， `DispatcherServlet`拦截请求。
-2. `DispatcherServlet` 根据请求信息调用 `HandlerMapping` 。`HandlerMapping` 根据 URL 去匹配查找能处理的 `Handler`（ `Controller` 控制器） ，并会将请求涉及到的拦截器和 `Handler` 一起封装。
-3. `DispatcherServlet` 调用 `HandlerAdapter`适配器执行 `Handler` 。
+2. `DispatcherServlet` 根据请求信息调用 `HandlerMapping` 。`HandlerMapping` 根据 URL 去匹配查找能处理的 `Handler`（ `Controller` 控制器） ，并会将请求涉及到的拦截器和 `Handler` 一起封装返回。
+3. `DispatcherServlet` 调用 `HandlerAdapter`适配器执行 `Handler` 方法。
 4. `Handler` 完成对用户请求的处理后，会返回一个 `ModelAndView` 对象给`DispatcherServlet`，`ModelAndView` 顾名思义，包含了数据模型以及相应的视图的信息。`Model` 是返回的数据对象，`View` 是个逻辑上的 `View`。
 5. `ViewResolver` 会根据逻辑 `View` 查找实际的 `View`。
 6. `DispaterServlet` 把返回的 `Model` 传给 `View`（视图渲染）。
