@@ -3,7 +3,7 @@ hide:
   - navigation
 ---
 
-
+SpringBoot是一个简化了Spring应用程序开发的框架，通过提供一系列的默认配置、自动化配置和嵌入式服务器等，使得能够快速构建应用程序。
 
 SpringBoot其实就是针对原始的Spring程序制作的依赖设置和配置两个方面进行了简化。一共分为4个方面：
 
@@ -388,9 +388,9 @@ https://docs.spring.io/spring-boot/reference/features/external-config.html
 
 配置可以写到很多位置，常见的优先级顺序：
 
-命令行参数> 配置文件> springapplication默认配置（`SpringApplication.setDefaultProperties`）
+命令行参数 > 配置文件 > springapplication默认配置（`SpringApplication.setDefaultProperties`）
 
-配置文件优先级如下：(后面覆盖前面)
+配置文件优先级如下：(**后面覆盖前面**)
 
 1. jar 包内的application.properties/yml
 2. jar 包内的application-{profile}.properties/yml
@@ -619,19 +619,125 @@ public @interface SpringBootApplication {}
 
 ## 启动流程
 
-1. 初始化各种属性，加载成对象
-   * 读取环境属性（Environment）
-   * 系统配置（spring.factories）
-   * 参数（Arguments，application.properties）
-2. 创建Spring容器对象ApplicationContext，加载各种配置
-3. 在容器创建前，通过监听器机制，应对不同阶段加载数据、更新数据的需求
-4. 容器初始化过程中追加各种功能，例如统计时间、输出日志等
+![](./SpringBoot/启动流程.jpeg)
 
-主要流程就是初始化数据和创建容器。
+**1. 启动 main() 方法**
+
+从包含 `@SpringBootApplication` 注解的 main 方法开始执行，通过 `SpringApplicaiton.run() ` 引导应用启动，最终触发
+
+```java
+public static ConfigurableApplicationContext run(Class<?>[] primarySources, String[] args) {
+    return new SpringApplication(primarySources).run(args);
+}
+```
+
+分为两块：new SpringApplication() 和 run()
+
+**2. 创建SpringApplication示例**
+
+```java
+public SpringApplication(ResourceLoader resourceLoader, Class<?>... primarySources) {
+    this.resourceLoader = resourceLoader;
+    Assert.notNull(primarySources, "PrimarySources must not be null");
+    this.primarySources = new LinkedHashSet<>(Arrays.asList(primarySources));
+    // 推断应用类型（Web应用、非Web应用、Reactive应用）
+    this.webApplicationType = WebApplicationType.deduceFromClasspath();
+    this.bootstrapRegistryInitializers = new ArrayList<>(
+        getSpringFactoriesInstances(BootstrapRegistryInitializer.class));
+    // 设置初始化器
+    setInitializers((Collection) getSpringFactoriesInstances(ApplicationContextInitializer.class));
+    // 设置监听器
+    setListeners((Collection) getSpringFactoriesInstances(ApplicationListener.class));
+    // 确定主应用类
+    this.mainApplicationClass = deduceMainApplicationClass();
+}
+```
 
 
 
-![](./SpringBoot/自动配置进阶原理.svg)
+**3. 准备环境**
+
+读取配置文件（如application.yml），加载系统环境变量、命令行参数等
+
+**4. 创建 ApplicationContext**
+
+会注册所有配置类和自动配置类
+
+**5. 刷新 ApplicationContext**
+
+创建并初始化所有的bean、处理BeanPostProcessor
+
+**6. 启动嵌入式Web服务器**
+
+自动启动嵌入式Web服务器（默认Tomcat），在刷新 `refreah()` 最后阶段进行
+
+**7. 执行CommandLineRunner 和 ApplicationRunner **
+
+
+
+```java
+public ConfigurableApplicationContext run(String... args) {
+    // 记录开始时间，用于统计启动耗时
+    long startTime = System.nanoTime();
+    // 创建 DefaultBootstrapContext，用于启动过程中保存共享的对象
+    DefaultBootstrapContext bootstrapContext = createBootstrapContext();
+    ConfigurableApplicationContext context = null;
+    // 配置系统属性 "java.awt.headless",适用于没有显示器的服务器环境
+    configureHeadlessProperty();
+    // 获取事件发布器，发布启动过程中的事件
+    SpringApplicationRunListeners listeners = getRunListeners(args);
+    
+    // 发布事件，SpringBoot 应用即将启动
+    listeners.starting(bootstrapContext, this.mainApplicationClass);
+    try {
+        // 解析传入的命令行参数
+        ApplicationArguments applicationArguments = new DefaultApplicationArguments(args);
+        
+       	// 准备环境：加载配置文件、环境变量、命令行参数
+        ConfigurableEnvironment environment = prepareEnvironment(listeners, bootstrapContext, applicationArguments);
+        // 配置环境
+        configureIgnoreBeanInfo(environment);
+        // 打印banner
+        Banner printedBanner = printBanner(environment);
+        // 创建容器
+        context = createApplicationContext();
+        // 设置应用启动监控器，用于收集启动过程中的统计数据
+        context.setApplicationStartup(this.applicationStartup);
+        // 准备容器，注入环境、事件监听器、命令行参数
+        prepareContext(bootstrapContext, context, environment, listeners, applicationArguments, printedBanner);
+        // 刷新容器，启动Spring的核心容器，完成bean的初始化等过程，其间会触发内嵌的Web容器
+        refreshContext(context);
+        // 容器刷新后的回调操作，用于自定义初始化逻辑
+        afterRefresh(context, applicationArguments);
+        // 计算耗时
+        Duration timeTakenToStartup = Duration.ofNanos(System.nanoTime() - startTime);
+        // 日志信息
+        if (this.logStartupInfo) {
+            new StartupInfoLogger(this.mainApplicationClass).logStarted(getApplicationLog(), timeTakenToStartup);
+        }
+        // 发布事件，启动完成
+        listeners.started(context, timeTakenToStartup);
+        // 执行CommandLineRunner 和 ApplicationRunner 接口中的方法
+        callRunners(context, applicationArguments);
+    }
+    catch (Throwable ex) {
+        // 处理异常
+        handleRunFailure(context, ex, listeners);
+        throw new IllegalStateException(ex);
+    }
+    try {
+        Duration timeTakenToReady = Duration.ofNanos(System.nanoTime() - startTime);
+        listeners.ready(context, timeTakenToReady);
+    }
+    catch (Throwable ex) {
+        // 事件发布，应用完全准备好
+        handleRunFailure(context, ex, null);
+        throw new IllegalStateException(ex);
+    }
+    // 返回容器
+    return context;
+}
+```
 
 
 
