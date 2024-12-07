@@ -1,0 +1,1870 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="个人笔记，博客">
+      
+      
+        <meta name="author" content="wang">
+      
+      
+        <link rel="canonical" href="https://lbwanga.github.io/Java/Java%E9%9B%86%E5%90%88.html">
+      
+      
+        <link rel="prev" href="Java.html">
+      
+      
+        <link rel="next" href="../JUC/JUC.html">
+      
+      
+      <link rel="icon" href="../assets/logo.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.47">
+    
+    
+      
+        <title>Java集合 - WNotes</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.6f8fc17f.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+  
+  
+
+<script id="__analytics">function __md_analytics(){function e(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],e("js",new Date),e("config","G-XXXXXXXXXX"),document.addEventListener("DOMContentLoaded",(function(){document.forms.search&&document.forms.search.query.addEventListener("blur",(function(){this.value&&e("event","search",{search_term:this.value})}));document$.subscribe((function(){var t=document.forms.feedback;if(void 0!==t)for(var a of t.querySelectorAll("[type=submit]"))a.addEventListener("click",(function(a){a.preventDefault();var n=document.location.pathname,d=this.getAttribute("data-md-value");e("event","feedback",{page:n,data:d}),t.firstElementChild.disabled=!0;var r=t.querySelector(".md-feedback__note [data-md-value='"+d+"']");r&&(r.hidden=!1)})),t.hidden=!1})),location$.subscribe((function(t){e("config","G-XXXXXXXXXX",{page_path:t.pathname})}))}));var t=document.createElement("script");t.async=!0,t.src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX",document.getElementById("__analytics").insertAdjacentElement("afterEnd",t)}</script>
+  
+    <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+  
+
+    
+    
+    
+   <link href="../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
+    html.glightbox-open { overflow: initial; height: 100%; }
+    .gslide-title { margin-top: 0px; user-select: text; }
+    .gslide-desc { color: #666; user-select: text; }
+    .gslide-image img { background: white; }
+    .gscrollbar-fixer { padding-right: 15px; }
+    .gdesc-inner { font-size: 0.75rem; }
+    body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
+    body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
+    body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}</style> <script src="../assets/javascripts/glightbox.min.js"></script></head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="white" data-md-color-accent="blue">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#collection" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../index.html" title="WNotes" class="md-header__button md-logo" aria-label="WNotes" data-md-component="logo">
+      
+  <img src="../assets/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            WNotes
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Java集合
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/lbwanga/lbwanga.github.io" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    lbwanga
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../index.html" class="md-tabs__link">
+        
+  
+    
+  
+  简介
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="Java.html" class="md-tabs__link">
+          
+  
+  Java
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../JUC/JUC.html" class="md-tabs__link">
+        
+  
+    
+  
+  JUC
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../JVM/JVM.html" class="md-tabs__link">
+        
+  
+    
+  
+  JVM
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../MySQL/MySQL.html" class="md-tabs__link">
+        
+  
+    
+  
+  MySQL
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../Redis/Redis%E5%9F%BA%E7%A1%80.html" class="md-tabs__link">
+          
+  
+  Redis
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F.html" class="md-tabs__link">
+        
+  
+    
+  
+  设计模式
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../Spring/Spring6.html" class="md-tabs__link">
+        
+  
+    
+  
+  Spring
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../SpringMVC/SpringMVC.html" class="md-tabs__link">
+        
+  
+    
+  
+  SpringMVC
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../SpringBoot/SpringBoot.html" class="md-tabs__link">
+        
+  
+    
+  
+  SpringBoot
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../index.html" title="WNotes" class="md-nav__button md-logo" aria-label="WNotes" data-md-component="logo">
+      
+  <img src="../assets/logo.png" alt="logo">
+
+    </a>
+    WNotes
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/lbwanga/lbwanga.github.io" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    lbwanga
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../index.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    简介
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Java
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Java
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Java.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Java基础
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Java集合
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="Java%E9%9B%86%E5%90%88.html" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Java集合
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#collection" class="md-nav__link">
+    <span class="md-ellipsis">
+      Collection
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Collection">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#list" class="md-nav__link">
+    <span class="md-ellipsis">
+      List
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="List">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arraylist" class="md-nav__link">
+    <span class="md-ellipsis">
+      ArrayList
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vector" class="md-nav__link">
+    <span class="md-ellipsis">
+      Vector
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linkedlist" class="md-nav__link">
+    <span class="md-ellipsis">
+      LinkedList
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#copyonwritearraylist" class="md-nav__link">
+    <span class="md-ellipsis">
+      CopyonWriteArraylist
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#set" class="md-nav__link">
+    <span class="md-ellipsis">
+      Set
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Set">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#hashset" class="md-nav__link">
+    <span class="md-ellipsis">
+      HashSet
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linkedhashset" class="md-nav__link">
+    <span class="md-ellipsis">
+      LinkedHashSet
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#treeset" class="md-nav__link">
+    <span class="md-ellipsis">
+      TreeSet
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#queue" class="md-nav__link">
+    <span class="md-ellipsis">
+      Queue
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Queue">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#priorityqueue" class="md-nav__link">
+    <span class="md-ellipsis">
+      PriorityQueue
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#blockingqueue" class="md-nav__link">
+    <span class="md-ellipsis">
+      BlockingQueue
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#delayqueue" class="md-nav__link">
+    <span class="md-ellipsis">
+      DelayQueue
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arraydeque" class="md-nav__link">
+    <span class="md-ellipsis">
+      ArrayDeque
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#map" class="md-nav__link">
+    <span class="md-ellipsis">
+      Map
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Map">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#hashmap" class="md-nav__link">
+    <span class="md-ellipsis">
+      HashMap
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#concurrenthashmap" class="md-nav__link">
+    <span class="md-ellipsis">
+      ConcurrentHashMap
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linkedhashmap" class="md-nav__link">
+    <span class="md-ellipsis">
+      LinkedHashMap
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hashtable" class="md-nav__link">
+    <span class="md-ellipsis">
+      Hashtable
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#treemap" class="md-nav__link">
+    <span class="md-ellipsis">
+      TreeMap
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../JUC/JUC.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    JUC
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../JVM/JVM.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    JVM
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../MySQL/MySQL.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    MySQL
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Redis
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            Redis
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Redis/Redis%E5%9F%BA%E7%A1%80.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Redis基础
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Redis/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Redis数据结构
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Redis/Redis%E9%AB%98%E7%BA%A7.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Redis高级
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    设计模式
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Spring/Spring6.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Spring
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../SpringMVC/SpringMVC.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    SpringMVC
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../SpringBoot/SpringBoot.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    SpringBoot
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#collection" class="md-nav__link">
+    <span class="md-ellipsis">
+      Collection
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Collection">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#list" class="md-nav__link">
+    <span class="md-ellipsis">
+      List
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="List">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arraylist" class="md-nav__link">
+    <span class="md-ellipsis">
+      ArrayList
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vector" class="md-nav__link">
+    <span class="md-ellipsis">
+      Vector
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linkedlist" class="md-nav__link">
+    <span class="md-ellipsis">
+      LinkedList
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#copyonwritearraylist" class="md-nav__link">
+    <span class="md-ellipsis">
+      CopyonWriteArraylist
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#set" class="md-nav__link">
+    <span class="md-ellipsis">
+      Set
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Set">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#hashset" class="md-nav__link">
+    <span class="md-ellipsis">
+      HashSet
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linkedhashset" class="md-nav__link">
+    <span class="md-ellipsis">
+      LinkedHashSet
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#treeset" class="md-nav__link">
+    <span class="md-ellipsis">
+      TreeSet
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#queue" class="md-nav__link">
+    <span class="md-ellipsis">
+      Queue
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Queue">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#priorityqueue" class="md-nav__link">
+    <span class="md-ellipsis">
+      PriorityQueue
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#blockingqueue" class="md-nav__link">
+    <span class="md-ellipsis">
+      BlockingQueue
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#delayqueue" class="md-nav__link">
+    <span class="md-ellipsis">
+      DelayQueue
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arraydeque" class="md-nav__link">
+    <span class="md-ellipsis">
+      ArrayDeque
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#map" class="md-nav__link">
+    <span class="md-ellipsis">
+      Map
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Map">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#hashmap" class="md-nav__link">
+    <span class="md-ellipsis">
+      HashMap
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#concurrenthashmap" class="md-nav__link">
+    <span class="md-ellipsis">
+      ConcurrentHashMap
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linkedhashmap" class="md-nav__link">
+    <span class="md-ellipsis">
+      LinkedHashMap
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hashtable" class="md-nav__link">
+    <span class="md-ellipsis">
+      Hashtable
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#treemap" class="md-nav__link">
+    <span class="md-ellipsis">
+      TreeMap
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+    <a href="https://github.com/lbwanga/lbwanga.github.io/edit/master/docs/Java/Java集合.md" title="编辑此页" class="md-content__button md-icon">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+
+
+  <h1>Java集合</h1>
+
+<h2 id="collection">Collection<a class="headerlink" href="#collection" title="Permanent link"></a></h2>
+<p>Collection接口没有直接的实现子类，是通过它的子接口Set、List和Queue实现的</p>
+<p><a class="glightbox" href="Java%E9%9B%86%E5%90%88/collection.jpeg" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="Java%E9%9B%86%E5%90%88/collection.jpeg" /></a></p>
+<h3 id="list">List<a class="headerlink" href="#list" title="Permanent link"></a></h3>
+<p>有序，可重复，支持索引，常用的有ArrayList，LinkedList，Vector，Stack</p>
+<h4 id="arraylist">ArrayList<a class="headerlink" href="#arraylist" title="Permanent link"></a></h4>
+<p>基本等同于Vector，效率高，但是<strong>线程不安全</strong></p>
+<p>底层是<code>Object[]</code> 数组</p>
+<p>和数组区别？</p>
+<ol>
+<li>大小和自动扩容</li>
+<li>支持泛型</li>
+<li>存储对象</li>
+<li>集合功能</li>
+</ol>
+<p><strong>扩容机制：</strong></p>
+<p>以无参数构造方法创建 <code>ArrayList</code> 时，实际上初始化赋值的是一个空数组。当真正对数组进行添加元素操作时，才真正分配容量。即向数组中添加第一个元素时，数组容量扩为 10，到达当前容量后扩容为1.5倍。</p>
+<p>如果使用指定大小的构造器，初始容量为指定大小，如果需要扩容则扩容为<strong>1.5倍。</strong></p>
+<p>扩容时创建一个新的更大的数组，将原来数组中的元素逐个复制到新数组中，最后将ArrayList内部指向原数组的引用指向新数组。</p>
+<h4 id="vector">Vector<a class="headerlink" href="#vector" title="Permanent link"></a></h4>
+<p>Vector 内部是使用对象数组来保存数据，可以根据需要自动的增加容量，当数组已满时，会创建新的数组，并拷贝原有数组数据。</p>
+<p>线程同步的，即线程安全, 操作方法带 <code>synchronized</code></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>底层结构</th>
+<th>线程安全 效率</th>
+<th>扩容机制</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ArrayList</td>
+<td>可变数组</td>
+<td>不安全，效率高</td>
+<td>有参扩容1.5倍 <br>无参默认0，第一次扩容为10，后面扩容1.5倍</td>
+</tr>
+<tr>
+<td>Vector</td>
+<td>可变数组</td>
+<td>安全，效率不高</td>
+<td>有参扩容2倍<br>无参默认是10，后面扩容2倍</td>
+</tr>
+</tbody>
+</table>
+<h4 id="linkedlist">LinkedList<a class="headerlink" href="#linkedlist" title="Permanent link"></a></h4>
+<p>同时实现了 List、Queue 和 Deque 接⼝。底层是基于双向链表的。</p>
+<p>线程不安全，需要用到 <code>LinkedList</code> 的场景几乎都可以使用 <code>ArrayList</code> 来代替，并且，性能通常会更好</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>底层结构</th>
+<th>增删效率</th>
+<th>改查效率</th>
+<th>线程安全</th>
+<th>随机访问</th>
+<th>占用内存</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ArrayList</td>
+<td>可变数组</td>
+<td>较低</td>
+<td>较高</td>
+<td>不安全</td>
+<td>支持</td>
+<td>小</td>
+</tr>
+<tr>
+<td>LinkedList</td>
+<td>双向链表</td>
+<td>较高</td>
+<td>较低</td>
+<td>不安全</td>
+<td>不支持</td>
+<td>大</td>
+</tr>
+</tbody>
+</table>
+<h4 id="copyonwritearraylist">CopyonWriteArraylist<a class="headerlink" href="#copyonwritearraylist" title="Permanent link"></a></h4>
+<p>CopyOnWriteArrayList底层也是通过一个数组保存数据，使用volatile关键字修饰数组，保证当前线程对数组对象重新赋值后，其他线程可以及时感知到。</p>
+<p>在写入操作时，加了一把互斥锁ReentrantLock以保证线程安全。读是没有加锁的。</p>
+<div class="language-java highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-0-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-0-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-0-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-0-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-0-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-0-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-0-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-0-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-0-10">10</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="kd">public</span><span class="w"> </span><span class="kt">boolean</span><span class="w"> </span><span class="nf">add</span><span class="p">(</span><span class="n">E</span><span class="w"> </span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2"></a><span class="w">    </span><span class="kd">synchronized</span><span class="w"> </span><span class="p">(</span><span class="n">lock</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3"></a><span class="w">        </span><span class="n">Object</span><span class="o">[]</span><span class="w"> </span><span class="n">es</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">getArray</span><span class="p">();</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4"></a><span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="n">len</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">es</span><span class="p">.</span><span class="na">length</span><span class="p">;</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5"></a><span class="w">        </span><span class="n">es</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Arrays</span><span class="p">.</span><span class="na">copyOf</span><span class="p">(</span><span class="n">es</span><span class="p">,</span><span class="w"> </span><span class="n">len</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6"></a><span class="w">        </span><span class="n">es</span><span class="o">[</span><span class="n">len</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">e</span><span class="p">;</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7"></a><span class="w">        </span><span class="n">setArray</span><span class="p">(</span><span class="n">es</span><span class="p">);</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="kc">true</span><span class="p">;</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10"></a><span class="p">}</span>
+</span></code></pre></div></td></tr></table></div>
+<p>写入新元素时，首先会先将原来的数组拷贝一份并且让原来数组的长度+1后就得到了一个新数组，新数组里的元素和旧数组的元素一样并且长度比旧数组多一个长度，然后将新加入的元素放置都在新数组最后一个位置后，用新数组的地址替换掉老数组的地址就能得到最新的数据了。</p>
+<h3 id="set">Set<a class="headerlink" href="#set" title="Permanent link"></a></h3>
+<p>Set不允许存在重复的元素，与List不同，set中的元素是无序的。常用的实现有HashSet，LinkedHashSet和TreeSet。</p>
+<p>当向Set集合中插入元素时，会先根据元素的hashCode值来确定元素的存储位置，然后再通过equals方法来判断是否已经存在相同的元素，如果存在则不会再次插入，保证了元素的唯一性。</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>线程安全</th>
+<th>底层数据结构</th>
+<th>应用场景</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>HashSet</td>
+<td>不安全</td>
+<td>HashMap</td>
+<td>无需保证插入取出顺序场景</td>
+</tr>
+<tr>
+<td>LinkedHashSet</td>
+<td>不安全</td>
+<td>链表+哈希表</td>
+<td>需要保证插入取出顺序场景</td>
+</tr>
+<tr>
+<td>TreeSet</td>
+<td>不安全</td>
+<td>红黑树</td>
+<td>元素自定义排序场景</td>
+</tr>
+</tbody>
+</table>
+<h4 id="hashset">HashSet<a class="headerlink" href="#hashset" title="Permanent link"></a></h4>
+<p>HashSet通过HashMap实现，HashMap的Key即HashSet存储的元素，所有Key都是用相同的Value，一个名为PRESENT的Object类型常量。使用Key保证元素唯一性，但不保证有序性。由于HashSet是HashMap实现的，因此线程不安全。</p>
+<p>HashSet如何检查键值重复？<code>HashSet</code>的<code>add()</code>方法直接调用<code>HashMap</code>的<code>put()</code>方法：先比较hashcode，如果发现有相同 <code>hashcode</code> 值的对象，这时会调用<code>equals()</code>方法来检查 <code>hashcode</code> 相等的对象是否真的相同。</p>
+<div class="language-java highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1">1</a></span>
+<span class="normal"><a href="#__codelineno-1-2">2</a></span>
+<span class="normal"><a href="#__codelineno-1-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="kd">public</span><span class="w"> </span><span class="nf">HashSet</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2"></a><span class="w">    </span><span class="n">map</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">HashMap</span><span class="o">&lt;&gt;</span><span class="p">();</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3"></a><span class="p">}</span>
+</span></code></pre></div></td></tr></table></div>
+<p>扩容机制</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1">1</a></span>
+<span class="normal"><a href="#__codelineno-2-2">2</a></span>
+<span class="normal"><a href="#__codelineno-2-3">3</a></span>
+<span class="normal"><a href="#__codelineno-2-4">4</a></span>
+<span class="normal"><a href="#__codelineno-2-5">5</a></span>
+<span class="normal"><a href="#__codelineno-2-6">6</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1"></a>// 第一次添加时，table数组扩容到16，临界值是16*loadFactor(0.75)=12, 如果table数组使用到了临界值，就会扩容2倍，依次类推
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2"></a>1. 添加一个元素时，先得到hash值然后转换为索引值
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3"></a>2. 找到存储数据的table，看索引位置是否有元素
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4"></a>3. 如果没有，直接加入
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5"></a>4. 如果有，调用equals比较，如果相同放弃添加，如果不同添加到最后。equals不能简单的认为是比较内容或是地址，程序员可以进行重写 
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6"></a>5. 在java8中，如果一条链表的元素个数 &gt;= TREEIFY_THRESHOLD(默认8)，并且table大小 &gt;= MIN_TREEIFY_CAPACITY(默认64)，就会进行树化(红黑树)
+</span></code></pre></div></td></tr></table></div>
+<table>
+<thead>
+<tr>
+<th>HashMap</th>
+<th>HashSet</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>实现Map接口</td>
+<td>实现Set接口</td>
+</tr>
+<tr>
+<td>存储键值对</td>
+<td>存储对象</td>
+</tr>
+<tr>
+<td>put 添加元素</td>
+<td>add 添加元素</td>
+</tr>
+<tr>
+<td>使用key计算 hashCode</td>
+<td>使用对象计算hashCode</td>
+</tr>
+</tbody>
+</table>
+<h4 id="linkedhashset">LinkedHashSet<a class="headerlink" href="#linkedhashset" title="Permanent link"></a></h4>
+<p>HashSet的子类，底层是一个LinkedHashMap，使用双向链表维护元素插入顺序。</p>
+<h4 id="treeset">TreeSet<a class="headerlink" href="#treeset" title="Permanent link"></a></h4>
+<p>底层是TreeMap，红黑树</p>
+<p>可以实现排序，构造器可以传入一个比较器（匿名内部类）对TreeSet进行排序</p>
+<h3 id="queue">Queue<a class="headerlink" href="#queue" title="Permanent link"></a></h3>
+<p><code>Queue</code> 是单端队列，<code>Deque</code> 是双端队列</p>
+<table>
+<thead>
+<tr>
+<th><code>Queue</code> 接口</th>
+<th>抛出异常</th>
+<th>返回特殊值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>插入队尾</td>
+<td>add(E e)</td>
+<td>offer(E e)</td>
+</tr>
+<tr>
+<td>删除队首</td>
+<td>remove()</td>
+<td>poll()</td>
+</tr>
+<tr>
+<td>查询队首元素</td>
+<td>element()</td>
+<td>peek()</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th><code>Deque</code> 接口</th>
+<th>抛出异常</th>
+<th>返回特殊值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>插入队首</td>
+<td>addFirst(E e)</td>
+<td>offerFirst(E e)</td>
+</tr>
+<tr>
+<td>插入队尾</td>
+<td>addLast(E e)</td>
+<td>offerLast(E e)</td>
+</tr>
+<tr>
+<td>删除队首</td>
+<td>removeFirst()</td>
+<td>pollFirst()</td>
+</tr>
+<tr>
+<td>删除队尾</td>
+<td>removeLast()</td>
+<td>pollLast()</td>
+</tr>
+<tr>
+<td>查询队首元素</td>
+<td>getFirst()</td>
+<td>peekFirst()</td>
+</tr>
+<tr>
+<td>查询队尾元素</td>
+<td>getLast()</td>
+<td>peekLast()</td>
+</tr>
+</tbody>
+</table>
+<h4 id="priorityqueue">PriorityQueue<a class="headerlink" href="#priorityqueue" title="Permanent link"></a></h4>
+<p><code>Object[]</code> 数组来实现小顶堆。</p>
+<p>线程不安全</p>
+<p>当没有传入数组容量的时候，默认是11</p>
+<p>如果容量小于64时，是按照oldCapacity的2倍方式扩容的；如果容量大于等于64，是按照oldCapacity的1.5倍方式扩容的</p>
+<h4 id="blockingqueue">BlockingQueue<a class="headerlink" href="#blockingqueue" title="Permanent link"></a></h4>
+<p>BlockingQueue 主要⽤于在多线程之间安全地传递数据，并提供了阻塞操作，以便在队列为空或队列已满时进⾏ 等待或阻塞</p>
+<p>BlockingQueue的实现类：</p>
+<p><code>ArrayBlockingQueue</code>：基于数组实现的有界队列。</p>
+<p><code>LinkedBlockingQueue</code>：基于链表实现的有界或⽆界队列。</p>
+<p><code>PriorityBlockingQueue</code>：基于优先级的⽆界队列。</p>
+<p><code>DelayQueue</code>：⽤于实现延迟任务的⽆界队列。</p>
+<h4 id="delayqueue">DelayQueue<a class="headerlink" href="#delayqueue" title="Permanent link"></a></h4>
+<p><code>DelayQueue</code> 底层是使用优先队列 <code>PriorityQueue</code> 来存储元素，而 <code>PriorityQueue</code> 采用二叉小顶堆的思想确保值小的元素排在最前面，这就使得 <code>DelayQueue</code> 对于延迟任务优先级的管理就变得十分方便。</p>
+<p><code>DelayQueue</code> 为了保证线程安全还用到了可重入锁 <code>ReentrantLock</code>,确保单位时间内只有一个线程可以操作延迟队列。</p>
+<p>最后，为了实现多线程之间等待和唤醒的交互效率，<code>DelayQueue</code> 还用到了 <code>Condition</code>，通过 <code>Condition</code> 的 <code>await</code> 和 <code>signal</code> 方法完成多线程之间的等待唤醒。</p>
+<h4 id="arraydeque">ArrayDeque<a class="headerlink" href="#arraydeque" title="Permanent link"></a></h4>
+<p>基于动态数组的双端队列。底层使⽤循环数组实现</p>
+<p><code>ArrayDeque</code> 是基于可变长的数组和双指针来实现，而 <code>LinkedList</code> 则通过链表来实现。</p>
+<h2 id="map">Map<a class="headerlink" href="#map" title="Permanent link"></a></h2>
+<p>主要实现有TreeMap、HashMap、HashTable、LinkedHashMap、ConcurrentHashMap</p>
+<p><a class="glightbox" href="Java%E9%9B%86%E5%90%88/map.jpeg" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="Java%E9%9B%86%E5%90%88/map.jpeg" /></a></p>
+<h3 id="hashmap">HashMap<a class="headerlink" href="#hashmap" title="Permanent link"></a></h3>
+<p>线程不安全，保证线程安全就选用 <code>ConcurrentHashMap</code>。</p>
+<p><code>HashMap</code> 可以存储 null 的 key 和 value，通常情况下，HashMap 进行 put 或者 get 操作，可以达到常数时间的性能，所以它是绝大部分利用键值对存取场景的首选。</p>
+<p>JDK1.8 之前 <code>HashMap</code> 由数组+链表组成的，数组是 <code>HashMap</code> 的主体，链表则是主要为了解决哈希冲突而存在的（“拉链法”解决冲突）。</p>
+<p><a class="glightbox" href="Java%E9%9B%86%E5%90%88/HashMap-Java7.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="Java%E9%9B%86%E5%90%88/HashMap-Java7.png" /></a></p>
+<p>JDK1.8 以后在解决哈希冲突时有了较大的变化，当链表长度大于阈值（默认为 8）（将链表转换成红黑树前会判断，如果当前数组的长度小于 64，那么会选择先进行数组扩容，而不是转换为红黑树）时，将链表转化为红黑树，以减少搜索时间。</p>
+<p><a class="glightbox" href="Java%E9%9B%86%E5%90%88/HashMap-Java8.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="Java%E9%9B%86%E5%90%88/HashMap-Java8.png" /></a></p>
+<p><code>HashMap</code> 默认的初始化大小为 16。到达临界值（临界值是16*loadFactor(0.75)=12）之后，容量变为原来的 2 倍。并且， <code>HashMap</code> 总是使用 2 的幂作为哈希表的大小。初始化传的不是2的幂时，会向上寻找离得近的2的幂作为初始化大小。</p>
+<p><strong><code>HashMap</code> 的长度是 2 的幂次方的原因：</strong></p>
+<ol>
+<li>位运算效率更高：位运算(&amp;)比取余运算(%)更高效。当长度为 2 的幂次方时，<code>hash % length</code> 等价于 <code>hash &amp; (length - 1)</code>。</li>
+<li>可以更好地保证哈希值的均匀分布：扩容之后，在旧数组元素 hash 值比较均匀的情况下，新数组元素也会被分配的比较均匀，最好的情况是会有一半在新数组的前半部分，一半在新数组后半部分。</li>
+<li>扩容机制变得简单和高效：扩容后只需检查哈希值高位的变化来决定元素的新位置，要么位置不变（高位为 0），要么就是移动到新位置（高位为 1，原索引位置+原容量）。</li>
+</ol>
+<p><strong>HashMap为什么线程不安全？</strong></p>
+<p>死循环和数据丢失</p>
+<ol>
+<li>
+<p>JDK1.7中的 HashMap 使用头插法插入元素，在多线程的环境下，扩容的时候有可能导致环形链表的出现，形成死循环。因此，JDK1.8使用尾插法插入元素，在扩容时会保持链表元素原本的顺序，不会出现环形链表的问题。<a href="https://blog.csdn.net/qq_44833552/article/details/125575981">JDK 1.7 hashmap循环链表的产生（图文并茂，巨详细）_hashmap循环链表是如何产生的-CSDN博客</a></p>
+</li>
+<li>
+<p>多个线程对 <code>HashMap</code> 的 <code>put</code> 操作会有数据覆盖的风险。并发环境下，推荐使用 <code>ConcurrentHashMap</code> 。</p>
+</li>
+</ol>
+<p><strong>添加元素的流程</strong>：</p>
+<ol>
+<li>根据要添加的键的哈希码计算在数组中的位置（索引）。 (n - 1) &amp; hash </li>
+<li>检查该位置是否为空（即没有键值对存在）。如果为空，则直接在该位置创建一个新的Entry对象来存储键值对。将要添加的键值对作为该Entry的键和值，并保存在数组的对应位置。</li>
+<li>如果该位置已经存在其他键值对，检查该位置的第一个键值对的哈希码和键是否与要添加的键值对相同。如果相同，则表示找到了相同的键，直接将新的值替换旧的值，完成更新操作。</li>
+<li>如果第一个键值对的哈希码和键不相同，则需要遍历链表或红黑树来查找是否有相同的键：如果键值对集合是链表结构，从链表的头部开始逐个比较键的哈希码和equals()方法，直到找到相同的键或达到链表末尾。如果键值对集合是红黑树结构，在红黑树中使用哈希码和equals()方法进行查找。根据键的哈希码，定位到红黑树中的某个节点，然后逐个比较键，直到找到相同的键或达到红黑树末尾。</li>
+<li>检查链表长度是否达到阈值（默认为8）。如果链表长度超过阈值，且HashMap的数组长度大于等于64，则会将链表转换为红黑树。</li>
+<li>检查负载因子是否超过阈值（默认为0.75）。如果键值对的数量（size）与数组的长度的比值大于阈值，则需要进行扩容操作。</li>
+<li>扩容操作：1. 创建一个新的两倍大小的数组。2. 将旧数组中的键值对重新计算哈希码并分配到新数组中的位置。3. 更新HashMap的数组引用和阈值参数。</li>
+</ol>
+<p><a class="glightbox" href="Java%E9%9B%86%E5%90%88/HashMap-put.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="Java%E9%9B%86%E5%90%88/HashMap-put.png" /></a></p>
+<p><strong>扩容机制</strong>：</p>
+<p>hashMap默认的负载因子是0.75，即如果hashmap中的元素个数超过了总容量75%，则会触发扩容，扩容分为两个步骤：</p>
+<ol>
+<li>
+<p>对哈希表长度的扩展（2倍）；</p>
+</li>
+<li>
+<p>将旧哈希表中的数据放到新的哈希表中。</p>
+</li>
+</ol>
+<p>因为我们使用的是2次幂的扩展(指长度扩为原来2倍)，所以，元素的位置要么是在原位置，要么是在原位置再移动2次幂的位置。</p>
+<p>因此，我们在扩充HashMap的时候，不需要重新计算hash，只需要看看原来的hash值新增的那个bit是1还是0就好了，是0的话索引没变，是1的话索引变成“原索引+oldCap”。</p>
+<p><strong>hashmap key可以为null吗？</strong></p>
+<p>可以为 null。</p>
+<p>hashMap中使用hash()方法来计算key的哈希值，当key为空时，直接另key的哈希值为0，不走key.hashCode()方法；</p>
+<div class="language-java highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1">1</a></span>
+<span class="normal"><a href="#__codelineno-3-2">2</a></span>
+<span class="normal"><a href="#__codelineno-3-3">3</a></span>
+<span class="normal"><a href="#__codelineno-3-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1"></a><span class="kd">static</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">hash</span><span class="p">(</span><span class="n">Object</span><span class="w"> </span><span class="n">key</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">h</span><span class="p">;</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="p">(</span><span class="n">key</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">(</span><span class="n">h</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">key</span><span class="p">.</span><span class="na">hashCode</span><span class="p">())</span><span class="w"> </span><span class="o">^</span><span class="w"> </span><span class="p">(</span><span class="n">h</span><span class="w"> </span><span class="o">&gt;&gt;&gt;</span><span class="w"> </span><span class="mi">16</span><span class="p">);</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4"></a><span class="p">}</span>
+</span></code></pre></div></td></tr></table></div>
+<h3 id="concurrenthashmap">ConcurrentHashMap<a class="headerlink" href="#concurrenthashmap" title="Permanent link"></a></h3>
+<p>在 JDK 1.7 中，提供了一种机制叫分段锁。整个哈希表被分为多个段，每个段都独立锁定。</p>
+<p>一个 ConcurrentHashMap 里包含一个 Segment 数组，Segment 的结构和 HashMap 类似，是一种数组和链表结构，一个 Segment 里包含一个 HashEntry 数组，每个 HashEntry 是一个链表结构的元素，每个 Segment 守护着一个 HashEntry 数组里的元素，当对 HashEntry 数组的数据进行修改时，必须首先获得它对应的 Segment 锁（使用ReentrantLock）。</p>
+<p><a class="glightbox" href="Java%E9%9B%86%E5%90%88/concurrent-hashmap-Java7.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="Java%E9%9B%86%E5%90%88/concurrent-hashmap-Java7.png" /></a></p>
+<p>Segment 的个数一旦初始化就不能改变，默认 Segment 的个数是 16 个，可以认为 <code>ConcurrentHashMap</code> 默认支持最多 16 个线程并发。</p>
+<p>在JDK1.8中，ConcurrentHashMap的实现原理摒弃了分段锁，而是选择了与HashMap类似的数组+链表+红黑树的方式实现，以某个位置的头结点（链表的头结点或红黑树的 root 结点）为锁，加锁则采用CAS和synchronized实现。</p>
+<p>添加元素时首先会判断容器是否为空：</p>
+<ul>
+<li>如果为空则使用 volatile 加 CAS 来初始化</li>
+<li>如果容器不为空，则根据存储的元素计算该位置是否为空。</li>
+<li>如果根据存储的元素计算结果为空，则利用 CAS 设置该节点；</li>
+<li>如果根据存储的元素计算结果不为空，则使用 synchronized ，然后，遍历桶中的数据，并替换或新增节点到桶中，最后再判断是否需要转为红黑树，这样就能保证并发访问时的线程安全了。</li>
+</ul>
+<p><a class="glightbox" href="Java%E9%9B%86%E5%90%88/HashMap-Java8.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="Java%E9%9B%86%E5%90%88/HashMap-Java8.png" /></a></p>
+<p>ConcurrentHashMap 为什么 key 和 value 不能为 null？</p>
+<p><code>ConcurrentHashMap</code> 的 key 和 value 不能为 null 主要是为了避免二义性。null 是一个特殊的值，表示没有对象或没有引用。如果你用 null 作为键，那么你就无法区分这个键是否存在于 <code>ConcurrentHashMap</code> 中，还是根本没有这个键。同样，如果你用 null 作为值，那么你就无法区分这个值是否是真正存储在 <code>ConcurrentHashMap</code> 中的，还是因为找不到对应的键而返回的。</p>
+<h3 id="linkedhashmap">LinkedHashMap<a class="headerlink" href="#linkedhashmap" title="Permanent link"></a></h3>
+<p><code>LinkedHashMap</code> 继承自 <code>HashMap</code>，所以它的底层仍然是基于拉链式散列结构即由数组和链表或红黑树组成。另外，<code>LinkedHashMap</code> 在上面结构的基础上，增加了一条双向链表，使得上面的结构可以保持键值对的插入顺序。同时通过对链表进行相应的操作，实现了访问顺序相关逻辑。</p>
+<p>LRU缓存：</p>
+<ol>
+<li>
+<p>继承 <code>LinkedHashMap</code>;</p>
+</li>
+<li>
+<p>构造方法中指定 <code>accessOrder</code> 为 true ，这样在访问元素时就会把该元素移动到链表尾部，链表首元素就是最近最少被访问的元素；</p>
+</li>
+<li>
+<p>重写<code>removeEldestEntry</code> 方法，该方法会返回一个 boolean 值，告知 <code>LinkedHashMap</code> 是否需要移除链表首元素（缓存容量有限）。</p>
+</li>
+</ol>
+<div class="language-java highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-4-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-4-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-4-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-4-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-4-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-4-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-4-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-4-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-4-10">10</a></span>
+<span class="normal"><a href="#__codelineno-4-11">11</a></span>
+<span class="normal"><a href="#__codelineno-4-12">12</a></span>
+<span class="normal"><a href="#__codelineno-4-13">13</a></span>
+<span class="normal"><a href="#__codelineno-4-14">14</a></span>
+<span class="normal"><a href="#__codelineno-4-15">15</a></span>
+<span class="normal"><a href="#__codelineno-4-16">16</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1"></a><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">LRUCache</span><span class="o">&lt;</span><span class="n">K</span><span class="p">,</span><span class="w"> </span><span class="n">V</span><span class="o">&gt;</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">LinkedHashMap</span><span class="o">&lt;</span><span class="n">K</span><span class="p">,</span><span class="w"> </span><span class="n">V</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2"></a><span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">capacity</span><span class="p">;</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3"></a>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">LRUCache</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">capacity</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5"></a><span class="w">        </span><span class="kd">super</span><span class="p">(</span><span class="n">capacity</span><span class="p">,</span><span class="w"> </span><span class="mf">0.75f</span><span class="p">,</span><span class="w"> </span><span class="kc">true</span><span class="p">);</span>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6"></a><span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">capacity</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">capacity</span><span class="p">;</span>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8"></a>
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9"></a><span class="w">    </span><span class="cm">/**</span>
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10"></a><span class="cm">     * 判断size超过容量时返回true，告知LinkedHashMap移除最老的缓存项(即链表的第一个元素)</span>
+</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11"></a><span class="cm">     */</span>
+</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12"></a><span class="w">    </span><span class="nd">@Override</span>
+</span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13"></a><span class="w">    </span><span class="kd">protected</span><span class="w"> </span><span class="kt">boolean</span><span class="w"> </span><span class="nf">removeEldestEntry</span><span class="p">(</span><span class="n">Map</span><span class="p">.</span><span class="na">Entry</span><span class="o">&lt;</span><span class="n">K</span><span class="p">,</span><span class="w"> </span><span class="n">V</span><span class="o">&gt;</span><span class="w"> </span><span class="n">eldest</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-4-14"><a id="__codelineno-4-14" name="__codelineno-4-14"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">size</span><span class="p">()</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">capacity</span><span class="p">;</span>
+</span><span id="__span-4-15"><a id="__codelineno-4-15" name="__codelineno-4-15"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-4-16"><a id="__codelineno-4-16" name="__codelineno-4-16"></a><span class="p">}</span>
+</span></code></pre></div></td></tr></table></div>
+<div class="language-java highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-5-1">1</a></span>
+<span class="normal"><a href="#__codelineno-5-2">2</a></span>
+<span class="normal"><a href="#__codelineno-5-3">3</a></span>
+<span class="normal"><a href="#__codelineno-5-4">4</a></span>
+<span class="normal"><a href="#__codelineno-5-5">5</a></span>
+<span class="normal"><a href="#__codelineno-5-6">6</a></span>
+<span class="normal"><a href="#__codelineno-5-7">7</a></span>
+<span class="normal"><a href="#__codelineno-5-8">8</a></span>
+<span class="normal"><a href="#__codelineno-5-9">9</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1"></a><span class="n">LRUCache</span><span class="o">&lt;</span><span class="n">Integer</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">cache</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">LRUCache</span><span class="o">&lt;&gt;</span><span class="p">(</span><span class="mi">3</span><span class="p">);</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2"></a><span class="n">cache</span><span class="p">.</span><span class="na">put</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;one&quot;</span><span class="p">);</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3"></a><span class="n">cache</span><span class="p">.</span><span class="na">put</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;two&quot;</span><span class="p">);</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4"></a><span class="n">cache</span><span class="p">.</span><span class="na">put</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;three&quot;</span><span class="p">);</span>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5"></a><span class="n">cache</span><span class="p">.</span><span class="na">put</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;four&quot;</span><span class="p">);</span>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6"></a><span class="n">cache</span><span class="p">.</span><span class="na">put</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;five&quot;</span><span class="p">);</span>
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7"></a><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">5</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8"></a><span class="w">    </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">cache</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="n">i</span><span class="p">));</span>
+</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9"></a><span class="p">}</span>
+</span></code></pre></div></td></tr></table></div>
+<h3 id="hashtable">Hashtable<a class="headerlink" href="#hashtable" title="Permanent link"></a></h3>
+<p>Hashtable的底层数据结构主要是数组加上链表，数组是主体，链表是解决hash冲突存在的。</p>
+<p>键和值都不能为null</p>
+<p>使用方法基本和HashMap一样</p>
+<p>Hashtable是线程安全的，通过在每个⽅法上添加 synchronized 关键字来实现的，但这也可能导致性能下降。</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>线程安全</th>
+<th>效率</th>
+<th>对null key/value的支持</th>
+<th>扩容机制</th>
+<th>底层数据结构</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>HashMap</td>
+<td>线程不安全</td>
+<td>高</td>
+<td>允许</td>
+<td>默认初始化大小16，每次扩容为原来的2倍</td>
+<td>数组+链表+红黑树</td>
+</tr>
+<tr>
+<td>HashTable</td>
+<td>线程安全</td>
+<td>基本被淘汰，不建议使用</td>
+<td>不允许</td>
+<td>默认初始化大小11，每次扩容为原来的2n+1</td>
+<td>数组+链表，没有树化机制</td>
+</tr>
+<tr>
+<td>ConcurrentHashMap</td>
+<td>线程安全</td>
+<td>高</td>
+<td>不允许</td>
+<td>2倍扩容</td>
+<td>数组+链表+红黑树</td>
+</tr>
+</tbody>
+</table>
+<h3 id="treemap">TreeMap<a class="headerlink" href="#treemap" title="Permanent link"></a></h3>
+<p>TreeMap 则是基于红黑树的一种提供顺序访问的 Map，和 HashMap 不同，它的 get、put、remove 之类操作都是 O（log(n)）的时间复杂度。</p>
+<p>实现 <code>NavigableMap</code> 接口让 <code>TreeMap</code> 有了对集合内元素的搜索的能力。</p>
+<p><code>NavigableMap</code> 接口提供了丰富的方法来探索和操作键值对:</p>
+<ol>
+<li><strong>定向搜索</strong>: <code>ceilingEntry()</code>, <code>floorEntry()</code>, <code>higherEntry()</code>和 <code>lowerEntry()</code> 等方法可以用于定位大于、小于、大于等于、小于等于给定键的最接近的键值对。</li>
+<li><strong>子集操作</strong>: <code>subMap()</code>, <code>headMap()</code>和 <code>tailMap()</code> 方法可以高效地创建原集合的子集视图，而无需复制整个集合。</li>
+<li><strong>逆序视图</strong>:<code>descendingMap()</code> 方法返回一个逆序的 <code>NavigableMap</code> 视图，使得可以反向迭代整个 <code>TreeMap</code>。</li>
+<li><strong>边界操作</strong>: <code>firstEntry()</code>, <code>lastEntry()</code>, <code>pollFirstEntry()</code>和 <code>pollLastEntry()</code> 等方法可以方便地访问和移除元素。</li>
+</ol>
+<p>实现<code>SortedMap</code>接口让 <code>TreeMap</code> 有了对集合中的元素根据键排序的能力。默认是按 key 的升序排序，不过我们也可以指定排序的比较器。</p>
+<p><strong>相比于<code>HashMap</code>来说， <code>TreeMap</code> 主要多了对集合中的元素根据键排序的能力以及对集合内元素的搜索的能力。</strong></p>
+<p><strong>集合框架底层使⽤了什么数据结构？</strong></p>
+<ol>
+<li>List接⼝的实现</li>
+<li>ArrayList： 基于动态数组实现。底层使⽤数组作为存储结构。 </li>
+<li>LinkedList： 基于双向链表实现。底层使⽤节点（Node）连接形成链表结构。 </li>
+<li>Vector： 类似于 ArrayList，但是是线程安全的。底层也是使⽤数组实现。 </li>
+<li>Set接⼝ </li>
+<li>HashSet： 基于哈希表实现。底层使⽤⼀个数组和链表/红⿊树的结构来存储元素。 </li>
+<li>LinkedHashSet： 在 HashSet 的基础上加⼊了链表，使得迭代顺序可预测。 </li>
+<li>TreeSet： 基于红⿊树实现。底层使⽤⾃平衡的⼆叉搜索树存储元素，以保持有序性。 </li>
+<li>Queue接⼝ </li>
+<li>LinkedList： 同时实现了 List、Queue 和 Deque 接⼝。底层是基于双向链表的。 </li>
+<li>ArrayDeque： 基于动态数组的双端队列。底层使⽤循环数组实现。 </li>
+<li>PriorityQueue： 基于优先级堆实现的队列。底层使⽤数组表示的⼆叉堆。</li>
+<li>Map接⼝ </li>
+<li>HashMap： 基于哈希表实现。底层使⽤⼀个数组和链表/红⿊树的结构来存储键值对。 </li>
+<li>LinkedHashMap： 在 HashMap 的基础上加⼊了链表，使得迭代顺序可预测。 </li>
+<li>TreeMap： 基于红⿊树实现。底层使⽤⾃平衡的⼆叉搜索树存储键值对，以保持有序性。 </li>
+<li>Hashtable： 类似于 HashMap，但是是线程安全的。底层也是使⽤哈希表。</li>
+</ol>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  <form class="md-feedback" name="feedback" hidden>
+    <fieldset>
+      <legend class="md-feedback__title">
+        Was this page helpful?
+      </legend>
+      <div class="md-feedback__inner">
+        <div class="md-feedback__list">
+          
+            <button class="md-feedback__icon md-icon" type="submit" title="This page was helpful" data-md-value="1">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 12a8 8 0 0 0-8-8 8 8 0 0 0-8 8 8 8 0 0 0 8 8 8 8 0 0 0 8-8m2 0a10 10 0 0 1-10 10A10 10 0 0 1 2 12 10 10 0 0 1 12 2a10 10 0 0 1 10 10M10 9.5c0 .8-.7 1.5-1.5 1.5S7 10.3 7 9.5 7.7 8 8.5 8s1.5.7 1.5 1.5m7 0c0 .8-.7 1.5-1.5 1.5S14 10.3 14 9.5 14.7 8 15.5 8s1.5.7 1.5 1.5m-5 7.73c-1.75 0-3.29-.73-4.19-1.81L9.23 14c.45.72 1.52 1.23 2.77 1.23s2.32-.51 2.77-1.23l1.42 1.42c-.9 1.08-2.44 1.81-4.19 1.81"/></svg>
+            </button>
+          
+            <button class="md-feedback__icon md-icon" type="submit" title="This page could be improved" data-md-value="0">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 12a8 8 0 0 0-8-8 8 8 0 0 0-8 8 8 8 0 0 0 8 8 8 8 0 0 0 8-8m2 0a10 10 0 0 1-10 10A10 10 0 0 1 2 12 10 10 0 0 1 12 2a10 10 0 0 1 10 10m-6.5-4c.8 0 1.5.7 1.5 1.5s-.7 1.5-1.5 1.5-1.5-.7-1.5-1.5.7-1.5 1.5-1.5M10 9.5c0 .8-.7 1.5-1.5 1.5S7 10.3 7 9.5 7.7 8 8.5 8s1.5.7 1.5 1.5m2 4.5c1.75 0 3.29.72 4.19 1.81l-1.42 1.42C14.32 16.5 13.25 16 12 16s-2.32.5-2.77 1.23l-1.42-1.42C8.71 14.72 10.25 14 12 14"/></svg>
+            </button>
+          
+        </div>
+        <div class="md-feedback__note">
+          
+            <div data-md-value="1" hidden>
+              
+              
+                
+              
+              Thanks for your feedback!
+            </div>
+          
+            <div data-md-value="0" hidden>
+              
+              
+                
+              
+              Thanks for your feedback! Help us improve this page by using our <a href="..." target="_blank" rel="noopener">feedback form</a>.
+            </div>
+          
+        </div>
+      </div>
+    </fieldset>
+  </form>
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2019 - 2024 wang
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["content.action.edit", "content.code.copy", "content.code.select", "content.tabs.link", "navigation.tabs", "navigation.instant", "navigation.path", "toc.follow"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.83f73b43.min.js"></script>
+      
+    
+  <script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+document$.subscribe(() => { lightbox.reload() });
+</script></body>
+</html>
