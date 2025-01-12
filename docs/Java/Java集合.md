@@ -827,40 +827,61 @@ Copy On Write的字面意思是写时复制。当进行指定数据的写操作�
 CopyOnWriteArrayList集合适合用于读操作远远多于写操作，并且在使用时需要保证集合读操作性能的多线程场景。
 
 ```java
-public class CopyOnWriteArrayList<E>
-    implements List<E>, RandomAccess, Cloneable, java.io.Serializable {
-    private static final long serialVersionUID = 8673264195747942595L;
+ public class CopyOnWriteArrayList<E>
+     implements List<E>, RandomAccess, Cloneable, java.io.Serializable {
+     private static final long serialVersionUID = 8673264195747942595L;
 
-    /** The lock protecting all mutators */
-    final transient ReentrantLock lock = new ReentrantLock();
+     /** 对所有的修改器方法进行保护，访问器方法并不需要保护 */
+     final transient ReentrantLock lock = new ReentrantLock();
 
-    /** The array, accessed only via getArray/setArray. */
-    private transient volatile Object[] array;
-    
-    final void setArray(Object[] a) {
-        array = a;
-    }
+     /** 内部对象数组，通过 getArray/setArray方法访问 */
+     private transient volatile Object[] array;
 
-    /**
-     * Creates an empty list.
-     */
-    public CopyOnWriteArrayList() {
-        setArray(new Object[0]);
-    }
-}
+     /**
+      *获取内部对象数组
+      */
+     final Object[] getArray() {
+         return array;
+     }
+
+     /**
+      *设置内部对象数组
+      */
+     final void setArray(Object[] a) {
+         array = a;
+     }
+  	// 省略其他代码
+ }
 ```
 
 因为CopyOnWriteArrayList集合在进行数据写操作时，会依靠一个副本进行操作，所以不支持必须对原始数据进行操作的功能。例如，不支持在迭代器上进行的数据对象更改操作（使用remove()方法、set()方法和add()方法）
 
-写操作开始前，先进行CopyOnWriteArrayList集合的操作权获取操作，防止其他线程可能对CopyOnWriteArrayList集合同时进行写操作，从而造成数据错误；它并不影响CopyOnWriteArrayList集合的读操作，
+```java
+ public boolean add(E e) {
+     final ReentrantLock lock = this.lock;
+     lock.lock();  // 加锁
+     try {
+         Object[] elements = getArray();
+         int len = elements.length;
 
+           // 复制新数组
+         Object[] newElements = Arrays.copyOf(elements, len + 1);  
+         newElements[len] = e;
+         setArray(newElements);
+         return true;
+     } finally {
+         lock.unlock();  // 释放锁
+     }
+ }
+```
 
+写入操作add()方法在执行时加了独占锁以确保只能一个线程进行写入操作，避免多线程写的时候会复制出多个副本。在每次进行添加操作时，CopyOnWriteArrayList底层都是重新复制一份数组，再往新的数组中添加新元素，待添加完了，再将新的array引用指向新的数组。
 
 ### ConcurrentHashMap
 
-在 JDK 1.7 中，提供了一种机制叫分段锁。整个哈希表被分为多个段，每个段都独立锁定。
+ JDK 1.7 以及之前版本中使用Segment（分段锁）技术将数据分成一段一段存储，然后给每一段数据配一把锁，当一个线程占用锁访问其中一段数据的时候，其他段的数据也能被其他线程访问，能够实现真正的并发访问。
 
-一个 ConcurrentHashMap 里包含一个 Segment 数组，Segment 的结构和 HashMap 类似，是一种数组和链表结构，一个 Segment 里包含一个 HashEntry 数组，每个 HashEntry 是一个链表结构的元素，每个 Segment 守护着一个 HashEntry 数组里的元素，当对 HashEntry 数组的数据进行修改时，必须首先获得它对应的 Segment 锁（使用ReentrantLock）。
+一个ConcurrentHashMap中包含一个Segment数组，一个Segment中包含一个HashEntry数组，每个元素是一个链表结构（一个Hash表的桶）。
 
 ![](./Java集合/concurrent-hashmap-Java7.png)
 
@@ -879,6 +900,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V>
     // 分段锁数组
     final Segment<K,V>[] segments;
     
+    // Segment继承了ReentrantLock，所以一个段又是一个ReentrantLock
     static final class Segment<K,V> extends ReentrantLock implements Serializable {
  		static final int MAX_SCAN_RETRIES =Runtime.getRuntime().availableProcessors() > 1 ? 64 : 1;
  		transient volatile HashEntry<K,V>[] table;
@@ -900,85 +922,157 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V>
 
 
 
-在JDK1.8中，ConcurrentHashMap的实现原理摒弃了分段锁，而是选择了与HashMap类似的**数组+链表+红黑树**的方式实现，以某个位置的头结点（链表的头结点或红黑树的 root 结点）为锁，加锁则采用**CAS和synchronized**实现。
+在JDK 1.8中，ConcurrentHashMap已经抛弃了Segment分段锁机制，存储结构采用数组+链表或者红黑树的组合方式，利用CAS+Synchronized来保证并发更新的安全。
 
 ![](./Java集合/HashMap-Java8.png)
+
+```java
+ public class ConcurrentHashMap<K,V> extends AbstractMap<K,V>
+     implements ConcurrentMap<K,V>, Serializable {
+
+     private static final int MAXIMUM_CAPACITY = 1 << 30;
+     private static final int DEFAULT_CAPACITY = 16;
+     static final int TREEIFY_THRESHOLD = 8;
+     static final int UNTREEIFY_THRESHOLD = 6;
+     static final int MIN_TREEIFY_CAPACITY = 64;
+     //常量：表示正在转移
+     static final int MOVED     = -1;
+     // 常量：表示已经转换成树
+     static final int TREEBIN   = -2; 
+     // 常量：hash for transient reservations
+     static final int RESERVED  = -3; 
+     // 常量：usable bits of normal node hash
+     static final int HASH_BITS = 0x7fffffff; 
+     //数组，用来保存元素
+     transient volatile Node<K,V>[] table;
+     //转移时用的数组
+     private transient volatile Node<K,V>[] nextTable;
+     /**
+     * 用来控制表初始化和扩容的控制属性
+     */
+     private transient volatile int sizeCtl;
+     
+     //桶的节点放在table中可以作为一个链式的桶
+     static class Node<K,V> implements Map.Entry<K,V> {
+             final int hash;
+             final K key;
+             volatile V val;
+             volatile Node<K,V> next;
+     }
+     //桶的树状节点
+     static final class TreeNode<K,V> extends Node<K,V> {
+             TreeNode<K,V> parent;  // red-black tree links
+             TreeNode<K,V> left;
+             TreeNode<K,V> right;
+             TreeNode<K,V> prev;    // needed to unlink next upon deletion
+             boolean red;
+     }
+     
+     //放在table中作为一个链式的桶
+     static final class TreeBin<K,V> extends Node<K,V> {
+             TreeNode<K,V> root;
+             volatile TreeNode<K,V> first;
+             volatile Thread waiter;
+             volatile int lockState;
+      }
+ }
+```
+
+
 
 **put**：
 
 ```java
-// key, value不为null； onlyIfAbsent 为false时表示key存在时进行替换
-final V putVal(K key, V value, boolean onlyIfAbsent) {
-    if (key == null || value == null) throw new NullPointerException();
-    int hash = spread(key.hashCode());
-    int binCount = 0;
-    for (Node<K,V>[] tab = table;;) {
-        Node<K,V> f; int n, i, fh;
-        if (tab == null || (n = tab.length) == 0)
-            tab = initTable();
-        // 1. 数组位置上还没有任何节点，通过CAS添加节点
-        else if ((f = tabAt(tab, i = (n - 1) & hash)) == null) {
-            if (casTabAt(tab, i, null,
-                         new Node<K,V>(hash, key, value, null)))
-                break;                   // no lock when adding to empty bin
-        }
-        // 集合正在扩容，这个桶已经完成了数据迁移，但是整个数据对象迁移还没完成，本线程通过 helpTransfer()方法加入扩容过程
-        else if ((fh = f.hash) == MOVED)
-            tab = helpTransfer(tab, f);
-        // 2. 数组索引位上已具备第一个Node节点的情况下，使用Object Monitor独占节点进行链表或红黑树的操作
-        else {
-            V oldVal = null;
-            // 通过获取桶结构中头节点的独占操作权，获取整个桶结构的独占操作权
-            synchronized (f) {
-                if (tabAt(tab, i) == f) {
-                    // 2.1 链表操作
-                    if (fh >= 0) {
-                        binCount = 1;
-                        for (Node<K,V> e = f;; ++binCount) {
-                            K ek;
-                            if (e.hash == hash &&
-                                ((ek = e.key) == key ||
-                                 (ek != null && key.equals(ek)))) {
-                                oldVal = e.val;
-                                if (!onlyIfAbsent)
-                                    e.val = value;
-                                break;
-                            }
-                            Node<K,V> pred = e;
-                            if ((e = e.next) == null) {
-                                pred.next = new Node<K,V>(hash, key,
-                                                          value, null);
-                                break;
-                            }
-                        }
-                    }
-                    // 2.2 红黑树
-                    else if (f instanceof TreeBin) {
-                        Node<K,V> p;
-                        binCount = 2;
-                        if ((p = ((TreeBin<K,V>)f).putTreeVal(hash, key,
-                                                       value)) != null) {
-                            oldVal = p.val;
-                            if (!onlyIfAbsent)
-                                p.val = value;
-                        }
-                    }
-                }
-            }
-            // 3. 链表树化
-            if (binCount != 0) {
-                if (binCount >= TREEIFY_THRESHOLD)
-                    treeifyBin(tab, i);
-                if (oldVal != null)
-                    return oldVal;
-                break;
-            }
-        }
-    }
-    addCount(1L, binCount);
-    return null;
+public V put(K key, V value) {
+     return putVal(key, value, false);
 }
+
+final V putVal(K key, V value, boolean onlyIfAbsent) {
+     if (key == null || value == null) throw new NullPointerException();
+     int hash = spread(key.hashCode());
+     int binCount = 0;
+     //自旋：并发情况下，也可以保障安全添加成功
+     for (Node<K,V>[] tab = table;;) {
+         Node<K,V> f; int n, i, fh;
+         if (tab == null || (n = tab.length) == 0)
+             //第一次添加，先初始化node数组
+             tab = initTable();
+         else if ((f = tabAt(tab, i = (n - 1) & hash)) == null) {
+             //计算出table[i]无节点，创建节点
+             //使用Unsafe.compareAndSwapObject 原子操作table[i]位置
+             //如果为null，就添加新建的node节点，跳出循环
+             //反之，再循环进入执行添加操作
+             if (casTabAt(tab, i, null,
+                          new Node<K,V>(hash, key, value, null)))
+                 break;
+         }
+         else if ((fh = f.hash) == MOVED)
+              //如果当前处于转移状态，返回新的tab内部表，然后进入循环执行添加操作
+             tab = helpTransfer(tab, f);
+         else {
+
+             //在链表或红黑树中追加节点
+             V oldVal = null;
+             //使用synchronized 对 f 对象加锁
+             // f = tabAt(tab, i = (n - 1) & hash) : table[i] 的node对象（桶）
+             //注意：这里没用ReentrantLock，而是使用synchronized 进行同步
+             //在争用不激烈的场景中，synchronized 的性能和ReentrantLock不相上下
+             synchronized (f) {
+                 if (tabAt(tab, i) == f) {
+                     //在链表上追加节点
+                     if (fh >= 0) {
+                         binCount = 1;
+                         for (Node<K,V> e = f;; ++binCount) {
+                             K ek;
+                             if (e.hash == hash &&
+                                 ((ek = e.key) == key ||
+                                  (ek != null && key.equals(ek)))) {
+                                 oldVal = e.val;
+                                 if (!onlyIfAbsent)
+                                     e.val = value;
+                                 break;
+                             }
+                             Node<K,V> pred = e;
+                             if ((e = e.next) == null) {
+                                 pred.next = new Node<K,V>(hash, key,
+                                                           value, null);
+                                 break;
+                             }
+                         }
+                     }
+
+                     //在红黑树上追加节点
+                     else if (f instanceof TreeBin) {
+                         Node<K,V> p;
+                         binCount = 2;
+                         if ((p = ((TreeBin<K,V>)f).putTreeVal(hash, key,
+                                                        value)) != null) {
+                             oldVal = p.val;
+                             if (!onlyIfAbsent)
+                                 p.val = value;
+                         }
+                     }
+                 }
+             }
+
+             if (binCount != 0) {
+                 //节点数大于临界值，转换成红黑树
+                 if (binCount >= TREEIFY_THRESHOLD)
+                     treeifyBin(tab, i);
+                 if (oldVal != null)
+                     return oldVal;
+                 break;
+             }
+         }
+     }
+     addCount(1L, binCount);
+     return null;
+ }
 ```
+
+JDK 1.8版本在使用CAS自旋完成桶的设置时，使用synchronized内置锁保证桶内并发操作的线程安全。尽管对同一个Map操作的线程争用会非常激烈，但是在同一个桶内的线程争用通常不会很激烈，所以使用CAS自旋（简单轻量级锁）、synchronized偏向锁或轻量级锁不会降低ConcurrentHashMap的性能。
+
+为什么不用ReentrantLock显式锁呢？如果为每一个桶都创建一个ReentrantLock实例，就会带来大量的内存消耗，反过来，使用CAS自旋（简单轻量级锁）、synchronized偏向锁或轻量级锁，内存消耗的增加会微乎其微。
 
 
 
@@ -1029,11 +1123,62 @@ public class Hashtable<K,V>
 
 使用方法基本和HashMap一样
 
-Hashtable是线程安全的，通过在每个⽅法上添加 synchronized 关键字来实现的，但这也可能导致性能下降。
+Hashtable是线程安全的，通过在每个⽅法上添加 synchronized 关键字来实现的，对这个Hash表进行锁定。HashTable的效率非常低下。
 
 
 
-### ArrayBlockingQueue
+### BlockingQueue
+
+阻塞队列接口提供的主要方法：
+
+```java
+ public interface BlockingQueue<E> extends Queue<E> {
+
+     //将指定的元素添加到此队列的尾部
+     //在成功时返回true，如果此队列已满，就抛出IllegalStateException
+     boolean add(E e); 
+
+     //非阻塞式添加：将指定的元素添加到此队列的尾部（如果立即可行且不会超过该队列的容量）
+     //如果该队列已满，就直接返回 
+     boolean offer(E e)
+
+     //限时阻塞式添加：将指定的元素添加到此队列的尾部
+     //如果该队列已满，那么在到达指定的等待时间之前，添加线程会阻塞，等待可用的空间，该方法可中断
+     boolean offer(E e, long timeout, TimeUnit unit)
+                                                      throws InterruptedException; 
+
+     //阻塞式添加：将指定的元素添加到此队列的尾部，如果该队列已满，就一直等待（阻塞）
+     void put(E e) throws InterruptedException; 
+
+     //阻塞式删除：获取并移除此队列的头部，如果没有元素就等待（阻塞） 
+     //直到有元素，将唤醒等待线程执行该操作
+     E take() throws InterruptedException; 
+
+     //非阻塞式删除：获取并移除此队列的头部，如果没有元素就直接返回null（空）
+     E poll() throws InterruptedException; 
+
+     //限时阻塞式删除:获取并移除此队列的头部，在指定的等待时间前一直等待获取元素，超过时间，方法将结束
+     E poll(long timeout, TimeUnit unit) throws InterruptedException; 
+
+     //获取但不移除此队列的头元素，没有则抛出异常NoSuchElementException
+     E element(); 
+
+     //获取但不移除此队列的头元素，如果此队列为空，就返回null
+     E peek(); 
+
+     //从此队列中移除指定元素，返回删除是否成功
+     boolean remove(Object o); 
+
+ }
+```
+
+
+
+BlockingQueue的实现类有ArrayBlockingQueue、LinkedBlockingDeque、PriorityBlockingQueue、DelayQueue、SynchronousQueue等
+
+
+
+#### ArrayBlockingQueue
 
 ArrayBlockingQueue队列是一个可循环使用数组空间的有界阻塞队列，使用可复用的环形数组记录数据对象。其内部使用一个takeIndex变量表示队列头部，使用一个putIndex变量表示队列尾部。
 
@@ -1053,7 +1198,7 @@ public class ArrayBlockingQueue<E> extends AbstractQueue<E>
    	// 元素数量
     int count;
 
-    // 锁
+    // 添加和删除操作共用同一个锁对象
     final ReentrantLock lock;
 
    	// 对象出队控制
@@ -1085,7 +1230,13 @@ public class ArrayBlockingQueue<E> extends AbstractQueue<E>
 
 
 
-### LinkedBlockingQueue
+为什么ArrayBlockingQueue比LinkedBlockingQueue更加常用？
+
+前者在添加或删除元素时不会产生或销毁任何额外的Node（节点）实例，而后者会生成一个额外的Node实例。在长时间、高并发处理大批量数据的场景中，LinkedBlockingQueue产生的额外Node实例会加大系统的GC压力。
+
+
+
+#### LinkedBlockingQueue
 
 ```java
 public class LinkedBlockingQueue<E> extends AbstractQueue<E>
@@ -1112,13 +1263,13 @@ public class LinkedBlockingQueue<E> extends AbstractQueue<E>
 	// 尾节点
     private transient Node<E> last;
 
-    /** Lock held by take, poll, etc */
+    // 读锁
     private final ReentrantLock takeLock = new ReentrantLock();
 
     /** Wait queue for waiting takes */
     private final Condition notEmpty = takeLock.newCondition();
 
-    /** Lock held by put, offer, etc */
+    // 写锁
     private final ReentrantLock putLock = new ReentrantLock();
 
     /** Wait queue for waiting puts */
@@ -1128,7 +1279,7 @@ public class LinkedBlockingQueue<E> extends AbstractQueue<E>
 
 
 
-### PriorityBlockingQueue
+#### PriorityBlockingQueue
 
 ```java
 public class PriorityBlockingQueue<E> extends AbstractQueue<E>
@@ -1217,7 +1368,7 @@ PriorityBlockingQueue队列改用保证原子性的控制来保证同一时间�
 
 
 
-### DelayQueue
+#### DelayQueue
 
 DelayQueue队列内部使用PriorityQueue队列作为真实的数据对象存储结构。
 
@@ -1288,3 +1439,6 @@ public E take() throws InterruptedException {
 
 而其他消费者线程就是follower消费者线程（备份消费者线程）。这种逻辑控制方式显然能避免真实移除数据对象的消费者线程频繁切换，从而保证业务逻辑的可理解性。
 
+
+
+#### SynchronousQueue
