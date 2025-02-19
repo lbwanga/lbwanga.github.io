@@ -420,9 +420,9 @@ public class Singleton {
 
 采用 `volatile` 关键字修饰也是很有必要的，`uniqueInstance = new Singleton();` 这段代码其实是分为三步执行：
 
-1. 为 `uniqueInstance` 分配内存空间
-2. 初始化 `uniqueInstance`
-3. 将 `uniqueInstance` 指向分配的内存地址
+1. 为 `uniqueInstance` 分配内存空间M；
+2. 在内存M上初始化 `uniqueInstance`；
+3. 将M的地址赋值给 `uniqueInstance` 变量；
 
 但是由于 JVM 具有指令重排的特性，执行顺序有可能变成 1->3->2。指令重排在单线程环境下不会出现问题，但是在多线程环境下会导致一个线程获得还没有初始化的实例。例如，线程 T1 执行了 1 和 3，此时 T2 调用 `getUniqueInstance`() 后发现 `uniqueInstance` 不为空，因此返回 `uniqueInstance`，但此时 `uniqueInstance` 还未被初始化。
 
@@ -3089,7 +3089,7 @@ private void resize() {
 
 ## CompletableFuture
 
-FutureTask中，如果想要获取到多线程执行的结果，有两种办法，一种是轮询`FutureTask.isDone()`方法，当结果为true的时候获取执行结果，第二种则是调用`FutureTask.get()`方法。但是无论那种方式都无法实现真正意义上的异步回调，因为任务执行需要时间，所以都会使得主线程被迫阻塞，等待执行结果返回后才能接着往下执行。
+FutureTask中，如果想要获取到多线程执行的结果，有两种办法，一种是轮询`FutureTask.isDone()`方法，当结果为true的时候获取执行结果，第二种则是调用`FutureTask.get()`方法。但是无论那种方式都无法实现真正意义上的**异步回调**，因为任务执行需要时间，所以都会使得主线程被迫阻塞，等待执行结果返回后才能接着往下执行。
 
 而CompletableFuture的出现则可以实现真正意义上的实现异步，不会在使用时因为任务还没执行完成导致获取执行结果的线程也被迫阻塞，CompletableFuture将处理执行结果的过程也放到异步线程里去完成，采用回调函数的概念解决问题。
 
@@ -3097,7 +3097,7 @@ FutureTask中，如果想要获取到多线程执行的结果，有两种办法�
 
 
 
-没有 `async` 的方法将在当前线程或前一个任务完成的线程中同步执行。不会创建新线程。带 `async` 的方法异步地执行，会分配给线程池中的一个线程来执行。
+**没有 `async` 的方法后一个任务与前一个任务在同一个线程中执行，不会创建新线程。带 `async` 的方法异步地执行，会分配给线程池中一个线程来执行。**
 
 
 
@@ -3128,21 +3128,24 @@ static CompletableFuture<Void> runAsync(Runnable runnable, Executor executor);
 ```java
 CompletionStage<R> thenApply(fn);
 CompletionStage<R> thenApplyAsync(fn);
+
 CompletionStage<Void> thenAccept(consumer);
 CompletionStage<Void> thenAcceptAsync(consumer);
+
 CompletionStage<Void> thenRun(action);
 CompletionStage<Void> thenRunAsync(action);
+
 CompletionStage<R> thenCompose(fn);
 CompletionStage<R> thenComposeAsync(fn);
 ```
 
-thenApply 系列函数里参数 fn 的类型是接口 Function<T, R>，这个接口里与 CompletionStage 相关的方法是 `R apply(T t)`，这个方法既能接收参数也支持返回值，所以 thenApply 系列方法返回的是`CompletionStage<R>`。
+thenApply 系列函数里参数 fn 的类型是接口 Function<T, R>，这个接口里与 CompletionStage 相关的方法是 `R apply(T t)`，这个方法**既能接收参数也支持返回值**。
 
-thenAccept 系列方法里参数 consumer 的类型是接口`Consumer<T>`，这个接口里与 CompletionStage 相关的方法是 `void accept(T t)`，这个方法虽然支持参数，但却不支持回值，所以 thenAccept 系列方法返回的是`CompletionStage<Void>`。
+thenAccept 系列方法里参数 consumer 的类型是接口`Consumer<T>`，这个接口里与 CompletionStage 相关的方法是 `void accept(T t)`，这个方法**支持参数，但却不支持回值**。
 
-thenRun 系列方法里 action 的参数是 Runnable，所以 action 既不能接收参数也不支持返回值，所以 thenRun 系列方法返回的也是`CompletionStage<Void>`。
+thenRun 系列方法里 action 的参数是 Runnable，所以 action **既不能接收参数也不支持返回值**。
 
-thenCompose 系列方法，这个系列的方法会新创建出一个子流程，最终结果和 thenApply 系列是相同的。
+thenCompose 系列方法，返回值是一个新的CompletionStage实例。
 
 
 
@@ -3153,10 +3156,13 @@ thenCompose 系列方法，这个系列的方法会新创建出一个子流程�
 ```java
 CompletionStage<R> thenCombine(other, fn);
 CompletionStage<R> thenCombineAsync(other, fn);
+
 CompletionStage<Void> thenAcceptBoth(other, consumer);
 CompletionStage<Void> thenAcceptBothAsync(other, consumer);
+
 CompletionStage<Void> runAfterBoth(other, action);
 CompletionStage<Void> runAfterBothAsync(other, action);
+
 CompletableFuture<Void> allOf(CompletableFuture<?>... cfs)
 ```
 
@@ -3169,10 +3175,13 @@ CompletableFuture<Void> allOf(CompletableFuture<?>... cfs)
 ```java
 CompletionStage applyToEither(other, fn);
 CompletionStage applyToEitherAsync(other, fn);
+
 CompletionStage acceptEither(other, consumer);
 CompletionStage acceptEitherAsync(other, consumer);
+
 CompletionStage runAfterEither(other, action);
 CompletionStage runAfterEitherAsync(other, action);
+
 CompletableFuture<Object> anyOf(CompletableFuture<?>... cfs)
 ```
 
