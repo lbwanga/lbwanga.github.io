@@ -9,10 +9,10 @@ hide:
 
 Java 死锁产生的四个必要条件：
 
-1. 互斥条件，即当资源被一个线程使用（占有）时，别的线程不能使用
-2. 不可剥夺条件，资源请求者不能强制从资源占有者手中夺取资源，资源只能由资源占有者主动释放
+1. 互斥条件，资源只能被一个线程占有；
+2. 不可剥夺条件，资源请求者不能强制从资源占有者手中夺取资源，资源只能由资源占有者主动释放；
 3. 请求和保持条件，即当资源请求者在请求其他的资源的同时保持对原有资源的占有
-4. 循环等待条件，即存在一个等待循环队列：p1 要 p2 的资源，p2 要 p1 的资源，形成了一个等待环路
+4. 循环等待条件，多个线程形成一种循环等待资源的关系：p1 要 p2 的资源，p2 要 p1 的资源，形成了一个等待环路
 
 
 
@@ -27,6 +27,10 @@ Linux 下可以通过 top 先定位到 CPU 占用高的 Java 进程，再利用 
 
 
 ## synchronized
+
+**synchronized 主要依赖 Java对象头 和 Monitor 实现线程同步。**
+
+
 
 Java 中的每一个对象都可以作为锁。 具体表现为以下 3 种形式：
 
@@ -70,7 +74,7 @@ Mark Word 里默认存储对象的 HashCode、分代年龄、锁标记、锁状�
 
 ### 管程 Monitor
 
-每个 Java 对象都关联一个 Monitor 对象，如果使用 synchronized 给对象上锁（重量级）之后，该对象头的Mark Word 中就被设置指向 Monitor 对象的指针。
+每一个被锁住的Java对象都关联一个 Monitor 对象，如果使用 synchronized 给对象上锁（重量级）之后，该对象头的Mark Word 中就被设置指向 Monitor 对象的指针。
 
 JVM 基于进入和退出 Monitor 对象来实现方法同步和代码块同步，代码块同步是使用 `monitorenter` 和 `monitorexit` 指令实现的，而同步方法则是依靠方法修饰符上的 `ACC_SYNCHRONIZED` 来完成的。无论采用哪种方式，其本质是对一个对象的监视器（monitor）进行获取，而这个获取过程是排他的，也就是同一时刻只能有一个线程获取到由 synchronized 所保护对象的监视器。
 
@@ -109,7 +113,9 @@ public static synchronized void m();
 
 
 
-在`HotSpot`虚拟机中，`monitor`是由`ObjectMonitor`实现的。`monitor`本质就是存在于堆中的特殊对象。
+在`HotSpot`虚拟机中，`monitor`是由`ObjectMonitor`实现的。`monitor`本质就是存在于堆中的特殊对象。每一个被锁住的对象都会和一个monitor关联，同时monitor中有一个Owner字段存放拥有该锁的线程的唯一标识，表示该锁被这个线程占用。
+
+synchronized通过Monitor来实现线程同步，Monitor是依赖于底层的操作系统的Mutex Lock（互斥锁）来实现的线程同步。
 
 ```c++
  //Monitor结构体
@@ -118,25 +124,21 @@ public static synchronized void m();
    _count       = 0;  
    _waiters     = 0,  
 
-   //线程的重入次数
-   _recursions  = 0;      
-   _object       = NULL;  
+   _recursions  = 0;      //线程的重入次数
 
-   //标识拥有该Monitor的线程
-   _owner        = NULL;   
+   _object       = NULL;  // 存储锁对象
 
-  //等待线程组成的双向循环链表
-   _WaitSet             = NULL;  
+   _owner        = NULL;   //标识拥有该Monitor的线程
+
+   _WaitSet             = NULL;  //等待线程（调用wait）组成的双向循环链表
    _WaitSetLock  = 0 ;  
    _Responsible  = NULL ;  
    _succ                = NULL ;  
 
-  //多线程竞争锁进入时的单向链表
-   cxq                  = NULL ; 
+   cxq                  = NULL ; //多线程竞争锁进入时的单向链表
    FreeNext             = NULL ;  
 
-  //_owner从该双向循环链表中唤醒线程节点
-   _EntryList           = NULL ; 
+   _EntryList           = NULL ; //_owner从该双向循环链表中唤醒线程节点
    _SpinFreq            = 0 ;  
    _SpinClock           = 0 ;  
    OwnerIsThread = 0 ;  
@@ -145,7 +147,7 @@ public static synchronized void m();
 
 ![](JUC\monitor.png)
 
-Cxq：竞争队列(Contention Queue)，所有请求锁的线程首先被放在这个竞争队列中。
+cxq：竞争队列(Contention Queue)，所有请求锁的线程首先被放在这个竞争队列中。
 
 EntryList: Cxq中那些有资格成为候选资源的线程被移动到EntryList中。
 
@@ -155,7 +157,7 @@ WaitSet：某个拥有ObjectMonitor的线程在调用Object.wait()方法之后�
 
 ### 锁膨胀/锁升级
 
-锁一共有 4 种状态，级别从低到高依次是：无锁状态、偏向锁状态、轻量级锁状态和重量级锁状态，这几个状态会随着竞争情况逐渐升级。锁可以升级但不能降级，目的是为了提高获得锁和释放锁的效率。
+锁一共有 4 种状态，级别从低到高依次是：无锁、偏向锁、轻量级锁、重量级锁，这几个状态会随着竞争情况逐渐升级。锁可以升级但不能降级，目的是为了提高获得锁和释放锁的效率。
 
 偏向锁是在没有发生锁争用的情况下使用的；一旦有了第二个线程争用锁，偏向锁就会升级为轻量级锁；如果锁争用很激烈，轻量级锁的CAS自旋到达阈值后，轻量级锁就会升级为重量级锁。
 
@@ -203,11 +205,11 @@ WaitSet：某个拥有ObjectMonitor的线程在调用Object.wait()方法之后�
 
 #### 轻量级锁
 
-引入轻量级锁的主要目的是在多线程竞争不激烈的情况下，通过CAS机制竞争锁减少重量级锁产生的性能损耗。重量级锁使用了操作系统底层的互斥锁(MutexLock)，会导致线程在用户态和核心态之间频繁切换，从而带来较大的性能损耗。轻量级锁是一种自旋锁，因为JVM本身就是一个应用，所以希望在应用层面上通过自旋解决线程同步问题。
+**引入轻量级锁的主要目的是在多线程竞争不激烈的情况下，通过CAS机制竞争锁减少重量级锁产生的性能损耗。**重量级锁使用了操作系统底层的互斥锁(MutexLock)，会导致线程在用户态和核心态之间频繁切换，从而带来较大的性能损耗。轻量级锁是一种自旋锁，因为JVM本身就是一个应用，所以希望在应用层面上通过自旋解决线程同步问题。
 
 在抢锁线程进入临界区之前，如果内置锁（临界区的同步对象）没有被锁定，JVM首先将在抢锁线程的栈帧中建立一个锁记录(LockRecord)，用于存储对象目前Mark Word的拷贝，称为 `Displaced Mark Word`。
 
-然后抢锁线程将使用CAS自旋操作，尝试将内置锁对象头的Mark Word的ptr_to_lock_record（锁记录指针）更新为抢锁线程栈帧中锁记录的地址，如果这个更新执行成功了，这个线程就拥有了这个对象锁。
+然后抢锁线程将使用CAS自旋操作，尝试将内置锁对象头的Mark Word的 ptr_to_lock_record（锁记录指针）更新为抢锁线程栈帧中锁记录的地址，如果这个更新执行成功了，这个线程就拥有了这个对象锁。
 
 为什么会将内置锁对象的Mark Word复制到锁记录的Displaced Mark Word字段？
 
@@ -220,6 +222,8 @@ WaitSet：某个拥有ObjectMonitor的线程在调用Object.wait()方法之后�
 
 
 #### 重量级锁
+
+当锁竞争激烈时，JVM会升级为重量级锁，重量级锁使用操作系统互斥量机制来实现线程的阻塞与唤醒。
 
 由于JVM轻量级锁使用CAS进行自旋抢锁，这些CAS操作都处于用户态下，进程不存在用户态和内核态之间的运行切换，因此JVM轻量级锁开销较小。而JVM重量级锁使用了Linux内核态下的互斥锁，这是重量级锁开销很大的原因。
 
@@ -247,7 +251,7 @@ WaitSet：某个拥有ObjectMonitor的线程在调用Object.wait()方法之后�
 
 挂起线程和恢复线程的操作都需要转入内核态中完成，共享数据的锁定状态只会持续很短的一段时间，为了这段时间去挂起和恢复线程并不值得。
 
-在线程尝试获取锁时，如果锁已经被其他线程占用，而当前线程的CPU资源没有耗尽，就可以让后面请求锁的那个线程“稍等一会”，但不放弃处理器的执行时间，看看持有锁的线程是否很快就会释放锁。为了让线程等待，我们只须让线程执行一个忙循环（自旋），这项技术就是所谓的自旋锁。
+在线程尝试获取锁时，如果锁已经被其他线程占用，而当前线程的CPU资源没有耗尽，就可以让后面请求锁的那个线程“稍等一会”，但不放弃处理器的执行时间，看看持有锁的线程是否很快就会释放锁。为了让线程等待，我们只须让线程执行一个忙循环（自旋），这项技术就是所谓的自旋锁。自旋等待的时间必须要有一定的限度，否则会浪费cpu资源。
 
 适应性自旋意味着自旋的时间不再是固定的，而是会动态根据实际情况来改变。
 
@@ -271,7 +275,7 @@ WaitSet：某个拥有ObjectMonitor的线程在调用Object.wait()方法之后�
 
 ## Java内存模型
 
-Java内存模型的主要目的是定义程序中各种变量的访问规则，即关注在虚拟机中把变量值存储到内存和从内存中取出变量值这样的底层细节。
+Java内存模型是JVM定义的一种规范，用于描述多线程程序中变量如何在内存中存储和传递的规则。规范了线程何时会从主存中读数据、何时会把数据写回主存。
 
 Java内存模型的规定如下：
 
@@ -281,9 +285,9 @@ Java内存模型的规定如下：
 
 ![](./JUC/JMM.png)
 
-
-
 ### 三大特性
+
+JMM的核心目标是确保多线程环境下**可见性、原子性、有序性**，避免由于硬件和编译器优化带来的不一致问题。
 
 **原子性**
 
@@ -293,7 +297,7 @@ Java内存模型的规定如下：
 
 **可见性**
 
-一个线程对共享变量的修改，另一个线程能够立刻可见，称该共享变量具备内存可见性。
+一个线程对共享变量的修改，其他线程能够立刻可见，称该共享变量具备内存可见性。
 
 单线程程序不会出现内存可见性问题。但在多线程环境中，由于线程对共享变量的操作，都是拷贝到各自的工作内存运算的，运算完成后才刷回主内存中，不能及时向其他线程的内存工作区通知这些变化，就会使关键数值发生错误。
 
@@ -303,9 +307,7 @@ Java内存模型的规定如下：
 
 **有序性**
 
-所谓程序的有序性，是指程序按照代码的先后顺序执行。如果程序执行的顺序与代码的先后顺序不同，并导致了错误的结果，即发生了有序性问题。
-
-如果在本线程内观察，所有的操作都是有序的；如果在一个线程中观察另一个线程， 所有的操作都是无序的，指“指令重排序”现象和“工作内存与主内存同步延迟”现象。
+指线程执行操作的顺序。JMM运行某些指令重排提高性能，但会保证线程内操作顺序不被破坏。
 
 在Java中使用了happens-before原则来确保有序性。
 
@@ -375,11 +377,9 @@ synchronized 无法禁止指令重排和处理器优化，为什么可以保证�
 
 ### happens-before 规则
 
-Happens-Before（先行发生）规则，并且确保只要两个Java语句之间必须存在Happens-Before关系，JMM尽量确保这两个Java语句之间的内存可见性和指令有序性。
+用于定义多线程程序中操作的可见性和有序性。它通过指定一系列操作的顺序关系，确保线程间操作是有序的，避免由于重排序和线程间数据不可见导致并发问题。
 
-只要不改变程序的执行结果，编译器和处理器怎么进行重排序优化都行。对于会改变程序执行结果的重排序，JMM 要求编译器和处理器必须禁止这种重排序。
-
-如果 A happens-before B，那么 Java 内存模型将向程序员保证——A 操作的结果将对 B 可见，且 A 的执行顺序排在 B 之前。
+如果 A happens-before B，那么 Java 内存模型将向程序员保证——A 操作的结果将对 B 可见。
 
 happens-before规则：
 
@@ -447,7 +447,7 @@ public class Singleton {
 | Timed Waiting （限期等待） | 有几个方法有超时参数，调用将进入 Timed Waiting 状态，这一状态将一直保持到超时期满或者接收到唤醒通知。 |
 | Teminated（终止）          | run 方法正常退出而死亡，或者因为没有捕获的异常终止了 run 方法而死亡 |
 
-为什么 JVM 没有区分就绪态（READY）和运行态（RUNNING）这两种状态呢？
+> **为什么 JVM 没有区分就绪态（READY）和运行态（RUNNING）这两种状态呢？**
 
 因为线程和线程调度都是操作系统级别的概念，某个线程是否由CPU运行，不是由开发者直接决定的，也不是由JVM直接决定的（JVM向开发者暴露的接口只对线程优先级、线程调度类型的选择提供支持），而是由操作系统决定的。把底层的 ready 及 running 状态映射上来也没多大意义，因此，统一成为runnable 状态是不错的选择。
 
@@ -636,19 +636,17 @@ Thread 类 API：
 
 sleep ：
 
-- 调用 sleep 会让当前线程从 *Running* 进入 *Timed Waiting* 状态，不会释放锁。
+- 调用 sleep 会让当前线程从 *Running* 进入 *Timed Waiting* 状态。
 - 其它线程可以使用 interrupt 方法打断正在睡眠的线程，这时 sleep 方法会抛出 InterruptedException 
 
-* 睡眠结束后的线程未必会立刻得到执行 
+* 睡眠结束后的线程进入 *Runnable*状态，重新获取时间片，未必会立刻得到执行 
 
 * 建议用 TimeUnit 的 sleep 代替 Thread 的 sleep 来获得更好的可读性 
 
 yield ：
 
-- 调用 yield 会让当前线程从 *Running* 进入 *Runnable* 就绪状态，然后调度执行其它线程 
+- 调用 yield 会让当前线程从 *Running* 进入 *Runnable* 状态，然后调度执行其它线程。
 - 具体的实现依赖于操作系统的任务调度器 
-
-在没有利用 cpu 来计算时，不要让 while(true) 空转浪费 cpu，这时可以使用 yield 或 sleep 来让出 cpu的使用权给其他程序。
 
 
 
@@ -658,7 +656,7 @@ yield ：
 
 2.  sleep 不需要强制和 synchronized 配合使用，但 wait 需要和 synchronized 一起用 。
 
-3.  sleep 方法没有释放锁，而 wait 方法释放了锁。
+3.  **sleep 方法没有释放锁，而 wait 方法释放了锁**。
 
 4.  sleep进入 TIMED_WAITING，wait进入 WAITING 或 TIMED_WAITING 状态。
 
@@ -784,6 +782,8 @@ ThreadLocal，即线程变量，是一个以 ThreadLocal 对象为键、任意�
 悲观锁在Java中有两种典型的实现方式，一种是基于Object Monitor模式的资源操作方式，另一种是基于AQS技术的资源操作方式。
 
 ### 队列同步器 AQS
+
+[从ReentrantLock的实现看AQS的原理及应用 - 美团技术团队](https://tech.meituan.com/2019/12/05/aqs-theory-and-apply.html)
 
 CAS恶性空自旋会浪费大量的CPU资源。解决CAS恶性空自旋的有效方式之一是以空间换时间，较为常见的方案有两种：分散操作热点（Longadder）和使用队列削峰（AQS）。
 
@@ -938,7 +938,7 @@ final boolean acquireQueued(final Node node, int arg) {
                 failed = false;
                 return interrupted;
             }
-            // 检查前一个节点状态，预判当前获取锁失败的线程是否要挂起。调用parkAndCheckInterrupt挂起
+            // 说明p为头节点且当前没有获取到锁（可能是非公平锁被抢占了）或者是p不为头结点，这个时候就要判断当前node是否要被阻塞（被阻塞条件：前驱节点的waitStatus为-1），防止无限循环浪费资源。
             if (shouldParkAfterFailedAcquire(p, node) && parkAndCheckInterrupt()) {
                 interrupted = true;
             }
@@ -962,15 +962,12 @@ final boolean acquireQueued(final Node node, int arg) {
 ```java
  private static boolean shouldParkAfterFailedAcquire(Node pred, Node node) {
      int ws = pred.waitStatus; // 获得前驱节点的状态
-     if (ws == Node.SIGNAL)   //如果前驱节点状态为SIGNAL（值为-1）就直接返回
+     if (ws == Node.SIGNAL)   //如果前驱节点状态为SIGNAL（值为-1）说明头节点处于唤醒状态
             return true;
      if (ws > 0) {   // 前驱节点以及取消CANCELLED(1) 
        do {
-           // 不断地循环，找到有效前驱节点，即非CANCELLED（值为1）类型节点
-
-           // 将pred记录前驱的前驱
+           // 循环向前查找取消节点，把取消节点从队列中删除
            pred = pred.prev; 
-           // 调整当前节点的prev指针，保持为前驱的前驱
           node.prev = pred;
 
         } while (pred.waitStatus > 0);
@@ -1000,7 +997,11 @@ final boolean acquireQueued(final Node node, int arg) {
 同步器的 release(int arg)方法可以释放同步状态，该方法执行时，会唤醒头节点的后继节点线程，unparkSuccessor(Node node)方法使用 LockSupport 来唤醒处于等待状态的线程。
 
 ```java
- public final boolean release(long arg) {
+public void unlock() {
+	sync.release(1);
+}
+
+public final boolean release(long arg) {
      if (tryRelease(arg)) {                 //释放锁的钩子方法的实现
          Node h = head;                     //队列头节点
          if (h != null && h.waitStatus != 0)
@@ -1008,15 +1009,15 @@ final boolean acquireQueued(final Node node, int arg) {
          return true;
      }
      return false;
- }
+}
 
- private void unparkSuccessor(Node node) {
+private void unparkSuccessor(Node node) {
      // 省略不相关代码
      Node s = node.next;                    //后继节点
      // 省略不相关代码
      if (s != null)
          LockSupport.unpark(s.thread);  //唤醒后继节点的线程
- }
+}
 ```
 
 
@@ -1236,23 +1237,26 @@ if (lock.tryLock()) {
 
 在 finally 块中释放锁，目的是保证在获取到锁之后，最终能够被释放。不要将获取锁的过程写在 try 块中，因为如果在获取锁时发生了异常，异常抛出的同时，也会导致锁无故释放。
 
-ReentrantLock 相对于 synchronized 具备如下特点：
+|              | ReentrantLock                  | synchronized         |
+| ------------ | ------------------------------ | -------------------- |
+| 锁的实现机制 | JDK实现，AQS                   | JVM通过 Monitor 实现 |
+| 灵活性       | 支持响应中断、超时、尝试获取锁 | 不灵活               |
+| 释放形式     | 显示调用 unlock()              | 自动释放             |
+| 锁类型       | 公平 & 非公平锁                | 非公平锁             |
+| 条件队列     | 可关联多个条件队列             | 关联一个条件队列     |
+| 可重入性     | 可重入                         | 可重入               |
 
-1. 锁的实现：synchronized 是 JVM 实现的，而 ReentrantLock 是 JDK 实现的
-2. 性能：新版本 Java 对 synchronized 进行了很多优化，synchronized 与 ReentrantLock 大致相同
-3. 使用：ReentrantLock 需要手动解锁，synchronized 执行完代码块自动解锁。Lock应该确保在finally块中释放锁，否则一旦受同步保护的代码块中抛出异常，则有可能永远不会释放持有的锁。
-4. **可中断**：指当持有锁的线程长期不释放锁的时候，正在等待的线程可以选择放弃等待，改为处理其他事情。ReentrantLock 可中断，而 synchronized 不行。
+4. **可中断**：指当持有锁的线程长期不释放锁的时候，正在等待的线程可以选择放弃等待，改为处理其他事情。
 5. **可非阻塞获取锁**：使用synchronized关键字获取锁时，如果没有成功获取，线程只有被阻塞；而调用Lock.tryLock()方法获取锁时，如果没有获取成功，线程也不会被阻塞，而是直接返回false。
-6. **公平锁**：公平锁是指多个线程在等待同一个锁时，必须按照申请锁的时间顺序来依次获得锁。ReentrantLock 可以设置公平锁或不公平锁，synchronized 中的锁是非公平的
+6. **公平锁**：是否公平在于，线程获取锁时是加入到同步队列尾部还是直接利用CAS抢锁。
 7. **锁超时**：可以设置限定抢占锁的超时时间。synchronized关键字获取锁时，如果不能抢到锁，线程只能无限制阻塞。
 8. 锁绑定多个条件：一个 ReentrantLock 可以同时绑定多个 Condition 对象，更细粒度的唤醒线程
-9. 两者都是可重入锁
 
 
 
 ![](./JUC/ReentrantLock.png)
 
-
+![](./JUC/锁调用结构.png)
 
 #### 可重入
 
@@ -1365,6 +1369,17 @@ if (shouldParkAfterFailedAcquire(p, node) &&
 判断条件多了 `hasQueuedPredecessors()` 方法，即加入了同步队列中当前节点是否有前驱节点的判断，如果该方法返回 true，则表示有线程比当前线程更早地请求获取锁，那么当前线程会被直接封装成Node节点追加到队尾等待。
 
 ```java
+static final class NonfairSync extends Sync {
+	// ...
+	final void lock() {
+		if (compareAndSetState(0, 1))
+			setExclusiveOwnerThread(Thread.currentThread());
+		else
+			acquire(1);
+	}
+  // ...
+}
+
 public final void acquire(int arg) {
     if (!tryAcquire(arg) &&
         acquireQueued(addWaiter(Node.EXCLUSIVE), arg))
@@ -1404,7 +1419,7 @@ protected final boolean tryAcquire(int acquires) {
 
 * 公平性选择：支持公平和非公平锁
 * 重进入：读线程获取读锁后能再次获取读锁；写线程获取写锁后能再次获取写锁，也能获取读锁。
-* 锁降级：遵循获取写锁、获取读锁、释放写锁的次序，写锁能够降级为读锁。
+* 锁降级：持有写锁的线程可以直接获取读锁，从而在写操作完成后不必完全释放锁。遵循获取写锁、获取读锁、释放写锁的次序。
 
 ```java
 public class Cache {
@@ -2267,6 +2282,10 @@ Future 接口有 5 个方法，它们分别是取消任务的方法 `cancel()`�
 
 `submit()`方法用于提交需要返回值的任务。线程池会返回一个 `Future` 类型的对象，通过这个 `Future` 对象可以判断任务是否执行成功，并且可以通过 `Future` 的 `get()`方法来获取返回值，`get()`方法会阻塞当前线程直到任务完成，而使用 `get（long timeout，TimeUnit unit）`方法的话，如果在 `timeout` 时间内任务还没有执行完，就会抛出 `java.util.concurrent.TimeoutException`
 
+> 使用execute() 提交任务，任务执行时抛出未捕获异常，线程会被移除，线程池会创建新的线程。
+>
+> 使用submit()提交任务，任务执行时抛出未捕获异常，异常会封装在ExecutionException中返回，不会抛出，且不会创建新的线程。
+
 
 
 ### 关闭方法
@@ -2277,16 +2296,17 @@ ExecutorService 类 API：
 
 | 方法                   | 说明                                                         |
 | ---------------------- | ------------------------------------------------------------ |
-| void shutdown()        | 将线程池的状态设置成 SHUTDOWN，正在执行的任务会继续执行下去，没有被执行的则中断，不能再往线程池中添加任何任务。 |
-| List shutdownNow()     | 将线程池的状态设置成 STOP，试图停止所有正在执行的线程，不再处理还在池队列中等待的任务，返回那些未执行的任务。 |
+| void shutdown()        | 将线程池的状态设置成 SHUTDOWN，不再接收新的任务，但会继续执行已经提交的任务（包括队列中的任务）。 |
+| List shutdownNow()     | 将线程池的状态设置成 STOP，试图停止所有正在执行的线程，并返回等待执行的任务列表。 |
 | boolean isShutdown()   | 调用 `shutdown()` 或 `shutdownNow()` 方法后返回为 true。     |
 | boolean isTerminated() | 当所有的任务都已关闭后，才表示线程池关闭成功，返回为 true    |
 | awaitTermination       | 等待线程池完成关闭                                           |
 
 
 
-
 ### 工作原理
+
+#### 任务调度
 
 1. 首先检测线程池运行状态，如果不是RUNNING，则直接拒绝，线程池要保证在RUNNING的状态下执行任务。
 2. 如果workerCount < corePoolSize，则创建并启动一个线程来执行新提交的任务。即使其他工作线程处于空闲状态，也会创建一个新线程来处理该请求，直到线程数达到corePoolSize。
@@ -2337,6 +2357,12 @@ public void execute(Runnable command) {
 - 第一次，`addWorker(command, true)`，如果当前工作线程总数小于corePoolSize，则直接创建核心线程执行任务。
 - 第二次，`addWorker(null, false); `，如果当前工作线程总数大于等于corePoolSize，判断线程池是否处于运行中状态，同时尝试用非阻塞方法向队列放入任务，这里会二次检查线程池运行状态。如果当前工作线程数量为0，则创建一个非核心线程并且传入的任务对象为null。为什么这里是 null ？之前已经把`command`提交到阻塞队列了`workQueue.offer(command)`，所以提交一个空线程，直接从阻塞队列里面取就可以了。
 - 第三次，`if (!addWorker(command, false))`，阻塞队列满了，则会尝试创建非核心线程传入任务实例执行。
+
+
+
+#### 任务缓冲
+
+线程池的本质是对任务和线程的管理，⽽做到这⼀点最关键的思想就是将任务和线程两者解耦，不让两者直接关联，才可以做后续的分配⼯作。线程池中是以⽣产者消费者模式， 通过⼀个阻塞队列来实现的。阻塞队列缓存任务，⼯作线程从阻塞队列中获取任务。
 
 
 
@@ -2599,9 +2625,9 @@ Runnable 接口和 Callable 接口的实现类，都可以被 ThreadPoolExecutor
 - 破坏共享资源条件：同一时刻多条线程对局部资源进行非原子性操作，也不会产生线程安全问题
 - 破坏非原子性条件：同一时刻多条线程对共享资源进行原子性操作，也不会产生线程安全问题
 
-CAS机制是利用上面第三点：破坏非原子性条件，保证原子性来解决线程安全问题；
-
 Synchronized与ReetrantLock则是利用上述第一点：破坏多线程条件，在同一时刻只允许一条线程访问临界资源解决此问题；
+
+CAS机制是利用上面第三点：破坏非原子性条件，保证原子性来解决线程安全问题；
 
 而ThreadLocal则是通过如上第二点：破坏共享资源条件解决线程安全问题。
 
@@ -2675,7 +2701,9 @@ public class ThreadLocal<T> {
 
 ![](./JUC/ThreadLocal内存泄漏.png)
 
-由于ThreadLocalMap中Entry的Key使用了弱引用，在下次GC发生时，就可以使那些没有被其他强引用指向、仅被Entry的Key所指向的ThreadLocal实例能被顺利回收。并且，在Entry的Key引用被回收之后，其Entry的Key值变为null。后续当ThreadLocal的get()、set()或remove()被调用时，ThreadLocalMap的内部代码会清除这些Key为null的Entry，从而完成相应的内存释放。
+由于ThreadLocalMap中Entry的Key使用了弱引用，在下次GC发生时，就可以使那些没有被其他强引用指向、仅被Entry的Key所指向的ThreadLocal实例能被顺利回收。并且，在Entry的Key引用被回收之后，其Entry的Key值变为null。
+
+Entry的value依旧被当前线程的ThreadLocalMap强引用指向，没办法自动回收。所以后续当ThreadLocal的get()、set()或remove()被调用时，ThreadLocalMap的内部代码会清除这些Key为null的Entry，从而完成相应的内存释放。
 
 
 
@@ -3087,13 +3115,22 @@ private void resize() {
 
 
 
+### InheritableThreadLocal
+
+InheritableThreadLocal是 ThreadLocal的一个扩展，用于在线程创建时将父线程的 ThreadLocal 变量副本传递给子线程，使得子线程可以访问父线程中设置的本地变量。它解决了ThreadLocal 无法在子线程中继承父线程本地变量的问题。
+
+* 父线程创建子线程时，子线程的构造函数可以得到父线程，InheritableThreadLocal的值会被自动拷贝到子线程中。
+* 子线程可以修改自己的副本，但不会影响父线程的值。
+
+
+
 ## CompletableFuture
 
 FutureTask中，如果想要获取到多线程执行的结果，有两种办法，一种是轮询`FutureTask.isDone()`方法，当结果为true的时候获取执行结果，第二种则是调用`FutureTask.get()`方法。但是无论那种方式都无法实现真正意义上的**异步回调**，因为任务执行需要时间，所以都会使得主线程被迫阻塞，等待执行结果返回后才能接着往下执行。
 
 而CompletableFuture的出现则可以实现真正意义上的实现异步，不会在使用时因为任务还没执行完成导致获取执行结果的线程也被迫阻塞，CompletableFuture将处理执行结果的过程也放到异步线程里去完成，采用回调函数的概念解决问题。
 
-`CompletableFuture` 同时实现了 `Future` 和 `CompletionStage` 接口，Future表示异步计算的结果，CompletionStage 接口可以清晰地描述任务之间的时序关系，如**串行关系、并行关系、汇聚关系**等。
+用于简化异步编程和并行处理。`CompletableFuture` 同时实现了 `Future` 和 `CompletionStage` 接口，Future表示异步计算的结果，CompletionStage 接口可以清晰地描述任务之间的时序关系，如**串行关系、并行关系、汇聚关系**等。
 
 
 
