@@ -119,7 +119,7 @@ MySQL 8.0 版本已经将查询缓存删掉。
 
 7. 执行器调用引擎的提交事务接口，引擎把刚刚写入的**redo log改成提交（commit）**状态，更新完成。
 
-8. 数据落盘。
+8. 数据在合适的时间落盘。
 
 ![](MySQL\update.png)
 
@@ -1546,6 +1546,8 @@ Doublewrite Buffer 作用是，在把页写到数据文件之前，InnoDB先把�
 
 4. 业务操作时，避免对主键的修改。
 
+
+
 ### order by优化
 
 MySQL的排序，有两种方式:
@@ -1564,6 +1566,8 @@ order by优化原则：
 
 4. 如果不可避免的出现filesort，大数据量排序时，可以适当增大排序缓冲区大小sort_buffer_size(默认256k)。
 
+
+
 ### group by优化
 
 在分组操作中，我们需要通过以下两点进行优化，以提升性能:
@@ -1573,6 +1577,8 @@ order by优化原则：
 2. 尽量让 group by 过程用上表的索引，确认方法是 explain 结果里没有 Using temporary 和 Using filesort；
 3. 如果 group by 需要统计的数据量不大，尽量只使用内存临时表；也可以通过适当调大 tmp_table_size 参数，来避免用到磁盘临时表；
 4. 如果数据量实在太大，使用 SQL_BIG_RESULT 这个提示，来告诉优化器直接使用排序算法得到 group by 的结果。
+
+
 
 ### limit优化（深分页）
 

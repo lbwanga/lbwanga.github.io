@@ -27,7 +27,11 @@ nav:
   - Spring: Spring/Spring6.md
   - SpringMVC: SpringMVC/SpringMVC.md
   - SpringBoot: SpringBoot/SpringBoot.md
+  - RocketMQ: RocketMQ/RocketMQ.md
   - 计算机网络: 计算机网络/计算机网络.md
+  - 操作系统: 操作系统/操作系统.md
+  - DDD: 领域驱动设计/DDD.md
+  - 后端场景: 后端场景/场景.md
 
 # Theme
 theme:
