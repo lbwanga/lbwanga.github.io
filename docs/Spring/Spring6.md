@@ -46,7 +46,7 @@ BeanFatory：
 
 1. 不会主动调用 BeanFactory 后处理器
 2. 不会主动添加 Bean 后处理器
-3. 不会主动初始化单例，调用getBean时才初始化
+3. 不会主动初始化单例，调用getBean时才初始化。**延迟加载**
 4. 不会解析BeanFactory，不会解析 `#{} 和 ${}`
 
 使用步骤：
@@ -625,13 +625,13 @@ Spring创建bean分三步：
 
 
 
-两个或多个对象之间相互依赖，导致bean无法实例化。解决循环依赖问题的关键是提前暴露未完全创建完毕的对象，实例化之后，在三级缓存中保存一个bean工厂，通过该工厂可以对外暴露未完整的Bean。
+两个或多个对象之间相互依赖，导致bean无法实例化。**解决循环依赖问题的关键是提前暴露未完全创建完毕的对象**，实例化之后，在三级缓存中保存一个bean工厂，通过该工厂可以对外暴露未完整的Bean。
 
 循环依赖问题在Spring中主要有三种情况：
 
 - 第一种：通过构造方法进行依赖注入时产生的循环依赖问题。Spring 无法解决循环依赖，构造器注入在实例化时 UserService 就需要UserDao，而此时 UserService 的工厂并没有放入三级缓存，而UserDao依赖UserService 时无法得到。
 - 第二种：通过setter方法进行依赖注入且是在多例（原型）模式下产生的循环依赖问题。Spring 无法解决循环依赖，因为每次都会创建新的实例，无法利用缓存机制。
-- 第三种：通过setter方法进行依赖注入且是在单例模式下产生的循环依赖问题。三级缓存解决。
+- 第三种：通过setter方法进行依赖注入且是在单例模式下产生的循环依赖问题。**三级缓存解决**。
 
 
 
@@ -643,7 +643,7 @@ public class DefaultSingletonBeanRegistry ... {
     Map<String, Object> singletonObjects = new ConcurrentHashMap(256);
     //2、存储已经实例化但还未属性注入和初始化的bean，用于提前暴露对象，称之为"二级缓存"
     Map<String, Object> earlySingletonObjects = new ConcurrentHashMap(16);
-    //3、存储单例Bean的工厂，当需要时通过工厂创建Bean，称之为"三级缓存"
+    //3、存储单例Bean的工厂，当需要时通过工厂创建早期Bean，称之为"三级缓存"
     Map<String, ObjectFactory<?>> singletonFactories = new HashMap(16);
 }
 ```
@@ -675,6 +675,10 @@ UserService和UserDao循环依赖的过程：
 代理对象的生成是基于后置处理器的，是在被代理对象初始化后调用生成的，Spring先在三级缓存中放置一个工厂，如果产生循环依赖，那么就调用这个工厂提早得到代理对象。
 
 ![](./Spring/三级缓存-代理问题.jpg)
+
+> B进行属性注入时从三级缓存中获取A，此时如果有代理就会创建A的代理，然后将代理A放入二级缓存，完成B初始化，最后将B放入一级缓存。
+>
+> A进行初始化时，A要创建代理对象时会首先到二级缓存中找，找到然后放入一级缓存。
 
 
 
@@ -988,7 +992,7 @@ Spring xml方式整合第三方框架步骤分析：
 | -------------------------- | -------------- | ------------------------------------------------------------ |
 | ` <bean scope="">`         | @Scope         | 在类上或使用了@Bean标注的方法上，标注Bean的作用范围，取值为 singleton或prototype |
 | `<bean lazy-init="">`      | @Lazy          | 在类上或使用了@Bean标注的方法上，标注Bean是否延迟加载，取值为 true和false |
-| `<bean init-method="">`    | @PostConstruct | 在方法上使用，标注Bean的实例化后执行的方法                   |
+| `<bean init-method="">`    | @PostConstruct | 在方法上使用，标注Bean的初始化化后执行的方法                 |
 | `<bean destroy-method="">` | @PreDestroy    | 在方法上使用，标注Bean的销毁前执行方法                       |
 
 

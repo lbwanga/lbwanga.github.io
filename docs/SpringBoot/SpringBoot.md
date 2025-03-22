@@ -85,7 +85,7 @@ SpringBoot其实就是针对原始的Spring程序制作的依赖设置和配置�
 
 **starter**：
 
-starter定义了使用某种技术时对于依赖的固定搭配格式，使用starter可以帮助开发者减少依赖配置。
+starter是一组有用的依赖集合，使用starter可以帮助开发者减少依赖配置。
 
 例如，项目中的pom.xml定义了使用SpringMVC技术，但是并没有写SpringMVC的坐标，而是添加了一个名字中包含starter的依赖：
 
@@ -633,7 +633,7 @@ public static ConfigurableApplicationContext run(Class<?>[] primarySources, Stri
 
 分为两块：new SpringApplication() 和 run()
 
-**2. 创建SpringApplication示例**
+**2. 创建SpringApplication实例**
 
 ```java
 public SpringApplication(ResourceLoader resourceLoader, Class<?>... primarySources) {

@@ -38,12 +38,6 @@ Java 中的每一个对象都可以作为锁。 具体表现为以下 3 种形�
 2. 对于静态同步方法，锁是当前类的 Class 对象。 
 3. 对于同步代码块，锁是 synchonized 括号里配置的对象。
 
-注意：
-
-* 当一个线程正在访问一个被`synchronized`修饰的实例方法时，其他线程则不能访问该对象的其他被`synchronized`修饰的对象实例方法，毕竟一个对象只有一把锁，当一个线程获取了该对象的锁之后，其他线程无法获取该对象的锁，所以无法访问该对象的其他被`synchronized`修饰的对象实例方法。
-
-* 如果一个线程`A`，调用一个被`synchronized`修饰的普通实例方法；而线程`B`通过这个实例对象，调用被`synchronized`修饰的`static`方法，这是允许同时执行的，并不会发生互斥现象。因为访问静态`synchronized`方法的线程，获取的是当前类的`class`对象的锁资源；而访问非静态`synchronized`方法的线程，获取的是当前实例对象锁资源。
-
 
 
 ### 对象头
@@ -113,9 +107,9 @@ public static synchronized void m();
 
 
 
-在`HotSpot`虚拟机中，`monitor`是由`ObjectMonitor`实现的。`monitor`本质就是存在于堆中的特殊对象。每一个被锁住的对象都会和一个monitor关联，同时monitor中有一个Owner字段存放拥有该锁的线程的唯一标识，表示该锁被这个线程占用。
+在`HotSpot`虚拟机中，`monitor`是由`ObjectMonitor`实现的。**`monitor`本质就是存在于堆中的特殊对象**。每一个被锁住的对象都会和一个monitor关联，同时monitor中有一个Owner字段存放拥有该锁的线程的唯一标识，表示该锁被这个线程占用。
 
-synchronized通过Monitor来实现线程同步，Monitor是依赖于底层的操作系统的Mutex Lock（互斥锁）来实现的线程同步。
+synchronized通过Monitor来实现线程同步，Monitor是**依赖于底层的操作系统的Mutex Lock（互斥锁）来实现的线程同步。**
 
 ```c++
  //Monitor结构体
@@ -645,7 +639,7 @@ sleep ：
 
 yield ：
 
-- 调用 yield 会让当前线程从 *Running* 进入 *Runnable* 状态，然后调度执行其它线程。
+- 调用 yield 会让出CPU，让当前线程从 *Running* 进入 *Runnable* 状态，重新竞争CPU。
 - 具体的实现依赖于操作系统的任务调度器 
 
 
@@ -683,6 +677,10 @@ yield ：
 
 
 ### 安全地终止线程
+
+1. **通过共享标志位主动终止。**定义一个 **可见的** 状态变量，由主线程控制其值，工作线程循环检测该变量以决定是否退出。
+2. **使用线程中断机制**。通过 `Thread.interrupt()` 触发线程中断状态，结合中断检测逻辑实现安全停止。
+3. **通过** `Future` **取消任务**。使用线程池提交任务，并通过 `Future.cancel()` 停止线程，依赖中断机制。
 
 中断方式最适合用来取消或停止任务。除了中断以外，还可以利用一个 boolean 变量来控制是否需要停止任务并终止该线程。
 
@@ -726,59 +724,17 @@ main 线程通过中断操作和 cancel()方法均可使 CountThread 得以终�
 
 ### 线程间通信
 
-线程交互也就是线程之间的通信，最直接的办法就是线程**直接通信传值**，而间接方式则是通过**共享变量**来达到彼此的交互。
+共享变量：通过访问共享内存变量交换信息
 
-- 等待：释放对象锁，允许其他线程进入同步块
-- 通知：重新获取对象锁，继续执行
-- 中断：状态交互，通知其他线程进入中断
-- 织入：合并线程，多个线程合并为一个
+同步机制：
 
-#### volatile 和 synchronized 关键字
-
-关键字 volatile 可以用来修饰字段（成员变量），就是告知程序任何对该变量的访问均需要从共享内存中获取，而对它的改变必须同步刷新回共享内存，它能保证所有线程对变量访问的可见性。
-
-关键字 synchronized 可以修饰方法或者以同步块的形式来进行使用，它主要确保多个线程在同一个时刻，只能有一个线程处于方法或者同步块中，它保证了线程对变量访问的可见性和排他性。
-
-
-
-#### 等待/通知机制
-
-等待/通知的相关方法是任意 Java 对象都具备的，因为这些方法被定义在所有对象的超类 java.lang.Object 上：
-
-| 方法            | 描述                                                         |
-| --------------- | ------------------------------------------------------------ |
-| notify()        | 唤醒监视器WaitSet中的第一条等待线程                          |
-| notifyAll()     | 唤醒监视器WaitSet中的所有等待线程                            |
-| wait()          | 调用该方法的线程进入WAITING状态，当前线程进入监视器WaitSet，等待被其他线程唤醒。调用wait方法后会释放锁 |
-| wait(long)      | 超时等待一段时间后返回，单位毫秒                             |
-| wait(long, int) | 对超时时间更细粒度的控制，可以达到纳秒                       |
-
-注意细节：	
-
-1. 使用 wait()、notify()和 notifyAll()时需要在synchronized同步块的内部使用，因为这些操作都和对象锁监视器是相关的。
-2. 调用 wait()方法后，线程状态由 RUNNING 变为 WAITING，JVM会释放当前线程的对象锁监视器的Owner资格，将当前线程移入监视器的WaitSet队列。 
-3. notify()/notifyAll()方法调用后，JVM会唤醒监视器WaitSet中的第一条/所有等待线程。等待线程被唤醒后，会从监视器的WaitSet移动到EntryList，线程具备了排队抢夺监视器Owner权利的资格，其状态从WAITING变成BLOCKED。
-4. EntryList中的线程抢夺到监视器的Owner权利之后，线程的状态从BLOCKED变成Runnable，具备重新执行的资格。
-
-
-
-#### 管道输入/输出流
-
-管道输入/输出流和普通的文件输入/输出流或者网络输入/输出流不同之处在于，它主要用于线程之间的数据传输，而传输的媒介为内存。管道输入/输出流主要包括了如下 4 种具体实现：PipedOutputStream、PipedInputStream、PipedReader 和 PipedWriter，前两种面向字节，而后两种面向字符。
-
-
-
-#### Thread.join()
-
-如果一个线程 A 执行了 thread.join()语句，其含义是：当前线程 A 等待 thread 线程终止之后才从 thread.join()返回。线程 Thread 除了提供 join()方法之外，还提供了 join(long  millis)和 join(longmillis,int nanos)两个具备超时特性的方法。这两个超时方法表示，如果线程 thread 在给定的超时时间里没有终止，那么将会从该超时方法中返回。
-
-当调用 `join()` 方法时，当前线程将进入阻塞状态。当线程终止时，会调用线程自身的 notifyAll()方法，会通知所有等待在该线程对象 上的线程。
-
-
-
-#### ThreadLocal
-
-ThreadLocal，即线程变量，是一个以 ThreadLocal 对象为键、任意对象为值的存储结构。这个结构被附带在线程上，也就是说一个线程可以根据一个 ThreadLocal 对象查询到绑定在这个线程上的一个值。可以通过 set(T)方法来设置一个值，在当前线程下再通过 get()方法获取到原先设置的值。
+1. synchronized ，利用Object的wait、notify、notifyAll实现线程间的等待通知机制
+2. ReentrantLock，配合Condition提供的await、signal、signalAll
+3. BlockingQueue
+4. CountDownLatch
+5. CyclicBarrier
+6. Volatile
+7. Semaphore
 
 
 
@@ -792,9 +748,9 @@ ThreadLocal，即线程变量，是一个以 ThreadLocal 对象为键、任意�
 
 CAS恶性空自旋会浪费大量的CPU资源。解决CAS恶性空自旋的有效方式之一是以空间换时间，较为常见的方案有两种：分散操作热点（Longadder）和使用队列削峰（AQS）。
 
-队列同步器 AbstractQueuedSynchronizer，是用来构建锁或者其他同步组件的基础框架，它使用了一个 int 成员变量表示同步状态，通过内置的 FIFO 队列来完成资源获取线程的排队工作。
+队列同步器 AbstractQueuedSynchronizer，是用来**构建锁或者其他同步组件的基础框架，它使用了一个 int 成员变量表示同步状态，通过内置的 FIFO 队列来完成资源获取线程的排队工作。**
 
-AQS核心思想是，如果被请求的共享资源空闲，那么就将当前请求资源的线程设置为有效的工作线程，将共享资源设置为锁定状态；如果共享资源被占用，就需要一定的阻塞等待唤醒机制来保证锁分配，将暂时获取不到锁的线程加入到队列中。
+AQS**核心思想**是，如果被请求的共享资源空闲，那么就将当前请求资源的线程设置为有效的工作线程，将共享资源设置为锁定状态；如果共享资源被占用，就需要一定的阻塞等待唤醒机制来保证锁分配，将暂时获取不到锁的线程加入到队列中。
 
 ```java
 public abstract class AbstractQueuedSynchronizer extends AbstractOwnableSynchronizer{
@@ -1825,7 +1781,7 @@ protected int tryAcquireShared(int acquires) {
 
 ### CyclicBarrier
 
-CyclicBarrier 的字面意思是可循环使用（Cyclic）的屏障（Barrier）。它要做的事情是，让一组线程到达一个屏障（也可以叫同步点）时被阻塞，直到最后一个线程到达屏障时，屏障才会开门，所有被屏障拦截的线程才会继续运行。
+CyclicBarrier 的字面意思是可循环使用（Cyclic）的屏障（Barrier）。它要做的事情是，**让一组线程到达一个屏障（也叫同步点）时被阻塞，直到最后一个线程到达屏障时，屏障才会开门，所有被屏障拦截的线程才会继续运行**。
 
 CyclicBarrier 默认的构造方法是 CyclicBarrier（int parties），其参数表示屏障拦截的线程数量，每个线程调用 await 方法告诉 CyclicBarrier 我已经到达了屏障，然后当前线程被阻塞。
 
@@ -1881,7 +1837,7 @@ public static void main(String[] args) {
 
 ### Semaphore
 
-Semaphore可以用来控制在同一时刻访问共享资源的线程数量，通过协调各个线程以保证共享资源的合理使用。Semaphore维护了一组虚拟许可，它的数量可以通过构造器的参数指定。线程在访问共享资源前必须调用Semaphore的acquire()方法获得许可，如果许可数量为0，该线程就一直阻塞。线程访问完资源后，必须调用Semaphore的release()方法释放许可。
+Semaphore可以用来**控制在同一时刻访问共享资源的线程数量**，通过协调各个线程以保证共享资源的合理使用。Semaphore维护了一组虚拟许可，它的数量可以通过构造器的参数指定。线程在访问共享资源前必须调用Semaphore的acquire()方法获得许可，如果许可数量为0，该线程就一直阻塞。线程访问完资源后，必须调用Semaphore的release()方法释放许可。
 
 Semaphore 可以用于做流量控制，特别是公用资源有限的应用场景。
 
@@ -3131,10 +3087,6 @@ InheritableThreadLocal是 ThreadLocal的一个扩展，用于在线程创建时�
 
 ## CompletableFuture
 
-FutureTask中，如果想要获取到多线程执行的结果，有两种办法，一种是轮询`FutureTask.isDone()`方法，当结果为true的时候获取执行结果，第二种则是调用`FutureTask.get()`方法。但是无论那种方式都无法实现真正意义上的**异步回调**，因为任务执行需要时间，所以都会使得主线程被迫阻塞，等待执行结果返回后才能接着往下执行。
-
-而CompletableFuture的出现则可以实现真正意义上的实现异步，不会在使用时因为任务还没执行完成导致获取执行结果的线程也被迫阻塞，CompletableFuture将处理执行结果的过程也放到异步线程里去完成，采用回调函数的概念解决问题。
-
 用于简化异步编程和并行处理。`CompletableFuture` 同时实现了 `Future` 和 `CompletionStage` 接口，Future表示异步计算的结果，CompletionStage 接口可以清晰地描述任务之间的时序关系，如**串行关系、并行关系、汇聚关系**等。
 
 
@@ -3154,7 +3106,7 @@ FutureTask中，如果想要获取到多线程执行的结果，有两种办法�
 static <U> CompletableFuture<U> supplyAsync(Supplier<U> supplier);
 // 使用自定义线程池(推荐)
 static <U> CompletableFuture<U> supplyAsync(Supplier<U> supplier, Executor executor);
-static CompletableFuture<Void> runAsync(Runnable runnable);
+static CompletableFuture<Void> runAsync(Runnable runnable);// 创建异步任务，不返回结果
 // 使用自定义线程池(推荐)
 static CompletableFuture<Void> runAsync(Runnable runnable, Executor executor);
 ```
