@@ -1070,6 +1070,15 @@ final V putVal(K key, V value, boolean onlyIfAbsent) {
  }
 ```
 
+添加元素时首先会判断容器是否为空：
+
+- 如果为空则使用  volatile  加  CAS  来初始化
+- 如果容器不为空，则根据存储的元素计算该位置是否为空。
+  - 如果根据存储的元素计算结果为空，则利用  CAS  设置该节点；
+  - 如果根据存储的元素计算结果不为空，则使用 synchronized  ，然后，遍历桶中的数据，并替换或新增节点到桶中，最后再判断是否需要转为红黑树，这样就能保证并发访问时的线程安全了。
+
+相当于是ConcurrentHashMap通过对头结点加锁来保证线程安全的，锁的粒度相比 Segment 来说更小。
+
 JDK 1.8版本在使用CAS自旋完成桶的设置时，使用synchronized内置锁保证桶内并发操作的线程安全。尽管对同一个Map操作的线程争用会非常激烈，但是在同一个桶内的线程争用通常不会很激烈，所以使用CAS自旋（简单轻量级锁）、synchronized偏向锁或轻量级锁不会降低ConcurrentHashMap的性能。
 
 为什么不用ReentrantLock显式锁呢？如果为每一个桶都创建一个ReentrantLock实例，就会带来大量的内存消耗，反过来，使用CAS自旋（简单轻量级锁）、synchronized偏向锁或轻量级锁，内存消耗的增加会微乎其微。
