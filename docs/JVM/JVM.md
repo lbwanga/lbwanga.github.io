@@ -565,15 +565,17 @@ Class文件中除了有类的版本、字段、方法、接口等描述信息外
 
 **案例**：
 
-对于jvm底层，`String str = new String("123")`创建对象流程是什么？
+> 对于jvm底层，`String str = new String("123")`创建对象流程是什么？
 
 1. 在常量池中查找是否存在"123"这个字符串；若有，则返回对应的引用实例；若无，则创建对应的实例对象；
-2. 在堆中new一个String类型的"123"字符串对象；
+2. 在堆中由 `new String()` 创建对象，并使用常量池中的 "123" 进行初始化。
 3. 将对象地址复制给str，然后创建一个应用。
 
 
 
-String str ="ab" + "cd"; 对象个数？
+> String str ="ab" + "cd"; 对象个数？
+
+对于 `String str3 = "ab" + "cd";` 编译器会给你优化成 `String str3 = "abcd";` 。
 
 1. 字符串常量池：（1个对象）"abcd";
 2. 堆：无
@@ -581,7 +583,7 @@ String str ="ab" + "cd"; 对象个数？
 
 
 
-String str = new String("abc"); 对象个数？
+> String str = new String("abc"); 对象个数？
 
 若字符串常量池无该字符串对象：
 
@@ -591,7 +593,7 @@ String str = new String("abc"); 对象个数？
 
 
 
-String str = new String("a" + "b"); 对象个数？
+> String str = new String("a" + "b"); 对象个数？
 
 若字符串常量池无该字符串对象：
 
@@ -601,7 +603,9 @@ String str = new String("a" + "b"); 对象个数？
 
 
 
-String str3 = str1 + str2; 对象个数？
+> String str3 = str1 + str2; 对象个数？
+
+引用的值在程序编译期是无法确定的，编译器无法对其进行优化。对象引用和“+”的字符串拼接方式，实际上是通过 `StringBuilder` 调用 `append()` 方法实现的，拼接完成之后调用 `toString()` 得到一个 `String` 对象 。
 
 ```java
 String str1 = "ab";
@@ -619,7 +623,7 @@ String str3 = str1 + str2;
 
 **intern()**：
 
-如果常量池中存在当前字符串, 就会直接返回当前字符串. 如果常量池中没有此字符串, 会将此字符串放入常量池中后, 再返回。
+如果常量池中存在当前字符串, 就会直接返回当前字符串的引用。 如果常量池中没有此字符串, 会将此字符串放入常量池中后, 再返回该引用。
 
 [深入解析String#intern - 美团技术团队](https://tech.meituan.com/2014/03/06/in-depth-understanding-string-intern.html)
 
@@ -632,7 +636,7 @@ String str3 = str1 + str2;
 第三，针对没有使用双引号声明的字符串对象来说，就像下面代码中的 s1 那样：
 
 ```java
-String s1 = new String("二哥") + new String("三妹");
+String s1 = new String("ab") + new String("cd");
 ```
 
 如果想把 s1 的内容也放入字符串常量池的话，可以调用 `intern()` 方法来完成。
@@ -644,18 +648,18 @@ Java 7 之前，执行 `String.intern()` 方法的时候，不管对象在堆中
 
 
 ```java
-String s1 = new String("二哥") + new String("三妹");
+String s1 = new String("ab") + new String("cd");
 String s2 = s1.intern();
 System.out.println(s1 == s2); // java7之前：false  java7之后: true
 ```
 
 执行过程：
 
-1. 创建 "二哥" 字符串对象，存储在字符串常量池中。
-2. 创建 "三妹" 字符串对象，存储在字符串常量池中。
-3. 执行 `new String("二哥")`，在堆上创建一个字符串对象，内容为 "二哥"。
-4. 执行 `new String("三妹")`，在堆上创建一个字符串对象，内容为 "三妹"。
-5. 执行 `new String("二哥") + new String("三妹")`，会创建一个 StringBuilder 对象，并将 "二哥" 和 "三妹" 追加到其中，然后调用 StringBuilder 对象的 toString() 方法，将其转换为一个新的字符串对象，内容为 "二哥三妹"。这个新的字符串对象存储在堆上。
+1. 创建 "ab" 字符串对象，存储在字符串常量池中。
+2. 创建 "cd" 字符串对象，存储在字符串常量池中。
+3. 执行 `new String("ab")`，在堆上创建一个字符串对象，内容为 "ab"。
+4. 执行 `new String("cd")`，在堆上创建一个字符串对象，内容为 "cd"。
+5. 执行 `new String("ab") + new String("cd")`，会创建一个 StringBuilder 对象，并将 "ab" 和 "cd" 追加到其中，然后调用 StringBuilder 对象的 toString() 方法，将其转换为一个新的字符串对象，内容为 "abcd"。这个新的字符串对象存储在堆上。
 
 
 
@@ -670,9 +674,11 @@ public class RuntimeConstantPoolOOM {
         System.out.println(str2.intern() == str2);
     }
 }
+// JDK6: false false
+// JDK7: true false
 ```
 
-这段代码在JDK 6中运行，会得到两个false，而在JDK 7中运行，会得到一个true和一个false。产生差异的原因是，在JDK 6中，intern()方法会把首次遇到的字符串实例复制到永久代的字符串常量池中存储，返回的也是永久代里面这个字符串实例的引用，而由StringBuilder创建的字符串对象实例在Java堆上，所以必然不可能是同一个引用，结果将返回false。
+在JDK 6中，intern()方法会把首次遇到的字符串实例复制到永久代的字符串常量池中存储，返回的也是永久代里面这个字符串实例的引用，而由StringBuilder创建的字符串对象实例在Java堆上，所以必然不可能是同一个引用，结果将返回false。
 
 而JDK 7的intern()方法实现就不需要再拷贝字符串的实例到永久代了，既然字符串常量池已经移到Java堆中，那只需要在常量池里记录一下首次出现的实例引用即可，因此intern()返回的引用和由StringBuilder创建的那个字符串实例就是同一个。
 

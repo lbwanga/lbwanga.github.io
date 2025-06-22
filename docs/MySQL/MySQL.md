@@ -1596,36 +1596,56 @@ order by优化原则：
 在数据量比较大时，如果进行limit分页查询，在查询时，越往后，分页查询效率越低。
 
 ```sql
-SELECT * FROM table ORDER BY id LIMIT 2000000,10 ;
+SELECT * FROM table ORDER BY id LIMIT 100000,10 ;
 ```
 
-因为，当在进行分页查询时，如果执行 limit 2000000,10 ，此时需要MySQL排序前2000010 记录，仅仅返回 2000000 - 2000010 的记录，其他记录丢弃，查询排序的代价非常大 。
+因为，当在进行分页查询时，如果执行 limit 100000,10 ，此时需要MySQL排序前100010 记录，仅仅返回 100000 - 100010 的记录，其他记录丢弃，查询排序的代价非常大 。
 
-优化思路: 
+**优化思路**: 
 
-1. 子查询：通过子查询快速定位起始ID，减少扫描范围。
+1、范围查询
 
-   ```sql
-   SELECT * FROM table 
-   WHERE id >= (
-     SELECT id FROM table 
-     ORDER BY id 
-     LIMIT 2000000, 1
-   ) 
-   ORDER BY id 
-   LIMIT 10;
-   ```
+```sql
+# 查询指定 ID 范围的数据
+SELECT * FROM t_order WHERE id > 100000 AND id <= 100010 ORDER BY id
+# 也可以通过记录上次查询结果的最后一条记录的ID进行下一页的查询：
+SELECT * FROM t_order WHERE id > 100000 LIMIT 10
+```
 
-2. 游标分页：每次分页都返回当前最大id，下次查询时使用 id > maxId 条件
+限制：
 
-   ```sql
-   SELECT * FROM table 
-   WHERE id > 100 
-   ORDER BY id 
-   LIMIT 10;
-   ```
+1. **ID 连续性要求高**: 实际项目中，数据库自增 ID 往往因为各种原因（例如删除数据、事务回滚等）导致 ID 不连续，难以保证连续性。
 
-   
+2. **排序问题**: 如果查询需要按照其他字段（例如创建时间、更新时间等）排序，而不是按照 ID 排序，那么这种方法就不再适用。
+
+3. **并发场景**: 在高并发场景下，单纯依赖记录上次查询的最后一条记录的 ID 进行分页，容易出现数据重复或遗漏的问题
+
+2、子查询：通过子查询快速定位起始ID，减少扫描范围。
+
+```sql
+SELECT * FROM table 
+WHERE id >= (
+  SELECT id FROM table 
+  ORDER BY id 
+  LIMIT 100000, 1
+) 
+LIMIT 10;
+-- 子查询 (SELECT id FROM t_order where id > 100000 limit 1) 会利用主键索引快速定位到第 1000001 条记录，并返回其 ID 值。
+-- 主查询 SELECT * FROM t_order WHERE id >= ... LIMIT 10 将子查询返回的起始 ID 作为过滤条件，使用 id >= 获取从该 ID 开始的后续 10 条记录。
+```
+
+3、延迟关联
+
+```sql
+-- 使用 INNER JOIN 进行延迟关联
+SELECT t1.*
+FROM t_order t1
+INNER JOIN (SELECT id FROM t_order where id > 1000000 LIMIT 10) t2 ON t1.id = t2.id;
+-- 子查询 (SELECT id FROM t_order where id > 1000000 LIMIT 10) 利用主键索引快速定位目标分页的 10 条记录的 ID。
+-- 通过 INNER JOIN 将子查询结果与主表 t_order 关联，获取完整的记录数据。
+```
+
+
 
 ### count优化
 

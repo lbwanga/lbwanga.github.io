@@ -6,7 +6,13 @@ Collection接口没有直接的实现子类，是通过它的子接口Set、List
 
 ### List
 
-有序，可重复，支持索引，常用的有ArrayList，LinkedList，Vector，Stack
+有序，可重复，支持索引：
+
+`ArrayList`：`Object[]` 数组。
+
+`Vector`：`Object[]` 数组。
+
+`LinkedList`：双向链表。
 
 #### Vector
 
@@ -73,11 +79,19 @@ private void grow(int minCapacity) {
 
 如果当前Vector集合在实例化时指定了增量capacityIncrement的值，那么在一般情况下，会按照指定的增量capacityIncrement的值进行扩容操作。
 
+#### Stack
+
+Stack集合继承自Vector集合。
+
+Stack集合的内部结构仍然是一个数组，使用数组的尾部模拟栈结构的栈顶。
+
 
 
 #### ArrayList
 
 与Vector集合类似的接口和操作逻辑，效率高，但是**线程不安全**
+
+`ArrayList` 的底层是数组队列，相当于动态数组。与 Java 中的数组相比，它的容量能动态增长。在添加大量元素前，应用程序可以使用`ensureCapacity`操作来增加 `ArrayList` 实例的容量。
 
 ```java
 public class ArrayList<E> extends AbstractList<E>
@@ -154,14 +168,6 @@ private Object[] grow() {
 
 
 
-#### Stack
-
-Stack集合继承自Vector集合。
-
-Stack集合的内部结构仍然是一个数组，使用数组的尾部模拟栈结构的栈顶。
-
-
-
 #### LinkedList
 
 LinkedList集合同时实现了List接口和Queue接口，主要结构是双向链表，不要求有连续的内存存储地址。
@@ -196,7 +202,13 @@ public class LinkedList<E>
 
 ### Set
 
-Set不允许存在重复的元素，与List不同，set中的元素是无序的。常用的实现有HashSet，LinkedHashSet和TreeSet。
+Set不允许存在重复的元素，与List不同，set中的元素是无序的：
+
+`HashSet`(无序，唯一): 基于 `HashMap` 实现的，底层采用 `HashMap` 来保存元素。
+
+`LinkedHashSet`: `LinkedHashSet` 是 `HashSet` 的子类，并且其内部是通过 `LinkedHashMap` 来实现的。
+
+`TreeSet`(有序，唯一): 红黑树(自平衡的排序二叉树)。
 
 当向Set集合中插入元素时，会先根据元素的hashCode值来确定元素的存储位置，然后再通过equals方法来判断是否已经存在相同的元素，如果存在则不会再次插入，保证了元素的唯一性。
 
@@ -295,6 +307,12 @@ public class TreeSet<E> extends AbstractSet<E>
 
 
 ### Queue
+
+`PriorityQueue`: `Object[]` 数组来实现小顶堆。
+
+`DelayQueue`:`PriorityQueue`。
+
+`ArrayDeque`: 可扩容动态双向数组	
 
 #### ArrayDeque
 
@@ -436,6 +454,16 @@ private void grow(int minCapacity) {
 
 ## Map
 
+`HashMap`：JDK1.8 之前 `HashMap` 由数组+链表组成的，数组是 `HashMap` 的主体，链表则是主要为了解决哈希冲突而存在的（“拉链法”解决冲突）。JDK1.8 以后在解决哈希冲突时有了较大的变化，当链表长度大于阈值（默认为 8）（将链表转换成红黑树前会判断，如果当前数组的长度小于 64，那么会选择先进行数组扩容，而不是转换为红黑树）时，将链表转化为红黑树，以减少搜索时间。
+
+`LinkedHashMap`：`LinkedHashMap` 继承自 `HashMap`，所以它的底层仍然是基于拉链式散列结构即由数组和链表或红黑树组成。另外，`LinkedHashMap` 在上面结构的基础上，增加了一条双向链表，使得上面的结构可以保持键值对的插入顺序。同时通过对链表进行相应的操作，实现了访问顺序相关逻辑。)
+
+`Hashtable`：数组+链表组成的，数组是 `Hashtable` 的主体，链表则是主要为了解决哈希冲突而存在的。
+
+`TreeMap`：红黑树（自平衡的排序二叉树）。
+
+
+
 Map集合中可以有成千上万个K-V键值对节点，每一个K-V键值对都使用实现了Map.Entry<K,V>接口的类的对象进行描述。例如，HashMap类中的HashMap.Node类实现Map.Entry<K, V>接口。
 
 ```java
@@ -555,18 +583,8 @@ static class Node<K,V> implements Map.Entry<K,V> {
         this.next = next;
     }
 
-    public final K getKey()        { return key; }
-    public final V getValue()      { return value; }
-    public final String toString() { return key + "=" + value; }
-
     public final int hashCode() {
         return Objects.hashCode(key) ^ Objects.hashCode(value);
-    }
-
-    public final V setValue(V newValue) {
-        V oldValue = value;
-        value = newValue;
-        return oldValue;
     }
 
     public final boolean equals(Object o) {
@@ -920,9 +938,61 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V>
 }
 ```
 
+```java
+final V put(K key, int hash, V value, boolean onlyIfAbsent) {
+    // 获取 ReentrantLock 独占锁，获取不到，scanAndLockForPut 获取。
+    HashEntry<K,V> node = tryLock() ? null : scanAndLockForPut(key, hash, value);
+    V oldValue;
+    try {
+        HashEntry<K,V>[] tab = table;
+        // 计算要put的数据位置
+        int index = (tab.length - 1) & hash;
+        // CAS 获取 index 坐标的值
+        HashEntry<K,V> first = entryAt(tab, index);
+        for (HashEntry<K,V> e = first;;) {
+            if (e != null) {
+                // 检查是否 key 已经存在，如果存在，则遍历链表寻找位置，找到后替换 value
+                K k;
+                if ((k = e.key) == key ||
+                    (e.hash == hash && key.equals(k))) {
+                    oldValue = e.value;
+                    if (!onlyIfAbsent) {
+                        e.value = value;
+                        ++modCount;
+                    }
+                    break;
+                }
+                e = e.next;
+            }
+            else {
+                // first 有值没说明 index 位置已经有值了，有冲突，链表头插法。
+                if (node != null)
+                    node.setNext(first);
+                else
+                    node = new HashEntry<K,V>(hash, key, value, first);
+                int c = count + 1;
+                // 容量大于扩容阀值，小于最大容量，进行扩容
+                if (c > threshold && tab.length < MAXIMUM_CAPACITY)
+                    rehash(node);
+                else
+                    // index 位置赋值 node，node 可能是一个元素，也可能是一个链表的表头
+                    setEntryAt(tab, index, node);
+                ++modCount;
+                count = c;
+                oldValue = null;
+                break;
+            }
+        }
+    } finally {
+        unlock();
+    }
+    return oldValue;
+}
+```
 
 
-在JDK 1.8中，ConcurrentHashMap已经抛弃了Segment分段锁机制，存储结构采用数组+链表或者红黑树的组合方式，利用CAS+Synchronized来保证并发更新的安全。
+
+在JDK 1.8中，ConcurrentHashMap已经抛弃了Segment分段锁机制，存储结构采用数组+链表或者红黑树的组合方式，利用**CAS+Synchronized**来保证并发更新的安全。
 
 ![](./Java集合/HashMap-Java8.png)
 
@@ -1219,18 +1289,59 @@ public class ArrayBlockingQueue<E> extends AbstractQueue<E>
     // 迭代器
     transient Itrs itrs = null;
     
-    public boolean offer(E e) {
+    public void put(E e) throws InterruptedException {
+        //确保插入的元素不为null
         checkNotNull(e);
+        //加锁
+        final ReentrantLock lock = this.lock;
+        //这里使用lockInterruptibly()方法而不是lock()方法是为了能够响应中断操作，如果在等待获取锁的过程中被打断则该方法会抛出InterruptedException异常。
+        lock.lockInterruptibly();
+        try {
+                //如果count等数组长度则说明队列已满，当前线程将被挂起放到AQS队列中，等待队列非满时插入（非满条件）。
+           //在等待期间，锁会被释放，其他线程可以继续对队列进行操作。
+            while (count == items.length)
+                notFull.await();
+               //如果队列可以存放元素，则调用enqueue将元素入队
+            enqueue(e);
+        } finally {
+            //释放锁
+            lock.unlock();
+        }
+    }
+    
+    public E take() throws InterruptedException {
+           //获取锁
+         final ReentrantLock lock = this.lock;
+         lock.lockInterruptibly();
+         try {
+                 //如果队列中元素个数为0，则将当前线程打断并存入AQS队列中，等待队列非空时获取并移除元素（非空条件）
+             while (count == 0)
+                 notEmpty.await();
+                //如果队列不为空则调用dequeue获取元素
+             return dequeue();
+         } finally {
+              //释放锁
+             lock.unlock();
+         }
+    }
+    
+    public boolean offer(E e) {
+        //确保插入的元素不为null
+        checkNotNull(e);
+        //获取锁
         final ReentrantLock lock = this.lock;
         lock.lock();
         try {
+             //队列已满直接返回false
             if (count == items.length)
                 return false;
             else {
+                //反之将元素入队并直接返回true
                 enqueue(e);
                 return true;
             }
         } finally {
+            //释放锁
             lock.unlock();
         }
     }
