@@ -581,7 +581,7 @@ public class CartoonCatAndMouse{
 
 
 
-SpringBoot自动配置原理：
+**SpringBoot自动配置原理**：
 
 1. SpringBoot启动时先加载 `spring-boot-autoconfigure` 下 `META-INF/spring.factories` 文件中的`org.springframework.boot.autoconfigure.EnableAutoConfiguration` 配置项，将其中配置的所有的类都加载成bean。SpringBoot3中：加载`spring-boot-autoconfigure` 包里面 `META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports` 文件,里面指定的所有启动要加载的自动配置类
 2. 在加载bean的时候，bean对应的类定义上都设置有加载条件 `@ConditionalOnXxx`，因此有可能加载成功，也可能条件检测失败不加载bean
@@ -613,7 +613,7 @@ public @interface SpringBootApplication {}
 * @EnableAutoConfiguration：SpringBoot自动配置的核心。包含：
    *			@AutoConfigurationPackage：利用 @Import(AutoConfigurationPackages.Registrar.class) 将应用启动类所在的包及其子包注册到应用上下文的组件扫描路径中。
    *			@Import(AutoConfigurationImportSelector.class)：AutoConfigurationImportSelector 读取 META-INF/spring.factories 文件中的自动配置类列表，根据条件导入自动配置类。
-* @ComponentScan：自动扫描并加载应用程序中的组件，如控制器、服务、存储库等。它默认扫描@SpringBootApplication注解所在类的包及其子包中的组件。
+* @ComponentScan：自动扫描并加载应用程序中的组件，扫描 `@Component`、`@Service`、`@Repository`、`@Controller` 等注解的类。它默认扫描@SpringBootApplication注解所在类的包及其子包中的组件。
 
 
 

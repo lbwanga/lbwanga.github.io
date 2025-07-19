@@ -3,6 +3,60 @@ hide:
   - navigation
 ---
 
+## 模块
+
+**Core Container**：
+
+Spring 框架的核心模块，也可以说是基础模块，主要提供 IoC 依赖注入功能的支持。Spring 其他所有的功能基本都需要依赖于该模块。
+
+- **spring-core**：Spring 框架基本的核心工具类。
+- **spring-beans**：提供对 bean 的创建、配置和管理等功能的支持。
+- **spring-context**：提供对国际化、事件传播、资源加载等功能的支持。
+- **spring-expression**：提供对表达式语言（Spring Expression Language） SpEL 的支持，只依赖于 core 模块，不依赖于其他模块，可以单独使用。
+
+
+
+**AOP**：
+
+* **spring-aspects**：该模块为与 AspectJ 的集成提供支持。
+
+* **spring-aop**：提供了面向切面的编程实现。
+
+* **spring-instrument**：提供了为 JVM 添加代理（agent）的功能。 具体来讲，它为 Tomcat 提供了一个织入代理，能够为 Tomcat 传递类文 件，就像这些文件是被类加载器加载的一样。没有理解也没关系，这个模块的使用场景非常有限。
+
+
+
+**Data Access/Integration**
+
+- **spring-jdbc**：提供了对数据库访问的抽象 JDBC。不同的数据库都有自己独立的 API 用于操作数据库，而 Java 程序只需要和 JDBC API 交互，这样就屏蔽了数据库的影响。
+- **spring-tx**：提供对事务的支持。
+- **spring-orm**：提供对 Hibernate、JPA、iBatis 等 ORM 框架的支持。
+- **spring-oxm**：提供一个抽象层支撑 OXM(Object-to-XML-Mapping)，例如：JAXB、Castor、XMLBeans、JiBX 和 XStream 等。
+- **spring-jms** : 消息服务。自 Spring Framework 4.1 以后，它还提供了对 spring-messaging 模块的继承。
+
+
+
+
+
+**Spring Web**
+
+- **spring-web**：对 Web 功能的实现提供一些最基础的支持。
+- **spring-webmvc**：提供对 Spring MVC 的实现。
+- **spring-websocket**：提供了对 WebSocket 的支持，WebSocket 可以让客户端和服务端进行双向通信。
+- **spring-webflux**：提供对 WebFlux 的支持。WebFlux 是 Spring Framework 5.0 中引入的新的响应式框架。与 Spring MVC 不同，它不需要 Servlet API，是完全异步。
+
+
+
+
+
+**Spring Test**
+
+Spring 团队提倡测试驱动开发（TDD）。有了控制反转 (IoC)的帮助，单元测试和集成测试变得更简单。
+
+Spring 的测试模块对 JUnit（单元测试框架）、TestNG（类似 JUnit）、Mockito（主要用来 Mock 对象）、PowerMock（解决 Mockito 的问题比如无法模拟 final, static， private 方法）等等常用的测试框架支持的都比较好
+
+
+
 ## IoC、DI和AOP思想提出
 
 **IoC 控制反转思想的提出**：
@@ -148,7 +202,7 @@ applicationContext.getBean("com.itheima.dao.impl.UserDaoImpl");
 
 
 
-Bean的范围配置：
+Bean的作用域：
 
 默认情况下，单纯的Spring环境Bean的作用范围有两个：Singleton和Prototype 
 
@@ -577,35 +631,29 @@ InstantiationAwareBeanPostProcessor，DestructionAwareBeanPostProcessor是BeanPo
 
 #### Bean的生命周期
 
-Spring Bean的生命周期是从 Bean 实例化之后，即通过反射创建出对象之后，到Bean成为一个完整对象，最终存储到单例池中，这个过程被称为Spring Bean的生命周期。Spring Bean的生命周期大体上分为三个阶段： 
+Spring Bean的生命周期是从 Bean 实例化之后，即通过反射创建出对象之后，到Bean成为一个完整对象，最终存储到单例池中，这个过程被称为Spring Bean的生命周期。**实例化 —> 属性赋值 —> 初始化 —> 销毁。**
 
-* Bean的实例化阶段：Spring框架会取出BeanDefinition的信息进行判断当前Bean的范围是否是singleton的， 是否不是延迟加载的，是否不是FactoryBean等，最终将一个普通的singleton的Bean通过反射进行实例化； 
-* Bean的初始化阶段：Bean创建之后还仅仅是个"半成品"，还需要对Bean实例的属性进行填充、执行一些Aware 接口方法、执行BeanPostProcessor方法、执行InitializingBean接口的初始化方法、执行自定义初始化init方法 等。该阶段是Spring最具技术含量和复杂度的阶段，Aop增强功能，后面要学习的Spring的注解功能等、 spring高频面试题Bean的循环引用问题都是在这个阶段体现的； 
-* Bean的完成阶段：经过初始化阶段，Bean就成为了一个完整的Spring Bean，被存储到单例池 singletonObjects中去了，即完成了Spring Bean的整个生命周期。
-* 使用和销毁
+**1. 创建 Bean 的实例**：Bean 容器首先会找到配置文件中的 Bean 定义，取出**BeanDefinition**信息，然后使用 Java 反射 API 来创建 Bean 的实例。
 
+**2. Bean 属性赋值/填充**：为 Bean 设置相关属性和依赖，例如`@Autowired` 等注解注入的对象、`@Value` 注入的值、`setter`方法或构造函数注入依赖和值、`@Resource`注入的各种资源。
 
+**3. Bean 初始化**： 
 
-Spring Bean的初始化过程涉及如下几个过程： 
+* 如果实现了 `Aware`接口，就调用相应的方法。如果 Bean 实现了 `BeanNameAware` 接口，调用 `setBeanName()`方法，传入 Bean 的名字。如果 Bean 实现了 `BeanClassLoaderAware` 接口，调用 `setBeanClassLoader()`方法，传入 `ClassLoader`对象的实例。如果 Bean 实现了 `BeanFactoryAware` 接口，调用 `setBeanFactory()`方法，传入 `BeanFactory`对象的实例。
 
-* 属性注入 
-* Aware接口属性注入 
-* BeanPostProcessor的before()方法回调 
-* InitializingBean接口的初始化方法回调 
-* 自定义初始化方法init回调 
-* BeanPostProcessor的after()方法回调
+- 如果有和加载这个 Bean 的 Spring 容器相关的 `BeanPostProcessor` 对象，执行`postProcessBeforeInitialization()` 方法
+- 如果 Bean 实现了`InitializingBean`接口，执行`afterPropertiesSet()`方法。
+- 如果 Bean 在配置文件中的定义包含 `init-method` 属性，执行指定的方法。
+- 如果有和加载这个 Bean 的 Spring 容器相关的 `BeanPostProcessor` 对象，执行`postProcessAfterInitialization()` 方法。
 
+**4. 使用 Bean**
 
+**5. 销毁 Bean**：销毁并不是说要立马把 Bean 给销毁掉，而是把 Bean 的销毁方法先记录下来，将来需要销毁 Bean 或者销毁容器的时候，就调用这些方法去释放 Bean 所持有的资源。 
+
+- 如果 Bean 实现了 `DisposableBean` 接口，执行 `destroy()` 方法。
+- 如果 Bean 在配置文件中的定义包含 `destroy-method` 属性，执行指定的 Bean 销毁方法。或者，也可以直接通过`@PreDestroy` 注解标记 Bean 销毁之前执行的方法。
 
 ![](./Spring/bean生命周期.png)
-
-
-
-Aware 接口：
-
-接口允许Bean获取Spring框架中一些特定的资源或服务，如BeanFactory、ApplicationContext等。实现ApplicationContextAware接口可以获得ApplicationContext的引用，实现BeanNameAware接口可以获得关联对象定义中名称的引用。
-
-
 
 Spring在进行属性注入时，会分为如下几种情况： 
 
@@ -647,6 +695,14 @@ public class DefaultSingletonBeanRegistry ... {
     Map<String, ObjectFactory<?>> singletonFactories = new HashMap(16);
 }
 ```
+
+ Spring 创建 Bean 的流程：
+
+1. 先去 **一级缓存 `singletonObjects`** 中获取，存在就返回；
+2. 如果不存在或者对象正在创建中，于是去 **二级缓存 `earlySingletonObjects`** 中获取；
+3. 如果还没有获取到，就去 **三级缓存 `singletonFactories`** 中获取，通过执行 `ObjectFacotry` 的 `getObject()` 就可以获取该对象，获取成功之后，从三级缓存移除，并将该对象加入到二级缓存中。
+
+
 
 UserService和UserDao循环依赖的过程：
 
@@ -1035,6 +1091,19 @@ Spring主要提供如下注解，用于在Bean内部进行属性注入的：
 4. 普通方法注入：普通方法之上加上注解，可以注入单个属性、集合和`Map<String, T>`
 5. 形参注入：`public UserServiceImpl(@Autowired UserDao userDao) {this.userDao = userDao;}`
 6. 只有一个构造器，无注解：当有参数的构造方法只有一个时，注解可以省略。
+
+>  **构造函数注入还是 Setter 注入？**
+
+**Spring 官方推荐构造函数注入**，这种注入方式的优势如下：
+
+1. 依赖完整性：确保所有必需依赖在对象创建时就被注入，避免了空指针异常的风险。
+2. 不可变性：有助于创建不可变对象，提高了线程安全性。
+3. 初始化保证：组件在使用前已完全初始化，减少了潜在的错误。
+4. 测试便利性：在单元测试中，可以直接通过构造函数传入模拟的依赖项，而不必依赖 Spring 容器进行注入。
+
+构造函数注入适合处理**必需的依赖项**，而 **Setter 注入** 则更适合**可选的依赖项**，这些依赖项可以有默认值或在对象生命周期中动态设置。虽然 `@Autowired` 可以用于 Setter 方法来处理必需的依赖项，但构造函数注入仍然是更好的选择。
+
+在某些情况下（例如第三方类不提供 Setter 方法），构造函数注入可能是**唯一的选择**
 
 
 
@@ -1773,7 +1842,7 @@ public class ApplicationContextConfig {
 
 **Spring事务什么情况下会失效？**
 
-1. rollbackFor没设置对，比如默认没有任何设置（默认只会回滚RunException和Error），则方法内抛出IOException则不会回滚，需要配置`@Transactional(rollbackFor=Exception.class)`
+1. `@Transactional` 注解默认回滚策略是只有在遇到`RuntimeException`(运行时异常) 或者 `Error` 时才会回滚事务，而不会回滚 `Checked Exception`（受检查异常）。
 2. spring的事务在抛异常的时候会回滚，如果是catch捕获了，事务无效。可以在catch里面加上throw new RuntimeException();
 3. 同一个类中的方法调用事务会失效。同一个类的实例方法中直接调用另一个带有`@Transactional`注解的方法时，调用是通过`this`引用直接完成的，这样就绕过了代理，不会经过事务处理。
 4. @Transactional应用在非public方法上，事务失效
@@ -1785,6 +1854,14 @@ public class ApplicationContextConfig {
 
 
 [Spring Transaction Management: @Transactional In-Depth](https://www.marcobehler.com/guides/spring-transaction-management-transactional-in-depth)
+
+
+
+#### 原理
+
+`@Transactional` 的工作机制是基于 AOP 实现的。如果目标对象实现了接口，默认情况下会采用 JDK 的动态代理，如果目标对象没有实现了接口,会使用 CGLIB 动态代理。
+
+如果一个类或者一个类中的 public 方法上被标注`@Transactional` 注解的话，Spring 容器就会在启动的时候为其创建一个代理类，在调用被`@Transactional` 注解的 public 方法的时候，实际调用的是，`TransactionInterceptor` 类中的 `invoke()`方法。这个方法的作用就是在目标方法之前开启事务，方法执行过程中如果遇到异常的时候回滚事务，方法调用完成之后提交事务。
 
 
 
