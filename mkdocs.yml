@@ -24,6 +24,7 @@ nav:
      - Redis数据结构: Redis/数据结构.md
      - Redis高级: Redis/Redis高级.md
      - Redis应用: Redis/应用.md
+  - ES: ES/ES.md
   - 设计模式: 设计模式/设计模式.md
   - Spring: Spring/Spring6.md
   - SpringMVC: SpringMVC/SpringMVC.md
