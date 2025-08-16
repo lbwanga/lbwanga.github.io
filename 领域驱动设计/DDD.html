@@ -1,0 +1,1976 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="个人笔记，博客">
+      
+      
+        <meta name="author" content="wang">
+      
+      
+        <link rel="canonical" href="https://lbwanga.github.io/%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1/DDD.html">
+      
+      
+        <link rel="prev" href="../%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F.html">
+      
+      
+        <link rel="next" href="../%E5%90%8E%E7%AB%AF%E5%9C%BA%E6%99%AF/%E5%9C%BA%E6%99%AF.html">
+      
+      
+      <link rel="icon" href="../assets/logo.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.17">
+    
+    
+      
+        <title>DDD - WNotes</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.7e37652d.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+  
+  
+
+<script id="__analytics">function __md_analytics(){function e(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],e("js",new Date),e("config","G-XXXXXXXXXX"),document.addEventListener("DOMContentLoaded",(function(){document.forms.search&&document.forms.search.query.addEventListener("blur",(function(){this.value&&e("event","search",{search_term:this.value})}));document$.subscribe((function(){var t=document.forms.feedback;if(void 0!==t)for(var a of t.querySelectorAll("[type=submit]"))a.addEventListener("click",(function(a){a.preventDefault();var n=document.location.pathname,d=this.getAttribute("data-md-value");e("event","feedback",{page:n,data:d}),t.firstElementChild.disabled=!0;var r=t.querySelector(".md-feedback__note [data-md-value='"+d+"']");r&&(r.hidden=!1)})),t.hidden=!1})),location$.subscribe((function(t){e("config","G-XXXXXXXXXX",{page_path:t.pathname})}))}));var t=document.createElement("script");t.async=!0,t.src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX",document.getElementById("__analytics").insertAdjacentElement("afterEnd",t)}</script>
+  
+    <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+  
+
+    
+    
+    
+   <link href="../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
+    html.glightbox-open { overflow: initial; height: 100%; }
+    .gslide-title { margin-top: 0px; user-select: text; }
+    .gslide-desc { color: #666; user-select: text; }
+    .gslide-image img { background: white; }
+    .gscrollbar-fixer { padding-right: 15px; }
+    .gdesc-inner { font-size: 0.75rem; }
+    body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
+    body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
+    body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}</style> <script src="../assets/javascripts/glightbox.min.js"></script></head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="white" data-md-color-accent="blue">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#ddd是什么" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../index.html" title="WNotes" class="md-header__button md-logo" aria-label="WNotes" data-md-component="logo">
+      
+  <img src="../assets/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            WNotes
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              DDD
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/lbwanga/lbwanga.github.io" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    lbwanga
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../index.html" class="md-tabs__link">
+        
+  
+  
+    
+  
+  简介
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../Java/Java.html" class="md-tabs__link">
+          
+  
+  
+  Java
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../JUC/JUC.html" class="md-tabs__link">
+        
+  
+  
+    
+  
+  JUC
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../JVM/JVM.html" class="md-tabs__link">
+        
+  
+  
+    
+  
+  JVM
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../MySQL/MySQL.html" class="md-tabs__link">
+        
+  
+  
+    
+  
+  MySQL
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../Redis/Redis%E5%9F%BA%E7%A1%80.html" class="md-tabs__link">
+          
+  
+  
+  Redis
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../ES/ES.html" class="md-tabs__link">
+        
+  
+  
+    
+  
+  ES
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F.html" class="md-tabs__link">
+        
+  
+  
+    
+  
+  设计模式
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../Spring/Spring6.html" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Spring
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../SpringMVC/SpringMVC.html" class="md-tabs__link">
+        
+  
+  
+    
+  
+  SpringMVC
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../SpringBoot/SpringBoot.html" class="md-tabs__link">
+        
+  
+  
+    
+  
+  SpringBoot
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../RocketMQ/RocketMQ.html" class="md-tabs__link">
+        
+  
+  
+    
+  
+  RocketMQ
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C.html" class="md-tabs__link">
+        
+  
+  
+    
+  
+  计算机网络
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F.html" class="md-tabs__link">
+        
+  
+  
+    
+  
+  操作系统
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    <li class="md-tabs__item md-tabs__item--active">
+      <a href="DDD.html" class="md-tabs__link">
+        
+  
+  
+    
+  
+  DDD
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../%E5%90%8E%E7%AB%AF%E5%9C%BA%E6%99%AF/%E5%9C%BA%E6%99%AF.html" class="md-tabs__link">
+        
+  
+  
+    
+  
+  后端场景
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../index.html" title="WNotes" class="md-nav__button md-logo" aria-label="WNotes" data-md-component="logo">
+      
+  <img src="../assets/logo.png" alt="logo">
+
+    </a>
+    WNotes
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/lbwanga/lbwanga.github.io" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    lbwanga
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    简介
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Java
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Java
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Java/Java.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Java基础
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Java/Java%E9%9B%86%E5%90%88.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Java集合
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../JUC/JUC.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    JUC
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../JVM/JVM.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    JVM
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../MySQL/MySQL.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    MySQL
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Redis
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            Redis
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Redis/Redis%E5%9F%BA%E7%A1%80.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Redis基础
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Redis/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Redis数据结构
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Redis/Redis%E9%AB%98%E7%BA%A7.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Redis高级
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Redis/%E5%BA%94%E7%94%A8.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Redis应用
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ES/ES.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    ES
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    设计模式
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Spring/Spring6.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Spring
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../SpringMVC/SpringMVC.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    SpringMVC
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../SpringBoot/SpringBoot.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    SpringBoot
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RocketMQ/RocketMQ.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    RocketMQ
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    计算机网络
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    操作系统
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    DDD
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="DDD.html" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    DDD
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#ddd是什么" class="md-nav__link">
+    <span class="md-ellipsis">
+      DDD是什么？
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#核心概念" class="md-nav__link">
+    <span class="md-ellipsis">
+      核心概念
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#领域建模" class="md-nav__link">
+    <span class="md-ellipsis">
+      领域建模
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#分层架构" class="md-nav__link">
+    <span class="md-ellipsis">
+      分层架构
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ddd面试题" class="md-nav__link">
+    <span class="md-ellipsis">
+      DDD面试题
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="DDD面试题">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#请解释下什么是-ddd-领域驱动设计" class="md-nav__link">
+    <span class="md-ellipsis">
+      请解释下什么是 DDD 领域驱动设计？
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ddd中的分层架构通常包括哪些层次" class="md-nav__link">
+    <span class="md-ellipsis">
+      DDD中的分层架构通常包括哪些层次?
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ddd-中的实体和值对象有什么区别" class="md-nav__link">
+    <span class="md-ellipsis">
+      DDD 中的实体和值对象有什么区别？
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ddd-中的贫血模型和充血模型有什么区别" class="md-nav__link">
+    <span class="md-ellipsis">
+      DDD 中的贫血模型和充血模型有什么区别？
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ddd-中的限界上下文是什么有什么用如何识别并定义" class="md-nav__link">
+    <span class="md-ellipsis">
+      DDD 中的限界上下文是什么？有什么用？如何识别并定义？
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ddd-的四层领域模型是怎样的包含哪些基础概念" class="md-nav__link">
+    <span class="md-ellipsis">
+      DDD 的四层领域模型是怎样的？包含哪些基础概念？
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ddd中的战略设计和战术设计分别指的是什么它们在项目中的应用时机是怎样的" class="md-nav__link">
+    <span class="md-ellipsis">
+      DDD中的“战略设计”和“战术设计”分别指的是什么？它们在项目中的应用时机是怎样的？
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ddd的主要组成部分是什么" class="md-nav__link">
+    <span class="md-ellipsis">
+      DDD的主要组成部分是什么?
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#为什么需要域驱动设计ddd" class="md-nav__link">
+    <span class="md-ellipsis">
+      为什么需要域驱动设计（DDD）？
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#什么是聚合和聚合根" class="md-nav__link">
+    <span class="md-ellipsis">
+      什么是聚合和聚合根?
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#什么是领域驱动设计中的-cqrs-模式" class="md-nav__link">
+    <span class="md-ellipsis">
+      什么是领域驱动设计中的 CQRS 模式？
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#你如何看待ddd与微服务架构之间的关系它们如何相互补充" class="md-nav__link">
+    <span class="md-ellipsis">
+      你如何看待DDD与微服务架构之间的关系？它们如何相互补充？
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#你能否举例说明ddd框架中的某个特性是如何帮助你解决具体业务问题的" class="md-nav__link">
+    <span class="md-ellipsis">
+      你能否举例说明DDD框架中的某个特性是如何帮助你解决具体业务问题的？
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#你认为ddd框架相比传统开发方法有哪些优势" class="md-nav__link">
+    <span class="md-ellipsis">
+      你认为DDD框架相比传统开发方法有哪些优势？
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#在-ddd-中如何处理跨多个实体的复杂业务" class="md-nav__link">
+    <span class="md-ellipsis">
+      在 DDD 中，如何处理跨多个实体的复杂业务？
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#在ddd中如何识别和应用聚合的最佳实践有没有遇到过聚合过大或过小的情况你是如何处理的" class="md-nav__link">
+    <span class="md-ellipsis">
+      在DDD中，如何识别和应用聚合的最佳实践？有没有遇到过聚合过大或过小的情况？你是如何处理的？
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#在ddd项目中你如何确定哪些逻辑应该放在领域模型中哪些应该放在应用层或服务层" class="md-nav__link">
+    <span class="md-ellipsis">
+      在DDD项目中，你如何确定哪些逻辑应该放在领域模型中，哪些应该放在应用层或服务层？
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#在你的项目中你是如何应用ddd框架来指导设计和开发的" class="md-nav__link">
+    <span class="md-ellipsis">
+      在你的项目中，你是如何应用DDD框架来指导设计和开发的？
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#如何在ddd中处理数据一致性问题" class="md-nav__link">
+    <span class="md-ellipsis">
+      如何在DDD中处理数据一致性问题?
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../%E5%90%8E%E7%AB%AF%E5%9C%BA%E6%99%AF/%E5%9C%BA%E6%99%AF.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    后端场景
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#ddd是什么" class="md-nav__link">
+    <span class="md-ellipsis">
+      DDD是什么？
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#核心概念" class="md-nav__link">
+    <span class="md-ellipsis">
+      核心概念
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#领域建模" class="md-nav__link">
+    <span class="md-ellipsis">
+      领域建模
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#分层架构" class="md-nav__link">
+    <span class="md-ellipsis">
+      分层架构
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ddd面试题" class="md-nav__link">
+    <span class="md-ellipsis">
+      DDD面试题
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="DDD面试题">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#请解释下什么是-ddd-领域驱动设计" class="md-nav__link">
+    <span class="md-ellipsis">
+      请解释下什么是 DDD 领域驱动设计？
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ddd中的分层架构通常包括哪些层次" class="md-nav__link">
+    <span class="md-ellipsis">
+      DDD中的分层架构通常包括哪些层次?
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ddd-中的实体和值对象有什么区别" class="md-nav__link">
+    <span class="md-ellipsis">
+      DDD 中的实体和值对象有什么区别？
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ddd-中的贫血模型和充血模型有什么区别" class="md-nav__link">
+    <span class="md-ellipsis">
+      DDD 中的贫血模型和充血模型有什么区别？
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ddd-中的限界上下文是什么有什么用如何识别并定义" class="md-nav__link">
+    <span class="md-ellipsis">
+      DDD 中的限界上下文是什么？有什么用？如何识别并定义？
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ddd-的四层领域模型是怎样的包含哪些基础概念" class="md-nav__link">
+    <span class="md-ellipsis">
+      DDD 的四层领域模型是怎样的？包含哪些基础概念？
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ddd中的战略设计和战术设计分别指的是什么它们在项目中的应用时机是怎样的" class="md-nav__link">
+    <span class="md-ellipsis">
+      DDD中的“战略设计”和“战术设计”分别指的是什么？它们在项目中的应用时机是怎样的？
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ddd的主要组成部分是什么" class="md-nav__link">
+    <span class="md-ellipsis">
+      DDD的主要组成部分是什么?
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#为什么需要域驱动设计ddd" class="md-nav__link">
+    <span class="md-ellipsis">
+      为什么需要域驱动设计（DDD）？
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#什么是聚合和聚合根" class="md-nav__link">
+    <span class="md-ellipsis">
+      什么是聚合和聚合根?
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#什么是领域驱动设计中的-cqrs-模式" class="md-nav__link">
+    <span class="md-ellipsis">
+      什么是领域驱动设计中的 CQRS 模式？
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#你如何看待ddd与微服务架构之间的关系它们如何相互补充" class="md-nav__link">
+    <span class="md-ellipsis">
+      你如何看待DDD与微服务架构之间的关系？它们如何相互补充？
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#你能否举例说明ddd框架中的某个特性是如何帮助你解决具体业务问题的" class="md-nav__link">
+    <span class="md-ellipsis">
+      你能否举例说明DDD框架中的某个特性是如何帮助你解决具体业务问题的？
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#你认为ddd框架相比传统开发方法有哪些优势" class="md-nav__link">
+    <span class="md-ellipsis">
+      你认为DDD框架相比传统开发方法有哪些优势？
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#在-ddd-中如何处理跨多个实体的复杂业务" class="md-nav__link">
+    <span class="md-ellipsis">
+      在 DDD 中，如何处理跨多个实体的复杂业务？
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#在ddd中如何识别和应用聚合的最佳实践有没有遇到过聚合过大或过小的情况你是如何处理的" class="md-nav__link">
+    <span class="md-ellipsis">
+      在DDD中，如何识别和应用聚合的最佳实践？有没有遇到过聚合过大或过小的情况？你是如何处理的？
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#在ddd项目中你如何确定哪些逻辑应该放在领域模型中哪些应该放在应用层或服务层" class="md-nav__link">
+    <span class="md-ellipsis">
+      在DDD项目中，你如何确定哪些逻辑应该放在领域模型中，哪些应该放在应用层或服务层？
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#在你的项目中你是如何应用ddd框架来指导设计和开发的" class="md-nav__link">
+    <span class="md-ellipsis">
+      在你的项目中，你是如何应用DDD框架来指导设计和开发的？
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#如何在ddd中处理数据一致性问题" class="md-nav__link">
+    <span class="md-ellipsis">
+      如何在DDD中处理数据一致性问题?
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/lbwanga/lbwanga.github.io/edit/master/docs/领域驱动设计/DDD.md" title="编辑此页" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+
+
+  <h1>DDD</h1>
+
+<p><a href="https://juejin.cn/post/7371716397297139721?searchId=202503022149398C5C811F3D881B18269B">DDD领域驱动设计理论｜得物技术领域驱动设计简称“DDD”，一套“知易行难”的方法论。同时我所工作的这些年，尤其在某大厂 - 掘金</a></p>
+<h2 id="ddd是什么">DDD是什么？<a class="headerlink" href="#ddd是什么" title="Permanent link"></a></h2>
+<p>DDD 是一种软件设计方法。</p>
+<p>DDD设计的目标是实现软件系统与业务需求的高度契合，提高开发效率和质量，同时也能更好地应对复杂性和变化性。它强调以业务为中心，通过深入领域知识和建立有效的领域模型，来驱动软件设计和开发的整个过程。</p>
+<p>领域驱动设计是为了解决复杂软件设计的一种优秀方案，它把所有的业务规则、定义、范围、知识等抽象成了一个大的概念，叫做<strong>领域</strong>。比如用户支付的业务场景，叫做交易域；平台提供售后等服务叫做服务域（或客服域），还有其他诸如金融域，人效域，物流域等。它应对复杂性的思想，总结下来既简单，又精炼，叫做“<strong>分而治之</strong>”。把最大化的领域（复杂问题）分为下层的一个个子域，同时每个子域又规定好边界和核心实体，通过一系列的拆分、归类、衍生，最终找到最优解。</p>
+<blockquote>
+<p><strong>DDD vs MVC</strong></p>
+</blockquote>
+<p>MVC架构其实很精粹，清晰，对于业务逻辑并不复杂，单一化的场景其实效率是很高的。但是随着业务的多变性和不断复杂化，MVC架构就会暴露以下问题：</p>
+<ol>
+<li>MVC架构没有边界划分的概念和规范，在复杂的业务场景下会造成盘根交错的逻辑依赖，同时随着业务场景的不复杂化，代码意图会逐渐模糊，维护成本增加，对于系统的稳定性也会带来挑战。</li>
+<li>MVC<strong>仅反映软件架构的分层，不定义业务语义的抽象和表达</strong>，对于业务知识的沉淀和复用性来说，不太友好。</li>
+<li>MVC分割了数据和行为的表达，Model层（pojo）定义数据，Service层表述行为，会造成业务逻辑的首尾分离。</li>
+</ol>
+<blockquote>
+<p><strong>DDD的价值</strong></p>
+</blockquote>
+<p>团队价值：</p>
+<ol>
+<li>统一语言</li>
+<li>清晰的边界定义：定义清晰的业务范围，避免边界纷争。</li>
+<li>面向业务建模</li>
+<li>代码直观表现设计</li>
+</ol>
+<p>个人价值：</p>
+<ol>
+<li>提升全局视野</li>
+<li>提升业务sense</li>
+</ol>
+<blockquote>
+<p><strong>DDD的缺点</strong></p>
+</blockquote>
+<ol>
+<li>
+<p>逻辑相对简单的业务和产品，用传统的MVC架构会更适合，构建也更快速。</p>
+</li>
+<li>
+<p>非业务形态产品和应用并不适合，比如bigdata。这类应用和业务专注于数据层的交互和适配，并无强业务语义类诉求，而DDD最关键的一部分就是业务领域的抽象和包装，切记，它解决的是负责业务问题。</p>
+</li>
+</ol>
+<blockquote>
+<p><strong>DDD 的核心原则包括</strong></p>
+</blockquote>
+<ul>
+<li><strong>领域为中心</strong>：以业务领域为核心，所有设计围绕领域模型展开。</li>
+<li><strong>通用语言</strong>：开发团队与领域专家共同定义一套无歧义的术语，贯穿设计、代码和文档。</li>
+<li><strong>分层架构</strong>：分离技术实现与业务逻辑，典型分层包括用户界面层、应用层（协调用例）、领域层（核心业务规则）、基础设施层（技术实现）。</li>
+<li><strong>战略设计</strong>：通过限界上下文（Bounded Context）划分领域边界，明确上下文映射关系（如防腐层、共享内核等）。</li>
+<li><strong>战术设计</strong>：使用领域模型元素（实体、值对象、聚合、领域服务、领域事件等）实现业务逻辑。</li>
+<li><strong>持续演进</strong>：模型随业务需求迭代，通过重构保持灵活性。</li>
+</ul>
+<h2 id="核心概念">核心概念<a class="headerlink" href="#核心概念" title="Permanent link"></a></h2>
+<p>DDD这套方法论的一个完整设计流程：核心在于战略设计和战术设计</p>
+<p><a class="glightbox" href="DDD/DDD%E5%AE%8C%E6%95%B4%E8%AE%BE%E8%AE%A1%E6%B5%81%E7%A8%8B.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="DDD/DDD%E5%AE%8C%E6%95%B4%E8%AE%BE%E8%AE%A1%E6%B5%81%E7%A8%8B.png" /></a></p>
+<ol>
+<li>
+<p>首先第一步，根据业务诉求，<strong>提炼出整体的业务流程</strong>，同时拆解出里面的关键事件，角色，参与者等核心实例。整个拆解和梳理的方法论，目前业界有一些比较成熟的，比如事件风暴，四色建模法等。</p>
+</li>
+<li>
+<p>提炼完整个业务流程后，进入战略设计阶段，这个阶段主要是从全局和顶层的视角，<strong>把整个业务语义转换为结构化分层</strong>。通过领域和子域的划分，同时结合通用域、支撑域、限界上下文等设计，分解问题复杂度，其实就是前面说到的“分而治之”的思想。</p>
+</li>
+<li>
+<p>接下来就会到具体的战术设计阶段，通过前面的战略设计阶段，已经把整个领域、边界、上下文等关键模块都梳理完成，现在就是<strong>从各个域中再次拆解更细粒度的模块</strong>，去指导最终的编码实现，这些更细粒度的模块包括实体、聚合、聚合根等。</p>
+</li>
+<li>
+<p>最后就到了编码实现阶段，DDD有一个关键价值，叫做 <strong>“设计即实现”</strong> ，所以在战术阶段的设计，理论上是可以直接作用于代码的分层结构，如果架构和战术阶段有出入，说明之前的设计有问题，可以复盘重新推演。</p>
+</li>
+</ol>
+<p><strong>战略设计</strong></p>
+<p>战略设计关注的是在整个业务和系统架构层面上进行设计，主要涉及如何识别、划分和组织领域。其重点是理解业务环境、领域边界、子领域和这些子领域之间的关系。它通常在项目前期的需求分析阶段应用，帮助团队成员达成对业务的共识。</p>
+<p><strong>战术设计</strong></p>
+<p>战术设计关注的是具体的技术实现层面，涉及到如何在每个界限上下文内具体实现领域模型。它包括设计实体、值对象、聚合、领域服务等。它在战略设计完成后的详细设计和开发阶段应用。</p>
+<blockquote>
+<p><strong>战略设计</strong>主要解决的是“什么”的问题：我们在做什么，业务的哪些部分需要关注，以及如何划分边界。</p>
+<p><strong>战术设计</strong>则关注“怎么做”：在这些领域中，我们如何具体实现领域模型和功能。</p>
+</blockquote>
+<p><strong>领域</strong></p>
+<p>领域（Domain）是指业务问题的特定领域范围，它涉及到特定业务的规则、概念、业务流程等。领域是对业务问题进行分解和组织的基本单位。</p>
+<p><strong>通用语言</strong></p>
+<p>通用语言是领域驱动设计中团队成员（业务人员、开发人员、测试人员等）在交流和协作时使用的统一、无歧义的语言，基于业务领域概念和规则构建。使用通用语言能消除沟通障碍，确保团队对业务需求理解一致，提升协作效率和质量。</p>
+<p><strong>子域</strong></p>
+<p>子域（Subdomain）是指在一个大的领域中划分出的相对独立的子领域，它通常代表一个独立的业务领域，具有特定的业务逻辑和功能需求。子域可以是整个系统的一个功能模块，也可以是一个独立的业务流程。</p>
+<p><strong>通用域</strong></p>
+<p>通用域（Generic Domain）是指与特定业务领域无关的通用功能，它是在整个领域中被多个子域所共享和复用的功能。通用域包括一些通用的服务、工具、组件等，用于支持多个子域的实现。</p>
+<p><strong>支撑域</strong></p>
+<p>支撑域（Supporting Domain）指的是与核心业务的实现和发展密切相关的非业务功能。这些支撑域可以包括安全认证、用户管理、日志记录等在整个系统中被多个子域所共享和使用的基础设施功能。支撑域和通用域概念上有些类似，区分他们的标准简单归纳下的话，支撑域是由外域提供的能力，通用域是本域提供。</p>
+<p><strong>限界上下文</strong></p>
+<p>限界上下文是领域模型中一个明确的边界，边界内的模型术语、规则和逻辑保持一致，且独立于其他上下文。</p>
+<p><strong>实体</strong></p>
+<p>实体是具有唯一标识的对象，其标识在对象的整个生命周期内保持不变。实体的状态可以改变，但标识不变，通过标识可以跟踪实体的变化。</p>
+<ol>
+<li><strong>贫血模型</strong>：贫血模型指的是实体主要包含属性（字段）而缺乏业务逻辑和行为。业务逻辑通常被放置在服务（Service）层中。</li>
+<li><strong>充血模型</strong>：充血模型与贫血模型相反，实体不仅包含数据，还包含处理这些数据的业务逻辑。实体通常会有丰富的方法来操作其内部状态。</li>
+</ol>
+<blockquote>
+<p>更喜欢使用<strong>贫血+充血的混合模型</strong>（或者叫充血模型的简化版），因为这里涉及到一个标准的建立问题，如果只用充血模型的话，哪些行为和逻辑该下方到接口服务层，哪些又该收拢到实体中，这里面每个人的理念不一样。而我的标准是，<strong>涉及到持久层和复杂行为都下放到服务层，简单行为放到实体模型中</strong>。这样有个好处，随着业务的发展，如果只用充血模型，你的实体会越来越臃肿；如果只有贫血模型，自身又太单薄。所以一部分行为下放到服务层，我可以更细粒度的拆分服务接口，保证更优良的边界和代码可读性，同时也保证了模型自身的健壮性。</p>
+</blockquote>
+<p><strong>值对象</strong></p>
+<p>值对象没有唯一标识，它描述的是一个不变的概念整体，主要通过属性值来进行区分和比较。值对象一旦创建，其属性值通常不会改变。比如地址信息，手机号码，标签属性等。</p>
+<p><strong>聚合</strong></p>
+<p>聚合是一组相关对象的集合，这些对象在某种业务上是紧密相关的，并且在某些操作中需要作为一个整体来处理。聚合确保了该集合内部的业务规则和不变量的一致性。通常，聚合包含多个实体（Entity）和值对象（Value Object），它们共同代表一个一致的概念。</p>
+<p><strong>聚合根</strong></p>
+<p>聚合根是聚合中唯一的入口点，它是聚合的代表，并且负责管理聚合内部的其他对象。任何外部对象对聚合的访问只能通过聚合根进行。聚合根确保了聚合内一致性和完整性，保证通过聚合根进行的所有操作都不会违反业务规则。</p>
+<p><strong>仓储</strong></p>
+<p>用于封装数据访问逻辑，使应用程序能够以面向对象的方式处理持久性数据，提供了持久化和查询操作。仓库将领域模型与数据存储层分离，使得领域模型可以专注于业务逻辑。</p>
+<p><strong>领域模型</strong></p>
+<p>领域模型是对业务领域的抽象，旨在捕捉业务需求和规则。它通常包括实体、值对象和聚合。</p>
+<p><strong>领域服务</strong></p>
+<p>用于表示在业务领域中，无法归类为实体或值对象的操作。领域服务允许将业务逻辑与数据模型分离。用途主要包括处理跨多个实体的业务逻辑、封装复杂业务规则以及处理与外部系统的交互。</p>
+<p><strong>领域事件</strong></p>
+<p>代表领域中的发生的重要事件，可以用于通知其他领域对象或跨限界上下文进行解耦和协作。</p>
+<h2 id="领域建模">领域建模<a class="headerlink" href="#领域建模" title="Permanent link"></a></h2>
+<p><strong>事件风暴建模</strong></p>
+<p>事件风暴通过团队协作的方式，以用户的视角来讨论和探索整个业务流程。参与者将自己的理解和知识通过贴在墙上的便利贴上表达出来，核心会围绕着事件去编排整个业务流程。</p>
+<p>先从业务事件入手，找出引发这些事件的命令，进而确定产生这些命令的聚合根。例如在电商系统中，“订单创建”是一个事件，对应的命令可能是“用户提交订单”，相关的聚合根可能是“订单”。</p>
+<p><strong>四色建模</strong></p>
+<p>四色建模，基于业务角色和时间维度，将元素分为时刻/时间段、角色、描述、事实四类进行建模。用一句话来概括四色原型就是：<strong>一个什么样的人或物品以某种角色在某个时刻或某段时间内参与某个活动</strong>。</p>
+<p>DDD 的建模过程，是以一个用户为起点，通过行为命令，发起行为动作，串联整个业务。而这个用户的起点最初来自于用例图的分析。用例图是用户与系统交互的最简表示形式，展现了用户和与他相关的用例之间的关系。通过用例图，我们可以分析出所有的行为动作。</p>
+<p>在 DDD 中用于完成用户的行为命令和动作分析的过程，是一个四色建模的过程，也称作风暴模型。</p>
+<p><a class="glightbox" href="DDD/%E5%BB%BA%E6%A8%A1%E6%96%B9%E6%B3%95.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="DDD/%E5%BB%BA%E6%A8%A1%E6%96%B9%E6%B3%95.png" /></a></p>
+<p>通过寻找领域事件，发起事件命令，完成领域事件的过程，完成 DDD 工程建模。</p>
+<ul>
+<li>蓝色 - 决策命令，是用户发起的行为动作，如：开始签到、开始抽奖、查看额度等。</li>
+<li>黄色 - 领域事件，过去时态描述。如：签到完成、抽奖完成、奖品发放完成。它所阐述的都是这个领域要完成的终态。</li>
+<li>粉色 - 外部系统，如你的系统需要调用外部的接口完成流程。</li>
+<li>红色 - 业务流程，用于串联决策命令到领域事件，所实现的业务流程。一些简单的场景则直接由决策命令到领域事件就可以了。</li>
+<li>绿色 - 只读模型，做一些读取数据的动作，没有写库的操作。</li>
+<li>棕色 - 领域对象，每个决策命令的发起，都是含有一个对应的领域对象。</li>
+</ul>
+<h2 id="分层架构">分层架构<a class="headerlink" href="#分层架构" title="Permanent link"></a></h2>
+<p><a class="glightbox" href="DDD/%E5%B7%A5%E7%A8%8B%E7%BB%93%E6%9E%84.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="DDD/%E5%B7%A5%E7%A8%8B%E7%BB%93%E6%9E%84.png" /></a></p>
+<ul>
+<li><strong>接口定义 - api</strong>：因为微服务中引用的 RPC 需要对外提供接口的描述信息，也就是调用方在使用的时候，需要引入 Jar 包，让调用方好能依赖接口的定义做代理。</li>
+<li><strong>应用封装 - app</strong>：这是应用启动和配置的一层，如一些 aop 切面或者 config 配置，以及打包镜像都是在这一层处理。你可以把它理解为专门为了启动服务而存在的。</li>
+<li><strong>领域封装 - domain</strong>：包含业务逻辑和领域模型，负责处理与业务相关的规则和行为。领域层是DDD的核心，包含实体（Entities）、值对象（Value Objects）、聚合（Aggregates）和领域服务（Domain Services）。</li>
+<li><strong>仓储服务 - infrastructure</strong>：提供技术支撑，如持久化机制、外部服务的调用、消息队列等。基础设施层与其他层进行通信，负责平台相关的细节和实现。基础层依赖于 domain 领域层，因为在 domain 层定义了仓储接口需要在基础层实现，这是依赖倒置的一种设计方式。</li>
+<li><strong>领域封装 - trigger</strong>：触发器层，一般也被叫做 adapter 适配器层。负责与用户交互，接收用户输入并展示输出。通常包括用户界面（UI）和应用程序编程接口（API）。</li>
+<li><strong>类型定义 - types</strong>：通用类型定义层，在我们的系统开发中，会有很多类型的定义，包括；基本的 Response、Constants 和枚举。它会被其他的层进行引用使用。</li>
+<li><strong>领域编排【可选】 - case</strong>：领域编排层，一般对于较大且复杂的的项目，为了更好的防腐和提供通用的服务，一般会添加 case/application 层，用于对 domain 领域的逻辑进行封装组合处理。</li>
+</ul>
+<h2 id="ddd面试题">DDD面试题<a class="headerlink" href="#ddd面试题" title="Permanent link"></a></h2>
+<h3 id="请解释下什么是-ddd-领域驱动设计">请解释下什么是 DDD 领域驱动设计？<a class="headerlink" href="#请解释下什么是-ddd-领域驱动设计" title="Permanent link"></a></h3>
+<p>DDD是一种软件设计方法，它的目标是实现软件系统和业务需求的高度契合，更好的应对复杂性和变化性，mvc仅反映软件架构上了分层，不包含业务语义，并且随着业务场景的复杂化，service层臃肿杂乱、代码意图模糊，DDD将复杂的业务逻辑划分为一个个领域，分而治之，代码即文档。</p>
+<p>DDD包含多个关键元素，如领域可细分为核心、支撑和通用子领域；实体有唯一标识，具备状态和行为；值对象用于描述特征且无唯一标识；聚合由相关实体和值对象组成，有根实体；领域服务封装复杂业务逻辑；仓储负责实体的持久化和检索。</p>
+<p>采用DDD能提高软件质量，促进团队沟通，使软件更好应对业务变化。</p>
+<h3 id="ddd中的分层架构通常包括哪些层次">DDD中的分层架构通常包括哪些层次?<a class="headerlink" href="#ddd中的分层架构通常包括哪些层次" title="Permanent link"></a></h3>
+<p>DDD中的分层架构通常包括用户界面层、应用层、领域层和基础设施层。用户界面层负责与用户交互，接收请求并展示结果；应用层协调领域层的业务逻辑，处理业务用例流程；领域层是业务核心，包含业务规则、领域模型和领域服务；基础设施层提供底层的技术支持，如数据库访问、消息队列等。</p>
+<h3 id="ddd-中的实体和值对象有什么区别">DDD 中的实体和值对象有什么区别？<a class="headerlink" href="#ddd-中的实体和值对象有什么区别" title="Permanent link"></a></h3>
+<p>在 DDD 中，实体和值对象有明显区别。实体具有唯一标识，其标识在整个生命周期内保持不变，状态可以改变，有独立的生命周期，适用于需要跟踪对象状态变化、进行业务操作的场景。例如电商系统中的订单，订单号是其唯一标识，订单状态可以改变，并且订单有自己从创建到完成的生命周期。</p>
+<p>值对象没有唯一标识，通过属性值来区分，通常是不可变的，没有独立的生命周期，依赖于关联的实体，适用于描述某个概念、特征或作为实体的属性。比如订单中的金额值对象，通过金额数值和货币类型区分，创建后属性不可变，随着订单的存在而存在。</p>
+<h3 id="ddd-中的贫血模型和充血模型有什么区别">DDD 中的贫血模型和充血模型有什么区别？<a class="headerlink" href="#ddd-中的贫血模型和充血模型有什么区别" title="Permanent link"></a></h3>
+<p>在 DDD 中，贫血模型和充血模型主要有以下区别： </p>
+<p>业务逻辑分布方面，贫血模型的实体对象仅作为数据载体，只包含数据字段和对应的访问方法，业务逻辑被放在专门的服务类中；而充血模型的实体对象不仅包含数据，还包含与该实体相关的业务逻辑。 </p>
+<p>设计原则遵循度上，贫血模型违背了面向对象的封装原则，将数据和行为分离；充血模型符合面向对象编程思想，强调对象的封装性和内聚性。 </p>
+<p>适用场景不同，贫血模型适合简单业务场景，其结构清晰，易于理解和测试；充血模型适合复杂业务场景，能提高代码的可维护性和可扩展性。 </p>
+<p>代码复杂度上，贫血模型的实体类简单，但业务逻辑分散；充血模型的实体类可能较复杂，但业务逻辑集中。</p>
+<h3 id="ddd-中的限界上下文是什么有什么用如何识别并定义">DDD 中的限界上下文是什么？有什么用？如何识别并定义？<a class="headerlink" href="#ddd-中的限界上下文是什么有什么用如何识别并定义" title="Permanent link"></a></h3>
+<p>限界上下文是一个显式的边界，在这个边界内，特定的领域模型有其明确的含义和规则。在不同的限界上下文中，相同的术语可能有不同的含义。例如，“订单”在电商的“购物上下文”和“物流上下文”中，其关注的属性和操作可能不同。</p>
+<p>它的作用主要体现在以下几个方面：</p>
+<ol>
+<li>它能够划分业务边界，把复杂的业务系统拆分成多个相对独立的子领域，便于理解和管理业务逻辑；</li>
+<li>有利于促进团队协作，不同团队可以独立负责不同的限界上下文开发；</li>
+<li>有助于建立统一语言，减少因术语歧义带来的沟通问题；</li>
+<li>能提高系统的可维护性和扩展性，将系统修改和扩展的影响范围控制在特定上下文中。</li>
+</ol>
+<p>识别限界上下文可以通过业务流程分析、组织架构划分和业务目标与职责分析等方法，找出具有相对独立业务逻辑的部分。</p>
+<p>定义限界上下文时，要明确上下文的边界、定义上下文接口，并确定上下文内的领域模型。同时，要注意避免上下文重叠，保持上下文的独立性。</p>
+<h3 id="ddd-的四层领域模型是怎样的包含哪些基础概念">DDD 的四层领域模型是怎样的？包含哪些基础概念？<a class="headerlink" href="#ddd-的四层领域模型是怎样的包含哪些基础概念" title="Permanent link"></a></h3>
+<p>DDD的四层领域模型包括用户接口层、应用层、领域层和基础设施层。用户接口层负责与用户交互；应用层协调领域层的业务逻辑；领域层是核心，包含业务的核心逻辑和规则；基础设施层提供底层的技术支持。</p>
+<p>其基础概念有实体，具有唯一标识的对象；值对象，描述事物特征且无唯一标识；聚合，一组相关实体和值对象的集合；领域服务，处理不属于特定实体或值对象的业务逻辑；仓储，提供领域对象的持久化和检索操作。</p>
+<h3 id="ddd中的战略设计和战术设计分别指的是什么它们在项目中的应用时机是怎样的">DDD中的“战略设计”和“战术设计”分别指的是什么？它们在项目中的应用时机是怎样的？<a class="headerlink" href="#ddd中的战略设计和战术设计分别指的是什么它们在项目中的应用时机是怎样的" title="Permanent link"></a></h3>
+<p>战略设计是从宏观层面出发，关注业务战略和组织架构，主要涉及如何识别、划分和组织领域。它通常在项目前期的需求分析阶段应用，帮助团队成员达成对业务的共识。</p>
+<p>战术设计侧重于具体的代码实现，包含实体、值对象、聚合、仓库、服务等元素，用于将战略设计的业务概念转化为软件代码。它在战略设计完成后的详细设计和开发阶段应用。</p>
+<h3 id="ddd的主要组成部分是什么">DDD的主要组成部分是什么?<a class="headerlink" href="#ddd的主要组成部分是什么" title="Permanent link"></a></h3>
+<p>DDD主要由战略设计和战术设计两部分组成。战略设计部分包括领域、子域和限界上下文，领域是业务范围，子域分为核心子域、支撑子域和通用子域，限界上下文定义了领域模型的边界。战术设计部分包括实体、值对象、聚合、仓库和服务，实体有唯一标识且状态会变化，值对象用于描述特征，聚合是相关实体和值对象的集合且有根实体，仓库负责实体的持久化和查询，服务处理不属于单个实体或值对象的操作。</p>
+<h3 id="为什么需要域驱动设计ddd">为什么需要域驱动设计（DDD）？<a class="headerlink" href="#为什么需要域驱动设计ddd" title="Permanent link"></a></h3>
+<ol>
+<li>将业务逻辑封装在领域模型中，提高了代码的可维护性，使业务逻辑集中，修改时不影响其他部分。</li>
+<li>通过划分不同的子领域和限界上下文，增强了系统的可扩展性，便于添加新功能。</li>
+<li>提供了通用语言和模型，促进了团队协作，减少沟通成本。</li>
+<li>对于复杂业务，通过抽象和建模将问题分解，将复杂的业务问题分解为多个相对简单的子问题，从而降低了开发的难度。</li>
+</ol>
+<h3 id="什么是聚合和聚合根">什么是聚合和聚合根?<a class="headerlink" href="#什么是聚合和聚合根" title="Permanent link"></a></h3>
+<p>聚合是一组相关对象的集合，这些对象之间存在紧密的业务关联，它们共同完成一个特定的业务功能或满足一个特定的业务规则。聚合将相关对象封装在一起，减少了对象之间的依赖和耦合，提高了系统的可维护性和可扩展性。</p>
+<p>聚合根是聚合中的一个特殊对象，它是聚合的入口点，也是外部访问聚合的唯一途径。聚合根负责管理聚合内部的对象，维护聚合的完整性和一致性。外部对象只能通过聚合根来访问聚合内部的对象，而不能直接访问聚合内部的其他对象，从而保证了聚合的封装性和一致性。</p>
+<h3 id="什么是领域驱动设计中的-cqrs-模式">什么是领域驱动设计中的 CQRS 模式？<a class="headerlink" href="#什么是领域驱动设计中的-cqrs-模式" title="Permanent link"></a></h3>
+<p>CQRS 即 Command Query Responsibility Segregation，命令查询职责分离模式。</p>
+<p>它将系统的操作分为命令（Command）和查询（Query）两部分，使用不同的模型来处理这两种操作。命令用于改变系统的状态，如创建、更新、删除数据；查询用于读取系统的状态，获取数据。</p>
+<p>CQRS 模式的优点是分离了读操作和写操作的职责，使代码更加清晰，易于维护和扩展；可以分别对查询端和命令端进行优化，提高系统的性能和可扩展性。缺点是增加了系统的复杂度和开发成本，并且可能会导致查询端和命令端的数据不一致，需要额外的机制来保证数据的最终一致性。</p>
+<p>CQRS 模式适用于复杂业务系统、高并发系统以及对数据一致性要求较低的场景。</p>
+<h3 id="你如何看待ddd与微服务架构之间的关系它们如何相互补充">你如何看待DDD与微服务架构之间的关系？它们如何相互补充？<a class="headerlink" href="#你如何看待ddd与微服务架构之间的关系它们如何相互补充" title="Permanent link"></a></h3>
+<ul>
+<li>DDD是一种软件开发方法论，聚焦于领域模型的构建。它将业务需求抽象为领域模型，包含限界上下文、实体、值对象、聚合根等核心概念，通过对业务领域的深入理解和建模，解决复杂业务问题。</li>
+<li>微服务架构是一种软件架构风格，将应用拆分成多个小型、自治的服务。每个服务围绕特定业务能力构建，可独立开发、部署和扩展，服务间通过轻量级通信机制交互。</li>
+</ul>
+<p>DDD与微服务架构是相辅相成的关系。DDD为微服务架构的设计<strong>提供了理论指导和方法支持</strong>，通过限界上下文等概念帮助合理划分微服务的边界，使微服务的职责更加清晰。而微服务架构为DDD的实践提供了具体的落地环境，将DDD构建的领域模型以独立服务的形式实现。</p>
+<h3 id="你能否举例说明ddd框架中的某个特性是如何帮助你解决具体业务问题的">你能否举例说明DDD框架中的某个特性是如何帮助你解决具体业务问题的？<a class="headerlink" href="#你能否举例说明ddd框架中的某个特性是如何帮助你解决具体业务问题的" title="Permanent link"></a></h3>
+<p>以聚合特性为例解决库存管理问题</p>
+<ul>
+<li><strong>业务问题</strong>：在电商系统中，库存管理是一个复杂的业务场景。商品的库存数量需要在多个操作中保持一致，例如下单、取消订单、补货等。如果处理不当，可能会导致超卖或库存数据不一致的问题。</li>
+<li><strong>DDD特性应用</strong>：使用聚合特性来封装商品和库存的业务逻辑。将商品和其对应的库存作为一个聚合根，聚合根负责管理内部实体和值对象的状态变化，确保数据的一致性。</li>
+</ul>
+<h3 id="你认为ddd框架相比传统开发方法有哪些优势">你认为DDD框架相比传统开发方法有哪些优势？<a class="headerlink" href="#你认为ddd框架相比传统开发方法有哪些优势" title="Permanent link"></a></h3>
+<p>DDD框架相比传统开发方法具有多方面优势：</p>
+<ol>
+<li>能更好地理解和表达业务，通过领域建模使代码更贴近业务，提高可读性和可维护性。</li>
+<li>实现了高内聚低耦合，限界上下文的划分让系统结构更清晰，便于扩展和维护。</li>
+<li>支持团队协作，不同职责的团队成员能依据领域模型高效合作。</li>
+<li>它适应业务变化的能力强，能快速响应业务需求的调整。</li>
+<li>有助于提高软件质量，确保软件的正确性和完整性。</li>
+</ol>
+<h3 id="在-ddd-中如何处理跨多个实体的复杂业务">在 DDD 中，如何处理跨多个实体的复杂业务？<a class="headerlink" href="#在-ddd-中如何处理跨多个实体的复杂业务" title="Permanent link"></a></h3>
+<p>在DDD中处理跨多个实体的复杂业务可以采用以下方法：</p>
+<ul>
+<li><strong>使用聚合</strong>：将相关实体封装在一个聚合中，通过聚合根来协调内部实体的行为，保证聚合内实体的一致性。适用于实体联系紧密的场景，但要注意避免聚合过于庞大。</li>
+<li><strong>引入领域服务</strong>：当业务逻辑涉及多个聚合时，使用领域服务来协调不同聚合之间的操作，将复杂业务逻辑从实体中分离出来，提高代码的可维护性和可测试性。</li>
+<li><strong>使用事件驱动架构</strong>：通过领域事件解耦实体和业务流程，提高系统的可扩展性和灵活性，适用于业务流程复杂、需要降低实体耦合度的场景。</li>
+</ul>
+<h3 id="在ddd中如何识别和应用聚合的最佳实践有没有遇到过聚合过大或过小的情况你是如何处理的">在DDD中，如何识别和应用聚合的最佳实践？有没有遇到过聚合过大或过小的情况？你是如何处理的？<a class="headerlink" href="#在ddd中如何识别和应用聚合的最佳实践有没有遇到过聚合过大或过小的情况你是如何处理的" title="Permanent link"></a></h3>
+<p>在DDD中，识别和应用聚合可遵循以下最佳实践：从业务相关性出发，将紧密关联的对象组成聚合；保证聚合内的事务一致性，一个事务只操作一个聚合；明确聚合边界，外部对象只能通过聚合根访问聚合内对象；尽量减少聚合间的依赖。</p>
+<p>在实际项目中，可能会遇到聚合过大或过小的情况。聚合过大时，可根据业务功能和事务一致性原则拆分聚合；聚合过小时，可将相关的小聚合合并成一个大聚合。</p>
+<h3 id="在ddd项目中你如何确定哪些逻辑应该放在领域模型中哪些应该放在应用层或服务层">在DDD项目中，你如何确定哪些逻辑应该放在领域模型中，哪些应该放在应用层或服务层？<a class="headerlink" href="#在ddd项目中你如何确定哪些逻辑应该放在领域模型中哪些应该放在应用层或服务层" title="Permanent link"></a></h3>
+<p>各层主要职责：</p>
+<ul>
+<li><strong>领域模型</strong>：封装业务实体的状态和行为，反映业务概念和规则，是业务逻辑的核心表达。</li>
+<li><strong>应用层</strong>：负责接收用户请求，协调领域层和基础设施层的资源，实现具体业务用例。</li>
+<li><strong>服务层</strong></li>
+<li><strong>领域服务</strong>：处理单个领域内的复杂业务逻辑，当领域概念无法清晰归属某个实体时使用。</li>
+<li><strong>应用服务</strong>：处理跨领域的业务流程，协调多个领域服务完成业务操作。</li>
+</ul>
+<p>（1）确定逻辑放在领域模型的依据</p>
+<ul>
+<li><strong>业务规则紧密相关</strong>：如果逻辑是业务实体自身的规则，如订单的状态转换规则、商品的价格计算逻辑等，应放在领域模型中。这些规则是业务实体的固有属性，与实体的状态和行为紧密相连。</li>
+<li><strong>数据一致性维护</strong>：当逻辑用于维护实体内部数据的一致性时，适合放在领域模型。例如，一个账户实体，在进行存款和取款操作时，需要保证账户余额的一致性，这些逻辑应封装在账户实体中。</li>
+<li><strong>可复用性</strong>：具有高复用性的逻辑应放在领域模型。例如，某个业务规则在多个业务流程中都会用到，将其封装在领域模型中可以提高代码的复用性。</li>
+</ul>
+<p>（2）确定逻辑放在应用层的依据</p>
+<ul>
+<li><strong>业务用例协调</strong>：当逻辑是为了协调多个领域模型或领域服务完成一个具体的业务用例时，应放在应用层。例如，在一个电商系统中，处理用户下单的业务用例，需要协调订单、商品、库存等多个领域模型和服务，这个协调逻辑应放在应用层。</li>
+<li><strong>跨领域流程处理</strong>：涉及多个领域的业务流程，如用户注册时同时创建用户账户、发送欢迎邮件、分配初始积分等，这些跨领域的流程逻辑应放在应用层。</li>
+<li><strong>用户请求处理</strong>：直接处理用户请求的逻辑，如接收用户输入、验证输入参数等，通常放在应用层。</li>
+</ul>
+<p>（3）确定逻辑放在服务层的依据</p>
+<ul>
+<li>领域服务</li>
+<li><strong>复杂业务逻辑</strong>：当领域内的业务逻辑复杂，无法清晰归属某个实体时，使用领域服务。例如，在一个物流系统中，计算货物的运输成本，涉及多个因素，如重量、距离、运输方式等，这种复杂的计算逻辑可以放在领域服务中。</li>
+<li><strong>多实体协作</strong>：当逻辑需要多个实体协作完成时，适合放在领域服务。例如，在一个社交系统中，处理用户之间的好友关系，需要同时操作用户实体和好友关系实体，这个逻辑可以放在领域服务中。</li>
+<li>应用服务</li>
+<li><strong>跨领域协调</strong>：处理跨领域的业务流程，如电商系统中，处理订单支付成功后，同时更新订单状态、减少库存、增加用户积分等跨领域的操作，应放在应用服务中。</li>
+<li><strong>外部系统交互</strong>：与外部系统交互的逻辑，如调用第三方支付接口、发送短信通知等，通常放在应用服务中。</li>
+</ul>
+<p>（4）边界模糊时的处理原则</p>
+<ul>
+<li>当逻辑归属不明确时，应优先考虑领域模型，尽量将逻辑封装在实体中。如果逻辑确实无法归属到某个实体，再考虑使用领域服务。如果涉及跨领域的操作，则放在应用层或应用服务中。</li>
+</ul>
+<h3 id="在你的项目中你是如何应用ddd框架来指导设计和开发的">在你的项目中，你是如何应用DDD框架来指导设计和开发的？<a class="headerlink" href="#在你的项目中你是如何应用ddd框架来指导设计和开发的" title="Permanent link"></a></h3>
+<p>在项目中应用DDD框架指导设计和开发，我主要从战略设计和战术设计两个层面入手。</p>
+<p>在战略设计阶段，我会深入理解业务需求，将整个业务系统划分为多个子领域，并确定每个子领域的边界上下文，明确其职责和交互方式。</p>
+<p>在战术设计阶段，我会根据业务规则和需求构建领域模型，识别实体、值对象和聚合，设计领域服务处理跨实体或聚合的业务逻辑。同时，我会按照DDD的架构分层，设计应用层和基础设施层，应用层负责协调领域层的操作，基础设施层提供数据持久化和消息通信等服务。</p>
+<p>在开发实现过程中，我会按照DDD的架构分层组织代码，以领域模型为基础进行开发，先实现领域层的代码，再实现应用层和基础设施层的代码。并且，我会持续对领域模型进行优化，根据业务的发展和变化调整模型，同时对基础设施层的代码进行性能优化。</p>
+<p>例如，在一个电商项目中，我将其划分为商品管理、订单管理、用户管理等子领域，确定了各个子领域的边界上下文。在订单管理子领域中，我构建了订单实体和订单项值对象，设计了订单领域服务处理订单创建、支付等业务逻辑。通过这种方式，提高了代码的可维护性和可扩展性，使系统能够更好地适应业务的变化。</p>
+<h3 id="如何在ddd中处理数据一致性问题">如何在DDD中处理数据一致性问题?<a class="headerlink" href="#如何在ddd中处理数据一致性问题" title="Permanent link"></a></h3>
+<p>DDD强调将业务逻辑封装在领域模型中，通过聚合、实体、值对象等概念来组织代码。不同的聚合可能会涉及不同的数据库事务，从而产生数据一致性问题。</p>
+<p>在DDD中处理数据一致性问题可以采用多种方法。对于单个数据库操作，可使用本地事务保证一致性；涉及多个服务或数据库时，可采用分布式事务，如两阶段提交、三阶段提交或补偿事务。</p>
+<p>事件驱动架构也是常用的方法，通过领域事件和消息队列实现最终一致性。当聚合状态变化时发布领域事件，其他服务订阅并处理。还可以结合缓存和重试机制，缓存常用数据，对可能失败的操作进行重试。</p>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  <form class="md-feedback" name="feedback" hidden>
+    <fieldset>
+      <legend class="md-feedback__title">
+        Was this page helpful?
+      </legend>
+      <div class="md-feedback__inner">
+        <div class="md-feedback__list">
+          
+            <button class="md-feedback__icon md-icon" type="submit" title="This page was helpful" data-md-value="1">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 12a8 8 0 0 0-8-8 8 8 0 0 0-8 8 8 8 0 0 0 8 8 8 8 0 0 0 8-8m2 0a10 10 0 0 1-10 10A10 10 0 0 1 2 12 10 10 0 0 1 12 2a10 10 0 0 1 10 10M10 9.5c0 .8-.7 1.5-1.5 1.5S7 10.3 7 9.5 7.7 8 8.5 8s1.5.7 1.5 1.5m7 0c0 .8-.7 1.5-1.5 1.5S14 10.3 14 9.5 14.7 8 15.5 8s1.5.7 1.5 1.5m-5 7.73c-1.75 0-3.29-.73-4.19-1.81L9.23 14c.45.72 1.52 1.23 2.77 1.23s2.32-.51 2.77-1.23l1.42 1.42c-.9 1.08-2.44 1.81-4.19 1.81"/></svg>
+            </button>
+          
+            <button class="md-feedback__icon md-icon" type="submit" title="This page could be improved" data-md-value="0">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 12a8 8 0 0 0-8-8 8 8 0 0 0-8 8 8 8 0 0 0 8 8 8 8 0 0 0 8-8m2 0a10 10 0 0 1-10 10A10 10 0 0 1 2 12 10 10 0 0 1 12 2a10 10 0 0 1 10 10m-6.5-4c.8 0 1.5.7 1.5 1.5s-.7 1.5-1.5 1.5-1.5-.7-1.5-1.5.7-1.5 1.5-1.5M10 9.5c0 .8-.7 1.5-1.5 1.5S7 10.3 7 9.5 7.7 8 8.5 8s1.5.7 1.5 1.5m2 4.5c1.75 0 3.29.72 4.19 1.81l-1.42 1.42C14.32 16.5 13.25 16 12 16s-2.32.5-2.77 1.23l-1.42-1.42C8.71 14.72 10.25 14 12 14"/></svg>
+            </button>
+          
+        </div>
+        <div class="md-feedback__note">
+          
+            <div data-md-value="1" hidden>
+              
+              
+                
+              
+              
+              
+                
+                
+              
+              Thanks for your feedback!
+            </div>
+          
+            <div data-md-value="0" hidden>
+              
+              
+                
+              
+              
+              
+                
+                
+              
+              Thanks for your feedback! Help us improve this page by using our <a href="..." target="_blank" rel="noopener">feedback form</a>.
+            </div>
+          
+        </div>
+      </div>
+    </fieldset>
+  </form>
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2019 - 2024 wang
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "..", "features": ["content.action.edit", "content.code.copy", "content.code.select", "content.tabs.link", "navigation.tabs", "navigation.instant", "navigation.path", "toc.follow"], "search": "../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.92b07e13.min.js"></script>
+      
+    
+  <script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+document$.subscribe(() => { lightbox.reload() });
+</script></body>
+</html>

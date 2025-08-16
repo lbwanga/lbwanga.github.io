@@ -1,0 +1,1415 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="个人笔记，博客">
+      
+      
+        <meta name="author" content="wang">
+      
+      
+        <link rel="canonical" href="https://lbwanga.github.io/%E5%AE%B9%E5%99%A8/%E5%AE%B9%E5%99%A8.html">
+      
+      
+      
+      
+      <link rel="icon" href="../assets/logo.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.17">
+    
+    
+      
+        <title>容器 - WNotes</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.7e37652d.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+  
+  
+
+<script id="__analytics">function __md_analytics(){function e(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],e("js",new Date),e("config","G-XXXXXXXXXX"),document.addEventListener("DOMContentLoaded",(function(){document.forms.search&&document.forms.search.query.addEventListener("blur",(function(){this.value&&e("event","search",{search_term:this.value})}));document$.subscribe((function(){var t=document.forms.feedback;if(void 0!==t)for(var a of t.querySelectorAll("[type=submit]"))a.addEventListener("click",(function(a){a.preventDefault();var n=document.location.pathname,d=this.getAttribute("data-md-value");e("event","feedback",{page:n,data:d}),t.firstElementChild.disabled=!0;var r=t.querySelector(".md-feedback__note [data-md-value='"+d+"']");r&&(r.hidden=!1)})),t.hidden=!1})),location$.subscribe((function(t){e("config","G-XXXXXXXXXX",{page_path:t.pathname})}))}));var t=document.createElement("script");t.async=!0,t.src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX",document.getElementById("__analytics").insertAdjacentElement("afterEnd",t)}</script>
+  
+    <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+  
+
+    
+    
+    
+   <link href="../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
+    html.glightbox-open { overflow: initial; height: 100%; }
+    .gslide-title { margin-top: 0px; user-select: text; }
+    .gslide-desc { color: #666; user-select: text; }
+    .gslide-image img { background: white; }
+    .gscrollbar-fixer { padding-right: 15px; }
+    .gdesc-inner { font-size: 0.75rem; }
+    body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
+    body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
+    body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}</style> <script src="../assets/javascripts/glightbox.min.js"></script></head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="white" data-md-color-accent="blue">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#虚拟化" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../index.html" title="WNotes" class="md-header__button md-logo" aria-label="WNotes" data-md-component="logo">
+      
+  <img src="../assets/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            WNotes
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              容器
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/lbwanga/lbwanga.github.io" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    lbwanga
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../index.html" class="md-tabs__link">
+        
+  
+  
+    
+  
+  简介
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../Java/Java.html" class="md-tabs__link">
+          
+  
+  
+  Java
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../JUC/JUC.html" class="md-tabs__link">
+        
+  
+  
+    
+  
+  JUC
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../JVM/JVM.html" class="md-tabs__link">
+        
+  
+  
+    
+  
+  JVM
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../MySQL/MySQL.html" class="md-tabs__link">
+        
+  
+  
+    
+  
+  MySQL
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../Redis/Redis%E5%9F%BA%E7%A1%80.html" class="md-tabs__link">
+          
+  
+  
+  Redis
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../ES/ES.html" class="md-tabs__link">
+        
+  
+  
+    
+  
+  ES
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F.html" class="md-tabs__link">
+        
+  
+  
+    
+  
+  设计模式
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../Spring/Spring6.html" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Spring
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../SpringMVC/SpringMVC.html" class="md-tabs__link">
+        
+  
+  
+    
+  
+  SpringMVC
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../SpringBoot/SpringBoot.html" class="md-tabs__link">
+        
+  
+  
+    
+  
+  SpringBoot
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../RocketMQ/RocketMQ.html" class="md-tabs__link">
+        
+  
+  
+    
+  
+  RocketMQ
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C.html" class="md-tabs__link">
+        
+  
+  
+    
+  
+  计算机网络
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F.html" class="md-tabs__link">
+        
+  
+  
+    
+  
+  操作系统
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1/DDD.html" class="md-tabs__link">
+        
+  
+  
+    
+  
+  DDD
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../%E5%90%8E%E7%AB%AF%E5%9C%BA%E6%99%AF/%E5%9C%BA%E6%99%AF.html" class="md-tabs__link">
+        
+  
+  
+    
+  
+  后端场景
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../index.html" title="WNotes" class="md-nav__button md-logo" aria-label="WNotes" data-md-component="logo">
+      
+  <img src="../assets/logo.png" alt="logo">
+
+    </a>
+    WNotes
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/lbwanga/lbwanga.github.io" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    lbwanga
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    简介
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Java
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Java
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Java/Java.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Java基础
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Java/Java%E9%9B%86%E5%90%88.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Java集合
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../JUC/JUC.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    JUC
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../JVM/JVM.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    JVM
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../MySQL/MySQL.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    MySQL
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Redis
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            Redis
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Redis/Redis%E5%9F%BA%E7%A1%80.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Redis基础
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Redis/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Redis数据结构
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Redis/Redis%E9%AB%98%E7%BA%A7.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Redis高级
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Redis/%E5%BA%94%E7%94%A8.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Redis应用
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ES/ES.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    ES
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    设计模式
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Spring/Spring6.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Spring
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../SpringMVC/SpringMVC.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    SpringMVC
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../SpringBoot/SpringBoot.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    SpringBoot
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RocketMQ/RocketMQ.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    RocketMQ
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    计算机网络
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    操作系统
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1/DDD.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    DDD
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../%E5%90%8E%E7%AB%AF%E5%9C%BA%E6%99%AF/%E5%9C%BA%E6%99%AF.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    后端场景
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#虚拟化" class="md-nav__link">
+    <span class="md-ellipsis">
+      虚拟化
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#容器技术" class="md-nav__link">
+    <span class="md-ellipsis">
+      容器技术
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#docker" class="md-nav__link">
+    <span class="md-ellipsis">
+      docker
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/lbwanga/lbwanga.github.io/edit/master/docs/容器/容器.md" title="编辑此页" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+
+
+  <h1>容器</h1>
+
+<p>容器是一种虚拟化技术，用于封装应用程序及其所有依赖项和配置，以便能够在不同的计算机环境中运行。软件容器提供了一种轻量级、一致性的运行环境，使得应用程序在开发、测试和部署时更加可移植和可靠。</p>
+<p>容器的特点： </p>
+<ol>
+<li>
+<p>跨平台性： 容器可以在不同的操作系统和云平台上运行，确保应用程序在各种环境中的一致性。这种跨平台性使得应用程序更易于移植和部署。</p>
+</li>
+<li>
+<p>一致性和可重复性： 容器封装了应用程序及其所有依赖项和配置，确保了开发、测试和生产环境的一致性。通过使用容器，可以避免由于环境差异而引起的问题，实现可重复的构建和部署过程。</p>
+</li>
+<li>
+<p>资源隔离： 容器提供了一定程度的隔离，使得多个容器可以在同一主机上并行运行而互不干扰。这种隔离性能够确保应用程序的稳定性和安全性。</p>
+</li>
+<li>
+<p>快速部署和启动： 容器可以在几秒钟内启动，相比于传统的虚拟机来说，启动时间更短。这使得应用程序的部署和扩展更加迅速和灵活。</p>
+</li>
+<li>
+<p>高可伸缩性： 容器架构支持自动化的横向扩展，可以根据需求动态地增加或减少容器实例。这种高可伸缩性使得应用程序能够更好地应对流量和负载的变化。</p>
+</li>
+<li>
+<p>环境隔离： 容器提供了独立的运行环境，每个容器都有自己的文件系统、网络和进程空间。这种环境隔离有助于防止应用程序之间的相互影响，提高了系统的稳定性和安全性。</p>
+</li>
+<li>
+<p>资源效率： 容器共享主机操作系统的内核，相比虚拟机，容器更加轻量级，更加节省系统资源。</p>
+</li>
+<li>
+<p>持续集成和持续部署（CI/CD）： 容器与持续集成和持续部署工具集成紧密，使得开发团队能够更容易地实现自动化构建、测试和部署流程。</p>
+</li>
+</ol>
+<h2 id="虚拟化">虚拟化<a class="headerlink" href="#虚拟化" title="Permanent link"></a></h2>
+<p><strong>类型一：（裸机型）（硬件虚拟化）</strong></p>
+<p>直接运行在物理硬件上，没有底层操作系统。这种类型通常用于企业级虚拟化平台，例如VMware ESXi和Microsoft Hyper-V。</p>
+<p>硬件虚拟化是一种将物理计算资源抽象和分隔，以创建多个独立的虚拟环境的技术。这种虚拟化的目标是在同一物理硬件上运行多个操作系统和应用程序，从而更有效地利用硬件资源。硬件虚拟化通常涉及使用称为虚拟机（VM）的软件层将物理硬件分隔成多个虚拟环境。</p>
+<p><strong>类型二（主机型）（软件虚拟化）</strong></p>
+<p>运行在操作系统之上，类似于其他应用程序。这种类型通常用于开发和测试环境，例如Oracle VirtualBox和VMware Workstation。</p>
+<p>特点：</p>
+<ol>
+<li>
+<p>基于操作系统运行：Type 2 Hypervisor 作为软件应用程序安装在宿主操作系统中。宿主操作系统管理硬件资源并为监控程序和其虚拟机提供服务。</p>
+</li>
+<li>
+<p>性能开销：由于 Type 2 Hypervisor 在宿主操作系统内运行，虚拟机与物理硬件之间存在额外的层。这可能导致性能开销，与直接在硬件上运行的 Type 1 Hypervisor 相比开销更大。</p>
+</li>
+<li>
+<p>易用性和安装方便：Type 2 Hypervisor 通常比 Type 1 Hypervisor 更易安装和配置。用户可以像在标准操作系统上安装常规软件应用程序一样安装它们。</p>
+</li>
+<li>
+<p>用途：Type 2 Hypervisor 通常用于开发、测试和桌面虚拟化场景。它们为用户提供了一种方便的方式，在单台机器上运行多个操作系统，而无需专用硬件或复杂的配置。</p>
+</li>
+<li>
+<p>隔离：Type 2 Hypervisor 创建的每个虚拟机都与其他虚拟机以及主机系统隔离。这使用户能够在受控环境中尝试不同的操作系统、配置和应用程序。</p>
+</li>
+</ol>
+<p>两种类型：</p>
+<p><a class="glightbox" href="%E5%AE%B9%E5%99%A8/%E4%B8%A4%E7%A7%8D%E7%B1%BB%E5%9E%8B.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="%E5%AE%B9%E5%99%A8/%E4%B8%A4%E7%A7%8D%E7%B1%BB%E5%9E%8B.png" /></a></p>
+<p>三种实现方案：</p>
+<p><a class="glightbox" href="%E5%AE%B9%E5%99%A8/%E4%B8%89%E7%A7%8D%E7%BB%8F%E5%85%B8%E5%AE%9E%E7%8E%B0%E6%96%B9%E6%A1%88.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="%E5%AE%B9%E5%99%A8/%E4%B8%89%E7%A7%8D%E7%BB%8F%E5%85%B8%E5%AE%9E%E7%8E%B0%E6%96%B9%E6%A1%88.png" /></a></p>
+<p>当前容器主要还是以k8s为主导的生态：</p>
+<p><a class="glightbox" href="%E5%AE%B9%E5%99%A8/k8s%E7%94%9F%E6%80%81.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="%E5%AE%B9%E5%99%A8/k8s%E7%94%9F%E6%80%81.png" /></a></p>
+<h2 id="容器技术">容器技术<a class="headerlink" href="#容器技术" title="Permanent link"></a></h2>
+<p><strong>cgroup资源控制器</strong>：</p>
+<p>Control Groups（cgroups）是 Linux 内核的一个功能，用于限制、账户和隔离进程组（包括它们的任务和资源）。cgroups提供了对系统资源（如CPU、内存、磁盘 I/O等）的精细控制，允许系统管理员将资源分配和限制应用到一组进程上，是google在2007年提出的，在2008年的时候合并到2.6的linux内核中。</p>
+<p>主要有以下使用场景：</p>
+<p>1.资源限制和配额</p>
+<p>2.进程隔离</p>
+<p>3.资源统计和监控</p>
+<p>4.优先级控制</p>
+<p>5.动态资源管理</p>
+<p>cgroup是由一个个的子系统构成的，比如cpu，memory等。</p>
+<p><a class="glightbox" href="%E5%AE%B9%E5%99%A8/cgroup.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="%E5%AE%B9%E5%99%A8/cgroup.png" /></a></p>
+<p>每一个层级结构中是一颗树形结构，树的每一个节点是一个cgroup结构体（比如cpu_cgrp, memory_cgrp)。第一个cgroups层级结构attach了cpu子系统和cpuacct子系统， 当前cgroups层级结构中的cgroup结构体就可以对cpu的资源进行限制，并且对进程的cpu使用情况进行统计。第二个cgroups层级结构attach了memory子系统，当前cgroups层级结构中的cgroup结构体就可以对memory的资源进行限制。</p>
+<p><strong>namespace</strong>：</p>
+<p>Linux 的命名空间（namespace）提供了一种内核级别隔离系统资源的方法，通过将系统的全局资源放在不同的命名空间中以实现资源隔离的目的。</p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Cgroup</td>
+<td>Cgroup root directory cgroup 根目录</td>
+</tr>
+<tr>
+<td>IPC</td>
+<td>System V IPC, POSIX message queues 信号量，消息队列</td>
+</tr>
+<tr>
+<td>Network</td>
+<td>Network devices, stacks, ports, etc.网络设备，协议栈，端口等等</td>
+</tr>
+<tr>
+<td>Mount</td>
+<td>Mount points 挂载点</td>
+</tr>
+<tr>
+<td>PID</td>
+<td>Process IDs 进程号</td>
+</tr>
+<tr>
+<td>User</td>
+<td>用户和组 ID</td>
+</tr>
+<tr>
+<td>UTS</td>
+<td>系统主机名和 NIS(Network Information Service) 主机名（有时称为域名）</td>
+</tr>
+<tr>
+<td>Time</td>
+<td>时钟</td>
+</tr>
+</tbody>
+</table>
+<p><a class="glightbox" href="%E5%AE%B9%E5%99%A8/%E5%AE%B9%E5%99%A8.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="%E5%AE%B9%E5%99%A8/%E5%AE%B9%E5%99%A8.png" /></a></p>
+<p><strong>网络虚拟化</strong>：</p>
+<p>虚拟化容器是以 Linux 名称（namespace）空间的隔离性为基础来实现的，那解决隔离的容器之间、容器与宿主机之间、乃至跨物理网络的不同容器间通信问题的责任，很自然也落在了 Linux 网络虚拟化技术的肩上。</p>
+<p>Linux 网络虚拟化的主要技术是 Network Namespace，以及各类虚拟设备，例如 Veth、Linux Bridge、tap/tun 等，虚拟化的本质是现实世界的映射，这些虚拟设备像现实世界中的物理设备一样彼此协作，将各个独立的 namespace 连接起来，构建出不受物理环境局限的各类网络拓扑架构。</p>
+<p><a class="glightbox" href="%E5%AE%B9%E5%99%A8/namespace%E5%9C%A8%E7%BD%91%E7%BB%9C%E8%AE%BE%E5%A4%87%E4%B8%8A%E7%9A%84%E9%9A%94%E7%A6%BB.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="%E5%AE%B9%E5%99%A8/namespace%E5%9C%A8%E7%BD%91%E7%BB%9C%E8%AE%BE%E5%A4%87%E4%B8%8A%E7%9A%84%E9%9A%94%E7%A6%BB.png" /></a></p>
+<p>veth：Virtual Ethernet，虚拟以太网设备，用来让两个隔离的Network Namespace可以互相通信，都是成对出现也叫veth-pair。</p>
+<p><a class="glightbox" href="https://mmbiz.qpic.cn/mmbiz_jpg/Z6bicxIx5naI35jAZkR92PqmdAOUZ9DxwAxiadHf2SJQ3NBoXMEy92ibHSygY5HWTwG3icupwNH6baCqrfcVbpvXVg/640?wx_fmt=other&amp;from=appmsg&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="图片" src="https://mmbiz.qpic.cn/mmbiz_jpg/Z6bicxIx5naI35jAZkR92PqmdAOUZ9DxwAxiadHf2SJQ3NBoXMEy92ibHSygY5HWTwG3icupwNH6baCqrfcVbpvXVg/640?wx_fmt=other&amp;from=appmsg&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" /></a>﻿</p>
+<p>Linux bridge，在主机层面，如果需要多个主机之间需要网络联通，那么我们需要一个交换机（二层设备），在linux的虚拟网络系统中，我们可以通过虚拟网桥来实现此功能Linux Bridge是Linux kernel 2.2版本开始提供的二层转发工具，与物理交换机机制一致，能够接入任何二层的网络设备（无论是真实的物理设备，例如eth0或者虚拟设备，例如veth、tap 等）。不过Linux Bridge与普通物理交换机还有有一点不同，普通的交换机只会单纯地做二层转发，Linux Bridge却还能把发给它的数据包再发送到主机的三层协议栈中。</p>
+<p><a class="glightbox" href="https://mmbiz.qpic.cn/mmbiz_jpg/Z6bicxIx5naI35jAZkR92PqmdAOUZ9DxwbicVo4HFg8SNaU5O1VJUrtu4Fc1kv2w9DA2aT99V7U8zLrYzoD8TBsQ/640?wx_fmt=other&amp;from=appmsg&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="图片" src="https://mmbiz.qpic.cn/mmbiz_jpg/Z6bicxIx5naI35jAZkR92PqmdAOUZ9DxwbicVo4HFg8SNaU5O1VJUrtu4Fc1kv2w9DA2aT99V7U8zLrYzoD8TBsQ/640?wx_fmt=other&amp;from=appmsg&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" /></a>﻿</p>
+<p>tun/tap：tun和tap是Linux提供的两个相对独立的虚拟网络设备，其中tap模拟了网络层设备，工作在L3，操作IP报文，tun则模拟了以太网设备，工作在L2，操作的是数据帧。当前云网络的基础协议VxLan就是基于隧道技术实现的，比如云网络的基础SDN（Software Definded Network，软件定义网络）。</p>
+<p><a class="glightbox" href="https://mmbiz.qpic.cn/mmbiz_jpg/Z6bicxIx5naI35jAZkR92PqmdAOUZ9DxwTHbia2vkXYUuE5SczauY7OXoGa5RxwicbzqMFicyNdkGDVFicyibwiaibN8ag/640?wx_fmt=other&amp;from=appmsg&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="图片" src="https://mmbiz.qpic.cn/mmbiz_jpg/Z6bicxIx5naI35jAZkR92PqmdAOUZ9DxwTHbia2vkXYUuE5SczauY7OXoGa5RxwicbzqMFicyNdkGDVFicyibwiaibN8ag/640?wx_fmt=other&amp;from=appmsg&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" /></a></p>
+<h2 id="docker">docker<a class="headerlink" href="#docker" title="Permanent link"></a></h2>
+<p>经过docker的拆分和发展，我们可以将容器运行时根据功能做拆分：</p>
+<ol>
+<li>
+<p>只关注如namespace、cgroups、镜像拆包等基础的容器运行时实现被称为低层运行时（low-level container runtime）， 目前应用最广泛的低层运行时是runc和kata（run-v）。</p>
+</li>
+<li>
+<p>支持更多高级功能，例如镜像管理、CRI实现的运行时被称为高层运行时（high-level container runtime），目前应用最广泛高层运行时是containerd和cri-o。</p>
+</li>
+</ol>
+<p><a class="glightbox" href="%E5%AE%B9%E5%99%A8/%E8%BF%90%E8%A1%8C%E6%97%B6%E5%88%86%E7%B1%BB.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="%E5%AE%B9%E5%99%A8/%E8%BF%90%E8%A1%8C%E6%97%B6%E5%88%86%E7%B1%BB.png" /></a></p>
+<p><strong>CRI标准</strong>：</p>
+<p>Kubernetes从1.5版本开始，在遵循OCI基础上，将容器操作抽象为一个接口，该接口作为Kubelet 与运行时实现对接的桥梁，Kubelet通过发送接口请求对容器进行启动和管理，各个容器运行时只要实现这个接口就可以接入Kubernetes，这便是CRI（Container Runtime Interface，容器运行时接口）。</p>
+<p>CRI实现上是一套通过Protocol Buffer定义的API，如下图：</p>
+<p><a class="glightbox" href="%E5%AE%B9%E5%99%A8/CRI.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="%E5%AE%B9%E5%99%A8/CRI.png" /></a></p>
+<p>CRI主要有gRPC client、gRPC Server和具体容器运行时实现三个组件。其中Kubelet作为gRPC Client调用CRI接口，CRI shim作为gRPC Server 来响应CRI请求，并负责将CRI请求内容转换为具体的运行时管理操作。因此，任何容器运行时实现想要接入Kubernetes，都需要实现一个基于CRI接口规范的CRI shim（gRPC Server）。</p>
+<p><strong>containerd</strong></p>
+<p>containerd主要负责工作包括：</p>
+<ul>
+<li>容器生命周期管理，通过和底层操作系统和硬件交互，负责容器的创建、启动、停止、删除等生命周期管理；</li>
+<li>镜像管理，管理容器镜像的下载、存储和加载；</li>
+<li>容器网络，提供了一些接口，允许网络插件通过CNI（Container Networking Interface）与容器交互，实现容器的网络连接和配置；</li>
+<li>安全和隔离，支持对容器的安全性和隔离进行管理。它通过集成Linux命名空间、cgroups等技术，确保容器在运行时与其他容器和主机系统隔离；</li>
+<li>OCI标准支持，对遵循 Open Container Initiative（OCI） 标准，这意味着它与符合 OCI 规范的容器和镜像兼容。这种标准化使得 containerd 能够与其他符合同一规范的工具和平台集成；</li>
+<li>插件系统，提供了一个插件系统，允许用户根据需要扩展其功能。这意味着用户可以选择使用特定的存储后端、日志记录器等插件，以满足其特定的需求。</li>
+</ul>
+<p><strong>OCI开放容器标准</strong></p>
+<p>OCI 有了三个主要的规范标准：</p>
+<ul>
+<li>runtime-spec（容器运行时标准）：定义了容器运行的配置，环境和生命周期。即如何运行一个容器，如何管理容器的状态和生命周期，如何使用操作系统的底层特性（namespace，cgroup，pivot_root 等）；</li>
+<li>image-spec（容器镜像标准）：定义了镜像的格式，配置（包括应用程序的参数，环境信息等），依赖的元数据格式等，简单来说就是对镜像的静态描述；</li>
+<li>distribution-spec（镜像分发标准）：即规定了镜像上传和下载的网络交互过程。</li>
+</ul>
+<p>根据OCI标准，当前流行的RUNC解决方案有以下三种：</p>
+<ul>
+<li>opencontainers/runc：前面已经提到过很多次了，是OCI Runtime的参考实现。</li>
+<li>kata-containers/runtime：容器标准反攻虚拟机，前身是clearcontainers/runtime与hyperhq/runv，通过virtcontainers提供高性能OCI标准兼容的硬件虚拟化容器，Linux Only，且需要特定硬件。</li>
+<li>google/gvisor：gVisor是一个Go实现的用户态内核，包含了一个OCI兼容的Runtime实现，目标是提供一个可运行非受信代码的容器运行时沙盒，目前是Linux Only，其他架构可能会支持。</li>
+</ul>
+<p><a class="glightbox" href="%E5%AE%B9%E5%99%A8/k8s.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="%E5%AE%B9%E5%99%A8/k8s.png" /></a></p>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  <form class="md-feedback" name="feedback" hidden>
+    <fieldset>
+      <legend class="md-feedback__title">
+        Was this page helpful?
+      </legend>
+      <div class="md-feedback__inner">
+        <div class="md-feedback__list">
+          
+            <button class="md-feedback__icon md-icon" type="submit" title="This page was helpful" data-md-value="1">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 12a8 8 0 0 0-8-8 8 8 0 0 0-8 8 8 8 0 0 0 8 8 8 8 0 0 0 8-8m2 0a10 10 0 0 1-10 10A10 10 0 0 1 2 12 10 10 0 0 1 12 2a10 10 0 0 1 10 10M10 9.5c0 .8-.7 1.5-1.5 1.5S7 10.3 7 9.5 7.7 8 8.5 8s1.5.7 1.5 1.5m7 0c0 .8-.7 1.5-1.5 1.5S14 10.3 14 9.5 14.7 8 15.5 8s1.5.7 1.5 1.5m-5 7.73c-1.75 0-3.29-.73-4.19-1.81L9.23 14c.45.72 1.52 1.23 2.77 1.23s2.32-.51 2.77-1.23l1.42 1.42c-.9 1.08-2.44 1.81-4.19 1.81"/></svg>
+            </button>
+          
+            <button class="md-feedback__icon md-icon" type="submit" title="This page could be improved" data-md-value="0">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 12a8 8 0 0 0-8-8 8 8 0 0 0-8 8 8 8 0 0 0 8 8 8 8 0 0 0 8-8m2 0a10 10 0 0 1-10 10A10 10 0 0 1 2 12 10 10 0 0 1 12 2a10 10 0 0 1 10 10m-6.5-4c.8 0 1.5.7 1.5 1.5s-.7 1.5-1.5 1.5-1.5-.7-1.5-1.5.7-1.5 1.5-1.5M10 9.5c0 .8-.7 1.5-1.5 1.5S7 10.3 7 9.5 7.7 8 8.5 8s1.5.7 1.5 1.5m2 4.5c1.75 0 3.29.72 4.19 1.81l-1.42 1.42C14.32 16.5 13.25 16 12 16s-2.32.5-2.77 1.23l-1.42-1.42C8.71 14.72 10.25 14 12 14"/></svg>
+            </button>
+          
+        </div>
+        <div class="md-feedback__note">
+          
+            <div data-md-value="1" hidden>
+              
+              
+                
+              
+              
+              
+                
+                
+              
+              Thanks for your feedback!
+            </div>
+          
+            <div data-md-value="0" hidden>
+              
+              
+                
+              
+              
+              
+                
+                
+              
+              Thanks for your feedback! Help us improve this page by using our <a href="..." target="_blank" rel="noopener">feedback form</a>.
+            </div>
+          
+        </div>
+      </div>
+    </fieldset>
+  </form>
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2019 - 2024 wang
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "..", "features": ["content.action.edit", "content.code.copy", "content.code.select", "content.tabs.link", "navigation.tabs", "navigation.instant", "navigation.path", "toc.follow"], "search": "../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.92b07e13.min.js"></script>
+      
+    
+  <script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+document$.subscribe(() => { lightbox.reload() });
+</script></body>
+</html>

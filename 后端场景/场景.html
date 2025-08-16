@@ -1,0 +1,1923 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="个人笔记，博客">
+      
+      
+        <meta name="author" content="wang">
+      
+      
+        <link rel="canonical" href="https://lbwanga.github.io/%E5%90%8E%E7%AB%AF%E5%9C%BA%E6%99%AF/%E5%9C%BA%E6%99%AF.html">
+      
+      
+        <link rel="prev" href="../%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1/DDD.html">
+      
+      
+      
+      <link rel="icon" href="../assets/logo.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.17">
+    
+    
+      
+        <title>后端场景 - WNotes</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.7e37652d.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+  
+  
+
+<script id="__analytics">function __md_analytics(){function e(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],e("js",new Date),e("config","G-XXXXXXXXXX"),document.addEventListener("DOMContentLoaded",(function(){document.forms.search&&document.forms.search.query.addEventListener("blur",(function(){this.value&&e("event","search",{search_term:this.value})}));document$.subscribe((function(){var t=document.forms.feedback;if(void 0!==t)for(var a of t.querySelectorAll("[type=submit]"))a.addEventListener("click",(function(a){a.preventDefault();var n=document.location.pathname,d=this.getAttribute("data-md-value");e("event","feedback",{page:n,data:d}),t.firstElementChild.disabled=!0;var r=t.querySelector(".md-feedback__note [data-md-value='"+d+"']");r&&(r.hidden=!1)})),t.hidden=!1})),location$.subscribe((function(t){e("config","G-XXXXXXXXXX",{page_path:t.pathname})}))}));var t=document.createElement("script");t.async=!0,t.src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX",document.getElementById("__analytics").insertAdjacentElement("afterEnd",t)}</script>
+  
+    <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+  
+
+    
+    
+    
+   <link href="../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
+    html.glightbox-open { overflow: initial; height: 100%; }
+    .gslide-title { margin-top: 0px; user-select: text; }
+    .gslide-desc { color: #666; user-select: text; }
+    .gslide-image img { background: white; }
+    .gscrollbar-fixer { padding-right: 15px; }
+    .gdesc-inner { font-size: 0.75rem; }
+    body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
+    body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
+    body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}</style> <script src="../assets/javascripts/glightbox.min.js"></script></head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="white" data-md-color-accent="blue">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#一笔用户订单在取消的那一刻刚好付款怎么办" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../index.html" title="WNotes" class="md-header__button md-logo" aria-label="WNotes" data-md-component="logo">
+      
+  <img src="../assets/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            WNotes
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              后端场景
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/lbwanga/lbwanga.github.io" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    lbwanga
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../index.html" class="md-tabs__link">
+        
+  
+  
+    
+  
+  简介
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../Java/Java.html" class="md-tabs__link">
+          
+  
+  
+  Java
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../JUC/JUC.html" class="md-tabs__link">
+        
+  
+  
+    
+  
+  JUC
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../JVM/JVM.html" class="md-tabs__link">
+        
+  
+  
+    
+  
+  JVM
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../MySQL/MySQL.html" class="md-tabs__link">
+        
+  
+  
+    
+  
+  MySQL
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../Redis/Redis%E5%9F%BA%E7%A1%80.html" class="md-tabs__link">
+          
+  
+  
+  Redis
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../ES/ES.html" class="md-tabs__link">
+        
+  
+  
+    
+  
+  ES
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F.html" class="md-tabs__link">
+        
+  
+  
+    
+  
+  设计模式
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../Spring/Spring6.html" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Spring
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../SpringMVC/SpringMVC.html" class="md-tabs__link">
+        
+  
+  
+    
+  
+  SpringMVC
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../SpringBoot/SpringBoot.html" class="md-tabs__link">
+        
+  
+  
+    
+  
+  SpringBoot
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../RocketMQ/RocketMQ.html" class="md-tabs__link">
+        
+  
+  
+    
+  
+  RocketMQ
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C.html" class="md-tabs__link">
+        
+  
+  
+    
+  
+  计算机网络
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F.html" class="md-tabs__link">
+        
+  
+  
+    
+  
+  操作系统
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1/DDD.html" class="md-tabs__link">
+        
+  
+  
+    
+  
+  DDD
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    <li class="md-tabs__item md-tabs__item--active">
+      <a href="%E5%9C%BA%E6%99%AF.html" class="md-tabs__link">
+        
+  
+  
+    
+  
+  后端场景
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../index.html" title="WNotes" class="md-nav__button md-logo" aria-label="WNotes" data-md-component="logo">
+      
+  <img src="../assets/logo.png" alt="logo">
+
+    </a>
+    WNotes
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/lbwanga/lbwanga.github.io" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    lbwanga
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    简介
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Java
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Java
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Java/Java.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Java基础
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Java/Java%E9%9B%86%E5%90%88.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Java集合
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../JUC/JUC.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    JUC
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../JVM/JVM.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    JVM
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../MySQL/MySQL.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    MySQL
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Redis
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            Redis
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Redis/Redis%E5%9F%BA%E7%A1%80.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Redis基础
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Redis/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Redis数据结构
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Redis/Redis%E9%AB%98%E7%BA%A7.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Redis高级
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Redis/%E5%BA%94%E7%94%A8.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Redis应用
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ES/ES.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    ES
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    设计模式
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Spring/Spring6.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Spring
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../SpringMVC/SpringMVC.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    SpringMVC
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../SpringBoot/SpringBoot.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    SpringBoot
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RocketMQ/RocketMQ.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    RocketMQ
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    计算机网络
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    操作系统
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1/DDD.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    DDD
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    后端场景
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="%E5%9C%BA%E6%99%AF.html" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    后端场景
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#一笔用户订单在取消的那一刻刚好付款怎么办" class="md-nav__link">
+    <span class="md-ellipsis">
+      一笔用户订单，在取消的那一刻刚好付款怎么办？
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#如何避免重复下单" class="md-nav__link">
+    <span class="md-ellipsis">
+      如何避免重复下单？
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#假设有一个1g的hashmap此时用户请求过来刚好触发他的扩容会怎样怎么优化" class="md-nav__link">
+    <span class="md-ellipsis">
+      假设有一个1G的HashMap，此时用户请求过来刚好触发他的扩容，会怎样？怎么优化？
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#线上消息队列故障兜底改造方案" class="md-nav__link">
+    <span class="md-ellipsis">
+      线上消息队列故障，兜底改造方案
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="线上消息队列故障，兜底改造方案">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#rocketmq事务消息" class="md-nav__link">
+    <span class="md-ellipsis">
+      RocketMQ事务消息
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#本地消息表" class="md-nav__link">
+    <span class="md-ellipsis">
+      本地消息表
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#性能优化" class="md-nav__link">
+    <span class="md-ellipsis">
+      性能优化
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#如何设计一个秒杀功能" class="md-nav__link">
+    <span class="md-ellipsis">
+      如何设计一个秒杀功能？
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#海量数据" class="md-nav__link">
+    <span class="md-ellipsis">
+      海量数据
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="海量数据">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#分而治之hash映射--hash统计--堆快速归并排序" class="md-nav__link">
+    <span class="md-ellipsis">
+      分而治之/Hash映射 + Hash统计 + 堆/快速/归并排序
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#双层桶划分" class="md-nav__link">
+    <span class="md-ellipsis">
+      双层桶划分
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bloom-filterbitmap" class="md-nav__link">
+    <span class="md-ellipsis">
+      Bloom filter/Bitmap
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#trie树倒排索引" class="md-nav__link">
+    <span class="md-ellipsis">
+      Trie树/倒排索引
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#外排序" class="md-nav__link">
+    <span class="md-ellipsis">
+      外排序
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#分布式处理之hadoopmapreduce" class="md-nav__link">
+    <span class="md-ellipsis">
+      分布式处理之Hadoop/Mapreduce
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cpu飙升100如何排查" class="md-nav__link">
+    <span class="md-ellipsis">
+      CPU飙升100%如何排查?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#怎么分析jvm当前内存占用情况oom后怎么分析" class="md-nav__link">
+    <span class="md-ellipsis">
+      怎么分析JVM当前内存占用情况？OOM后怎么分析？
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#接口变慢了应该如何排查" class="md-nav__link">
+    <span class="md-ellipsis">
+      接口变慢了应该如何排查？
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#一笔用户订单在取消的那一刻刚好付款怎么办" class="md-nav__link">
+    <span class="md-ellipsis">
+      一笔用户订单，在取消的那一刻刚好付款怎么办？
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#如何避免重复下单" class="md-nav__link">
+    <span class="md-ellipsis">
+      如何避免重复下单？
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#假设有一个1g的hashmap此时用户请求过来刚好触发他的扩容会怎样怎么优化" class="md-nav__link">
+    <span class="md-ellipsis">
+      假设有一个1G的HashMap，此时用户请求过来刚好触发他的扩容，会怎样？怎么优化？
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#线上消息队列故障兜底改造方案" class="md-nav__link">
+    <span class="md-ellipsis">
+      线上消息队列故障，兜底改造方案
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="线上消息队列故障，兜底改造方案">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#rocketmq事务消息" class="md-nav__link">
+    <span class="md-ellipsis">
+      RocketMQ事务消息
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#本地消息表" class="md-nav__link">
+    <span class="md-ellipsis">
+      本地消息表
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#性能优化" class="md-nav__link">
+    <span class="md-ellipsis">
+      性能优化
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#如何设计一个秒杀功能" class="md-nav__link">
+    <span class="md-ellipsis">
+      如何设计一个秒杀功能？
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#海量数据" class="md-nav__link">
+    <span class="md-ellipsis">
+      海量数据
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="海量数据">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#分而治之hash映射--hash统计--堆快速归并排序" class="md-nav__link">
+    <span class="md-ellipsis">
+      分而治之/Hash映射 + Hash统计 + 堆/快速/归并排序
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#双层桶划分" class="md-nav__link">
+    <span class="md-ellipsis">
+      双层桶划分
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bloom-filterbitmap" class="md-nav__link">
+    <span class="md-ellipsis">
+      Bloom filter/Bitmap
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#trie树倒排索引" class="md-nav__link">
+    <span class="md-ellipsis">
+      Trie树/倒排索引
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#外排序" class="md-nav__link">
+    <span class="md-ellipsis">
+      外排序
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#分布式处理之hadoopmapreduce" class="md-nav__link">
+    <span class="md-ellipsis">
+      分布式处理之Hadoop/Mapreduce
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cpu飙升100如何排查" class="md-nav__link">
+    <span class="md-ellipsis">
+      CPU飙升100%如何排查?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#怎么分析jvm当前内存占用情况oom后怎么分析" class="md-nav__link">
+    <span class="md-ellipsis">
+      怎么分析JVM当前内存占用情况？OOM后怎么分析？
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#接口变慢了应该如何排查" class="md-nav__link">
+    <span class="md-ellipsis">
+      接口变慢了应该如何排查？
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/lbwanga/lbwanga.github.io/edit/master/docs/后端场景/场景.md" title="编辑此页" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+
+
+  <h1>后端场景</h1>
+
+<h2 id="一笔用户订单在取消的那一刻刚好付款怎么办">一笔用户订单，在取消的那一刻刚好付款怎么办？<a class="headerlink" href="#一笔用户订单在取消的那一刻刚好付款怎么办" title="Permanent link"></a></h2>
+<p>会出现两种情况：</p>
+<ol>
+<li>支付成功，回调那一刻还没取消：则取消执行失败，不做任何处理。</li>
+<li>支付成功，回调那一刻已取消：退款</li>
+</ol>
+<p>解决方法：基于原始状态判断</p>
+<div class="language-sql highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">1</a></span>
+<span class="normal"><a href="#__codelineno-0-2">2</a></span>
+<span class="normal"><a href="#__codelineno-0-3">3</a></span>
+<span class="normal"><a href="#__codelineno-0-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="o">#</span><span class="w"> </span><span class="err">支付成功</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2"></a><span class="k">update</span><span class="w"> </span><span class="n">pay_info</span><span class="w"> </span><span class="k">set</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;paySuccess&#39;</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">orderId</span><span class="o">=</span><span class="s1">&#39;1&#39;</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;paying&#39;</span><span class="p">;</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3"></a><span class="o">#</span><span class="w"> </span><span class="err">取消</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4"></a><span class="k">update</span><span class="w"> </span><span class="n">pay_info</span><span class="w"> </span><span class="k">set</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;cancel&#39;</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">orderId</span><span class="o">=</span><span class="s1">&#39;1&#39;</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;paying&#39;</span><span class="p">;</span>
+</span></code></pre></div></td></tr></table></div>
+<p>业务优化：</p>
+<p>订单取消的倒计时为10分钟，实际后端延时11分钟，就能避免取消的时刻刚好付款。</p>
+<p>除了利用数据库处理，还可以使用分布式锁。</p>
+<p>订单取消流程：</p>
+<ol>
+<li>超时触发取消订单</li>
+<li>取消订单方法中先获取该订单的分布式锁，如果锁被其他操作持有（如付款），等待或抛出异常。获取锁成功，则检查订单状态是否已付款：</li>
+<li>未付款：更新订单状态为已取消。</li>
+<li>已付款：直接跳过该订单的处理</li>
+<li>释放分布式锁。</li>
+</ol>
+<p>订单付款流程：</p>
+<ol>
+<li>三方支付成功回调</li>
+<li>后端系统接收回调后，先获取该订单的分布式锁，如果锁被其他操作持有（如取消），等待或者抛出异常（没有给三方响应成功，三方会重新发起回调）。成功获取锁，检查订单状态是否为待支付：</li>
+<li>待支付：继续执行扣款，更新订单状态为已支付</li>
+<li>已取消：发起退款，提示用户订单取消</li>
+<li>释放分布式锁。</li>
+</ol>
+<h2 id="如何避免重复下单">如何避免重复下单？<a class="headerlink" href="#如何避免重复下单" title="Permanent link"></a></h2>
+<p>1）每次下单请求中生成一个唯一的requestId或token。</p>
+<p>进入订单页面时会先向后端请求生成一个唯一的requestId或token，每次下单请求携带该requestId或token。</p>
+<p>2）分布式锁 ：以用户维度加上分布式锁。</p>
+<h2 id="假设有一个1g的hashmap此时用户请求过来刚好触发他的扩容会怎样怎么优化">假设有一个1G的HashMap，此时用户请求过来刚好触发他的扩容，会怎样？怎么优化？<a class="headerlink" href="#假设有一个1g的hashmap此时用户请求过来刚好触发他的扩容会怎样怎么优化" title="Permanent link"></a></h2>
+<p>触发扩容的是当前线程，此时用户会被阻塞，等待扩容完毕。</p>
+<p>优化：渐进式rehash</p>
+<p>扩容时先创建一个新数组，只重新哈希一部分数据，每次插入、修改、查询时迁移少量数据到数组中，直到完成所有数据的迁移。</p>
+<h2 id="线上消息队列故障兜底改造方案">线上消息队列故障，兜底改造方案<a class="headerlink" href="#线上消息队列故障兜底改造方案" title="Permanent link"></a></h2>
+<p>1）RocketMQ事务消息，但是侵入性比较大，需要修改接口适配事务消息的实现。</p>
+<p>2）本地消息表</p>
+<h3 id="rocketmq事务消息">RocketMQ事务消息<a class="headerlink" href="#rocketmq事务消息" title="Permanent link"></a></h3>
+<p>基于MQ的事务消息方案主要依靠MQ的<strong>半消息机制</strong>来实现投递消息和参与者自身本地事务的一致性保障。</p>
+<p><a class="glightbox" href="%E5%90%8E%E7%AB%AF%E5%9C%BA%E6%99%AF/%E4%BA%8B%E5%8A%A1%E6%B6%88%E6%81%AF.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="%E5%90%8E%E7%AB%AF%E5%9C%BA%E6%99%AF/%E4%BA%8B%E5%8A%A1%E6%B6%88%E6%81%AF.png" /></a></p>
+<h3 id="本地消息表">本地消息表<a class="headerlink" href="#本地消息表" title="Permanent link"></a></h3>
+<p><a class="glightbox" href="%E5%90%8E%E7%AB%AF%E5%9C%BA%E6%99%AF/%E6%9C%AC%E5%9C%B0%E6%B6%88%E6%81%AF%E8%A1%A8.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="%E5%90%8E%E7%AB%AF%E5%9C%BA%E6%99%AF/%E6%9C%AC%E5%9C%B0%E6%B6%88%E6%81%AF%E8%A1%A8.png" /></a></p>
+<p><strong>0. 创建本地消息表：</strong></p>
+<p>在数据库中创建一个本地消息表，用于存储待发送的消息以及消息的发送状态和相关信息。表结构可以包含字段如下：</p>
+<ul>
+<li><code>message_id</code>：消息的唯一标识。</li>
+<li><code>message_body</code>：消息内容。</li>
+<li><code>status</code>：消息状态，如待发送、已发送等。</li>
+<li><code>create_time</code>：消息创建时间。</li>
+<li>其他字段，如重试次数、发送时间等。</li>
+</ul>
+<p><strong>1. 业务处理：</strong> 业务处理时通常进行db变更</p>
+<p><strong>2. 将记录消息插入记录表</strong>：在业务逻辑中，当需要发送消息时，首先将消息插入到本地消息表中，设置状态为待发送。1、2步骤在同一个本地事务中。业务数据和消息表在同一个数据库，要保证它俩在同一个本地事务。直接利用本地事务，将业务数据和事务消息直接写入数据库。</p>
+<p><strong>3. 发送消息</strong></p>
+<p><strong>3.1,3.2. 消息补偿机制：</strong></p>
+<p>单独创建一个后台线程或定时任务，定时扫描本地消息表中状态为待发送的消息，并将这些消息发送到消息队列。在成功发送到消息队列后，将消息表中对应的状态修改为已发送。此外，可以根据需要实现消息发送失败后的重试机制。</p>
+<p><strong>4. B系统消费消息：</strong>消费者监听消息队列，解析消息内容。</p>
+<p><strong>5. B系统进行业务逻辑处理：</strong>进行业务逻辑处理，更改DB。<strong>此步骤必须要保证幂等性</strong>。</p>
+<p><strong>6. 确认消费完成：</strong>当消息消费完成后，调用A系统进行状态变更</p>
+<p><strong>6、7如果失败相当于两个分布式系统的数据已经一致了，但是本地消息表的状态还是错的。这种情况下借助<code>3.1、3.2</code>的重新投放策略，让下游幂等处理再更改消息表的状态也能解决。或者A系统也可以查询B系统的处理状态，如果成功直接更改状态</strong>。</p>
+<p><a class="glightbox" href="%E5%90%8E%E7%AB%AF%E5%9C%BA%E6%99%AF/%E6%9C%AC%E5%9C%B0%E6%B6%88%E6%81%AF%E8%A1%A8%E5%BA%8F%E5%88%97%E5%9B%BE.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="%E5%90%8E%E7%AB%AF%E5%9C%BA%E6%99%AF/%E6%9C%AC%E5%9C%B0%E6%B6%88%E6%81%AF%E8%A1%A8%E5%BA%8F%E5%88%97%E5%9B%BE.png" /></a></p>
+<p>需要注意以下几点：</p>
+<ul>
+<li><strong>消息的幂等性：</strong> 消费者一定需要保证接口的幂等性，消息的幂等性非常重要，以防止消息重复处理导致的数据不一致。</li>
+<li><strong>本地消息表的设计：</strong> 本地消息表的设计需要考虑到消息状态、重试次数、创建时间等字段，以便实现消息的跟踪和管理。</li>
+<li><strong>定时任务和重试机制：</strong> 需要实现定时任务或者重试机制来确保消息的可靠发送和处理。</li>
+</ul>
+<p>优点：</p>
+<ul>
+<li>本地消息表建设成本比较低，实现了可靠消息的传递确保了分布式事务的最终一致性。</li>
+<li>无需提供回查方法，进一步减少的业务的侵入。</li>
+<li>在某些场景下，还可以进一步利用注解等形式进行解耦，有可能实现无业务代码侵入式的实现。</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>本地消息表与业务耦合在一起，难于做成通用性，不可独立伸缩。</li>
+<li>本地消息表是基于数据库来做的，而数据库是要读写磁盘IO的，因此在高并发下是有性能瓶颈的</li>
+<li>数据大时，消息积压问题，扫表效率慢</li>
+<li>数据大时，事务表数据爆炸，定时扫表存在延迟问题</li>
+</ul>
+<p><strong>本地消息表实现分布式事务缺点及解决方式</strong>：</p>
+<p>消息堆积、扫表效率慢：</p>
+<ul>
+<li>索引优化：在消息表中对状态字段增加索引，以加速扫表操作。索引可以加速消息的检索和筛选，从而提高操作效率。</li>
+<li>分页查询：将扫表操作划分为多次分页查询，避免一次性查询大量数据造成的性能问题。</li>
+<li>表较大时进行分库分表：如果表较大可以进行分库分表操作。</li>
+<li>多线程分段查询：</li>
+<li>如果有业务标识，可以通过业务标识进行多线程分段扫表查询。</li>
+<li>如果没有业务标识可以按区间查询比如线程1查询0-1000的数据，线程2查询1001-2000的数据。</li>
+</ul>
+<p>定时任务扫表延迟问题：</p>
+<p>定时任务可能由于各种原因导致扫表延迟，进而影响事务处理的实时性。以下是一些应对方法：</p>
+<ul>
+<li>异步发送MQ改为同步调用接口：异步改为同步调用B系统接口，如果失败了再进行异步发送MQ消息。</li>
+<li>发送MQ延迟消息，去掉定时任务，避免大量扫表处理。</li>
+<li>分布式定时任务： 使用分布式定时任务框架，将定时任务分散到多个节点上执行，以减少单个节点的压力，同时提高定时任务的稳定性和准确性。</li>
+<li>增加资源： 增加定时任务执行节点的数量，以提高并发处理能力，减少延迟。</li>
+</ul>
+<h2 id="性能优化">性能优化<a class="headerlink" href="#性能优化" title="Permanent link"></a></h2>
+<p><a href="https://juejin.cn/post/7287420810318299190">两万字的性能优化指南！39个策略提升接口性能！39个技巧，从8个方面，全面梳理后端性能优化的套路。 包含优化Http接口 - 掘金</a></p>
+<h2 id="如何设计一个秒杀功能">如何设计一个秒杀功能？<a class="headerlink" href="#如何设计一个秒杀功能" title="Permanent link"></a></h2>
+<p>秒杀场景的核心特点是<strong>高并发、低库存、短时间爆发式访问</strong> 。因此，设计时需要解决以下几个问题：</p>
+<ol>
+<li><strong>高并发处理</strong> ：如何应对大量用户同时访问？</li>
+<li><strong>库存一致性</strong> ：如何保证库存不会超卖或少卖？</li>
+<li><strong>用户体验</strong> ：如何减少用户等待时间，避免页面崩溃？</li>
+<li><strong>防刷机制</strong> ：如何防止恶意用户利用脚本抢购商品？</li>
+</ol>
+<p>1、前端层：</p>
+<ul>
+<li><strong>静态资源分离</strong> ：将秒杀页面的静态资源（如HTML、CSS、JS）部署到CDN（内容分发网络），减轻服务器压力。</li>
+<li><strong>请求拦截</strong>：活动未开始时，前端按钮置灰；通过验证码、点击频率限制。</li>
+</ul>
+<p>2、网关层：</p>
+<ul>
+<li><strong>流量拦截</strong> ：使用API网关对请求进行初步过滤，例如IP限流、黑名单拦截等。</li>
+<li><strong>身份验证</strong> ：通过Token或签名验证用户身份，防止未登录用户直接访问秒杀接口。</li>
+</ul>
+<p>3、缓存层：</p>
+<ul>
+<li><strong>Redis缓存库存</strong> ：将商品库存信息存储在Redis中，利用其高性能特性处理库存扣减操作。</li>
+<li><strong>预热数据</strong> ：在秒杀活动开始前，将商品信息和库存数据加载到Redis中，减少数据库压力。</li>
+</ul>
+<p>4、消息队列：</p>
+<ul>
+<li><strong>削峰填谷</strong> ：使用消息队列（如Kafka）将用户的秒杀请求异步化，避免直接冲击后端服务。</li>
+<li><strong>订单处理</strong> ：将成功的秒杀请求放入队列，由后台服务异步生成订单，提高系统吞吐量。</li>
+</ul>
+<p>5、数据库层</p>
+<ul>
+<li><strong>乐观锁</strong>：在库存扣减时，使用乐观锁确保库存一致性。</li>
+<li><strong>读写分离</strong> ：通过主从复制实现数据库的读写分离，提升查询性能。</li>
+</ul>
+<p>具体流程如下：</p>
+<ul>
+<li><strong>秒杀请求达到</strong>：用户发起秒杀请求，系统接收到请求后，首先进行一些基础校验（如用户身份验证、活动是否开始等）。如果校验通过，进入库存扣减逻辑。</li>
+<li><strong>Redis库存扣减：</strong>在Redis中检查商品库存是否充足。例如，使用<code>GET</code>命令获取当前库存数量。如果库存不足，直接返回失败，结束流程。如果库存充足，使用Redis的原子操作（如<code>DECR</code>或Lua脚本）扣减库存。</li>
+<li><strong>异步更新数据库</strong>：如果Redis库存扣减成功，生成一个秒杀成功的消息，并将其放入消息队列</li>
+<li><strong>后台服务消费消息：</strong>后台服务从消息队列中消费秒杀成功的消息，执行以下操作：1、为用户创建订单记录；2、使用乐观锁将数据库中的库存数量减少1；3、通过唯一标识（如用户ID+商品ID+时间戳）防止重复消费。</li>
+<li><strong>最终一致性校验：</strong>在Redis库存扣减和数据库库存更新之间，可能会存在短暂的不一致状态。为了保证最终一致性，可以采取以下措施：1、定期将Redis中的库存数据与数据库进行同步。2、如果发现Redis和数据库库存不一致，触发补偿逻辑（如回滚订单或调整库存）。</li>
+</ul>
+<h2 id="海量数据">海量数据<a class="headerlink" href="#海量数据" title="Permanent link"></a></h2>
+<p><a href="https://cloud.tencent.com/developer/article/2102014">十道海量数据处理面试题与十个方法大总结-腾讯云开发者社区-腾讯云</a></p>
+<p>所谓<strong>海量数据处理</strong>，就是<strong>基于海量数据上的存储、处理、操作</strong>。</p>
+<p><strong>海量</strong>就是数据量太大，所以导致要么是<strong>无法在较短时间内迅速解决</strong>，要么是<strong>无法一次性装入内存</strong>。</p>
+<p><strong>解决办法:</strong></p>
+<p>（1）针对<strong>时间</strong>，可以采用巧妙的<strong>算法</strong>搭配合适的<strong>数据结构</strong>，如<strong>Hash/bit-map</strong>/堆/数据库或倒排索引/<strong>trie</strong>树；</p>
+<p>（2）针对<strong>空间</strong>，大而化小：分而治之/hash映射，把规模大化为规模小的，各个击破。</p>
+<p>处理海量数据问题，有<strong>6种方法模式</strong>：</p>
+<ol>
+<li>分而治之/hash映射 + hash统计 + 堆/快速/归并排序；</li>
+<li>双层桶划分</li>
+<li>Bloom filter/Bitmap；</li>
+<li>Trie树/数据库/倒排索引；</li>
+<li>外排序；</li>
+<li>分布式处理之Hadoop/Mapreduce。</li>
+</ol>
+<h3 id="分而治之hash映射--hash统计--堆快速归并排序">分而治之/Hash映射 + Hash统计 + 堆/快速/归并排序<a class="headerlink" href="#分而治之hash映射--hash统计--堆快速归并排序" title="Permanent link"></a></h3>
+<p><strong>1、海量日志数据，提取出某日访问百度次数最多的那个IP。</strong></p>
+<ol>
+<li><strong>分而治之/hash映射</strong>：首先把这一天访问百度的日志中的IP取出来，根据IP将其映射到1000个不同的文件。</li>
+<li><strong>hash统计</strong>：对每个小文件，采用hash_map等统计每个文件中出现的IP以及相应的频率。</li>
+<li>依次找出各个文件中频率最大的那个IP及相应的频率。然后再在这1000个最大的IP中，找出那个频率最大的IP。</li>
+</ol>
+<p><strong>2、寻找热门查询，300万个查询字符串中统计最热门的10个查询</strong></p>
+<blockquote>
+<p>搜索引擎会通过日志文件把用户每次检索使用的所有检索串都记录下来，每个查询串的长度为1-255字节。假设目前有一千万个记录（这些查询串的重复度比较高，虽然总数是1千万，但如果除去重复后，不超过3百万个。一个查询串的重复度越高，说明查询它的用户越多，也就是越热门），请你统计最热门的10个查询串，要求使用的内存不能超过1G。</p>
+</blockquote>
+<p>数据大则划为小的，但如果数据规模比较小，<strong>能一次性装入内存呢</strong>?  300万的Query，每个Query255Byte，因此可以考虑把他们都放进内存中去（300万个字符串假设没有重复，都是最大长度，那么最多占用内存3M*1K/4=0.75G。所以可以将所有字符串都存放在内存中进行处理）。</p>
+<p>所以只需要使用Hash统计字符串次数，再使用堆排序。</p>
+<p><strong>3、有一个1G大小的一个文件，里面每一行是一个词，词的大小不超过16字节，内存限制大小是1M。返回频数最高的100个词。</strong> </p>
+<ol>
+<li><strong>分而治之/hash映射</strong>：顺序读文件中，对于每个词x，取hash(x)%5000，然后按照该值存到<strong>5000个小文件</strong>（记为x0,x1,…x4999）中。这样每个文件大概是200k左右。如果其中的有的文件超过了1M大小，还可以按照类似的方法继续往下分，直到分解得到的<strong>小文件的大小都不超过1M</strong>。</li>
+<li><strong>hash统计</strong>：对每个小文件，采用trie树/hash_map等统计每个文件中出现的词以及相应的频率。</li>
+<li><strong>堆排序</strong>：构建一个大小为100的小顶堆，依次遍历每个文件，调整堆，遍历结束后小顶堆上的词就是频率最高的100个词。</li>
+</ol>
+<blockquote>
+<p>求解最大的TopN，就用小顶堆；求解最小的TopN，用大顶堆。</p>
+</blockquote>
+<p><strong>4、海量数据分布在100台电脑中，想个办法高效统计出这批数据的TOP10。</strong> </p>
+<ol>
+<li>堆排序：在每台电脑上求出TOP10，可以采用包含10个元素的堆完成（TOP10小，用最大堆，TOP10大，用最小堆）。</li>
+<li>求出每台电脑上的TOP10后，然后把这100台电脑上的TOP10组合起来，共1000个数据，再利用上面类似的方法求出TOP10就可以了。  </li>
+</ol>
+<p><strong>5、有10个文件，每个文件1G，每个文件的每一行存放的都是用户的query，每个文件的query都可能重复。要求你按照query的频度排序。</strong>  </p>
+<ol>
+<li><strong>hash映射</strong>：顺序读取10个文件，按照hash(query)%10的结果<strong>将query写入到另外10个文件</strong>（记为a0,a1,..a9）中。这样新生成的文件每个的大小大约也1G（假设hash函数是随机的）。</li>
+<li><strong>hash统计</strong>：找一台内存在2G左右的机器，依次对用hash_map(query, query_count)来<strong>统计每个query出现的次数</strong>。</li>
+<li>
+<p><strong>堆/快速/归并排序</strong>：利用快速/堆/归并排序按照出现次数进行排序，将排序好的query和对应的query_cout输出到文件中，这样得到了<strong>10个排好序的文件</strong></p>
+</li>
+<li>
+<p>最后，对这10个文件进行<strong>归并排序</strong>（内排序与外排序相结合）。</p>
+</li>
+</ol>
+<p><strong>6、给定a、b两个文件，各存放50亿个url，每个url各占64字节，内存限制是4G，让你找出a、b文件共同的url？</strong> </p>
+<p>可以估计每个文件的大小为5G×64=320G，远远大于内存限制的4G。</p>
+<ol>
+<li><strong>分而治之/hash映射</strong>：遍历文件a，对url进行hash，将url分别存储到1000个小文件ai；遍历文件b，采取和a相同的方式将url分别存储到1000小文件bi中</li>
+<li><strong>hash统计</strong>：所有可能相同的url都在对应的小文件，统计共同url即可。</li>
+</ol>
+<p>或者使用前缀树。</p>
+<p><strong>7、一个文本文件，大约有一万行，每行一个词，要求统计出其中最频繁出现的前10个词，请给出思想，给出时间复杂度分析。</strong> </p>
+<p><strong>用trie树统计每个词出现的次数</strong>，<strong>时间复杂度是O(n*le)</strong> （le表示单词的平均长度）。然后是找出出现最频繁的前10个词，可以用<strong>堆</strong>来实现，前面的题中已经讲到了，<strong>时间复杂度是O(n*lg10)。</strong>所以总的时间复杂度，<strong>是O(n*le)与O(n*lg10)中较大的一个</strong>。</p>
+<h3 id="双层桶划分">双层桶划分<a class="headerlink" href="#双层桶划分" title="Permanent link"></a></h3>
+<p><strong>1、5亿个int找它们的中位数。</strong></p>
+<p>顺序读取5亿个数，对于读取到的数字num，如果它对应的二进制中最高位为1，则把数字写道f1中，否则写到f0中，划分为两部分。根据个数判断中位数位于哪边。继续使用次高为的二进制进行划分，如此划分下去，直到划分后的文件可以加载到内存中，把数据直接排序，找出中位数。</p>
+<h3 id="bloom-filterbitmap">Bloom filter/Bitmap<a class="headerlink" href="#bloom-filterbitmap" title="Permanent link"></a></h3>
+<p><strong>1、在2.5亿个整数中找出不重复的整数，注，内存不足以容纳这2.5亿个整数。</strong> </p>
+<p>方案1：采用2-Bitmap（<strong>每个数分配2bit，00表示不存在，01表示出现一次，10表示多次，11无意义</strong>）进行，共需内存2^32 * 2 bit=1 GB内存，还可以接受。然后扫描这2.5亿个整数，查看Bitmap中相对应位，如果是00变01，01变10，10保持不变。所描完事后，查看bitmap，把对应位是01的整数输出即可。</p>
+<p>方案2：进行划分小文件的方法。然后在小文件中找出不重复的整数，并排序。然后再进行归并，注意去除重复的元素。</p>
+<p><strong>2、给40亿个不重复的unsigned int的整数，没排过序的，然后再给一个数，如何快速判断这个数是否在那40亿个数当中？</strong></p>
+<p>用位图/Bitmap的方法，申请512M的内存，一个bit位代表一个unsigned int值。读入40亿个数，设置相应的bit位，读入要查询的数，查看相应bit位是否为1，为1表示存在，为0表示不存在。</p>
+<p><strong>3、有1000个一模一样的瓶子，其中999瓶是水，一瓶是毒药。任何喝下毒药的生命都会在一星期后死亡。现在你有10只小白鼠和1星期的时间，如何检测出那瓶是毒药？</strong></p>
+<ol>
+<li>
+<p><strong>为每个瓶子编号</strong>：将1000个瓶子从1到1000编号。</p>
+</li>
+<li>
+<p><strong>将瓶子编号转换为二进制</strong>：因为你有10只小白鼠，所以可以用10位二进制数来表示每个瓶子的编号。例如，瓶子1的二进制表示为<code>0000000001</code>，瓶子1000的二进制表示为<code>1111101000</code>。</p>
+</li>
+<li>
+<p><strong>分配小白鼠喝水</strong>：</p>
+</li>
+<li>用每个瓶子的二进制表示法的每一位（0或1）来决定哪只小白鼠要喝那瓶水。例如，如果某个瓶子的二进制表示中的第一位是1，就让第一只小白鼠喝这瓶水，如果第二位是1，就让第二只小白鼠喝，以此类推。</li>
+<li>
+<p>对每个瓶子按照它的二进制表示给对应的小白鼠喝水。例如，瓶子1000的二进制是<code>1111101000</code>，所以第1到第5只小白鼠和第7只小白鼠要喝瓶子1000的水。</p>
+</li>
+<li>
+<p><strong>等待一周后观察小白鼠的死亡情况</strong>：</p>
+</li>
+<li>一周后，观察哪些小白鼠死了。根据死亡的小白鼠，我们可以形成一个新的10位二进制数。</li>
+<li>例如，如果第1、2、5只小白鼠死了，而其他小白鼠存活，那么这个二进制数为<code>00000001101</code>，将这个二进制数转换为十进制，就可以得出有毒的瓶子的编号。</li>
+</ol>
+<p>通过这种方式，最多可以检测1024个瓶子（因为2^10 = 1024），但因为题目中只有1000个瓶子，所以足够用了。最终，通过观察死亡的小白鼠，你就可以精确确定哪一瓶是毒药。</p>
+<h3 id="trie树倒排索引">Trie树/倒排索引<a class="headerlink" href="#trie树倒排索引" title="Permanent link"></a></h3>
+<p><strong>Trie树</strong>：适用范围：数据量大，重复多，但是数据种类小可以放入内存</p>
+<p><strong>倒排索引(Inverted index)</strong>：适用范围：搜索引擎，关键字查询。基本原理及要点：为何叫倒排索引？一种索引方法，被用来存储在全文搜索下某个单词在一个文档或者一组文档中的存储位置的映射。</p>
+<h3 id="外排序">外排序<a class="headerlink" href="#外排序" title="Permanent link"></a></h3>
+<h3 id="分布式处理之hadoopmapreduce">分布式处理之Hadoop/Mapreduce<a class="headerlink" href="#分布式处理之hadoopmapreduce" title="Permanent link"></a></h3>
+<h2 id="cpu飙升100如何排查">CPU飙升100%如何排查?<a class="headerlink" href="#cpu飙升100如何排查" title="Permanent link"></a></h2>
+<p>cpu占用很高的三大类型问题：</p>
+<p><strong>1、业务类</strong>：</p>
+<ol>
+<li>死循环</li>
+<li>死锁</li>
+<li>不必要的代码块，尽量减少同步代码块的适用范围</li>
+</ol>
+<p><strong>2、并发类</strong>：</p>
+<ol>
+<li>大量计算密集型任务</li>
+<li>大量并发线程</li>
+<li>大量上下文切换，创建的线程过多，导致频繁的上下文切换</li>
+</ol>
+<p><strong>3、内存类</strong>：</p>
+<ol>
+<li>内存不足，将磁盘作为虚拟内存使用，过度的分页和交换导致cpu占用率高</li>
+<li>频繁的GC</li>
+<li>内存泄漏</li>
+</ol>
+<p><strong>解决</strong>：</p>
+<ol>
+<li>查看占用cpu占用最高的进程：top</li>
+<li>查看具体线程：<code>top -Hp 进程ID</code>，获取线程ID <code>printf "%x\n" 线程ID</code></li>
+<li>查看线程堆栈信息：<code>jstack 进程ID | grep 16进制线程ID -A 100</code> （<code>-A 100</code> 表示查找到匹配行后额外输出100行）</li>
+<li>根据代码针对性解决问题</li>
+</ol>
+<h2 id="怎么分析jvm当前内存占用情况oom后怎么分析">怎么分析JVM当前内存占用情况？OOM后怎么分析？<a class="headerlink" href="#怎么分析jvm当前内存占用情况oom后怎么分析" title="Permanent link"></a></h2>
+<p>利用 <code>jstat</code> 监控和分析JVM内部的垃圾回收、内存等运行状态。可以利用它来查看堆内存、非堆内存等的实时状态。</p>
+<p>使用 <code>jamp</code> 查看堆的详细信息（堆的配置、内存使用情况、GC活动等）</p>
+<p>在发送OOM时，可以根据 <code>jamp</code> 得到堆转储文件，再导入MAT、VisualVM等分析工具中分析文件，找出哪些对象占用大量内存，再定位到具体的代码解决问题。</p>
+<div class="language-sh highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1">1</a></span>
+<span class="normal"><a href="#__codelineno-1-2">2</a></span>
+<span class="normal"><a href="#__codelineno-1-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1"></a>jstat<span class="w"> </span>-gc<span class="w"> </span>&lt;pid&gt;<span class="w"> </span><span class="m">1000</span><span class="w"> </span><span class="m">10</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2"></a>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3"></a>jmap<span class="w"> </span>-heap<span class="w"> </span>&lt;pid&gt;
+</span></code></pre></div></td></tr></table></div>
+<p>OOM分析：</p>
+<div class="language-sh highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1">1</a></span>
+<span class="normal"><a href="#__codelineno-2-2">2</a></span>
+<span class="normal"><a href="#__codelineno-2-3">3</a></span>
+<span class="normal"><a href="#__codelineno-2-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1"></a>jmap<span class="w"> </span>-dump:format<span class="o">=</span>b,file<span class="o">=</span>heap_dump.hprof<span class="w"> </span>&lt;pid&gt;
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2"></a>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3"></a><span class="c1"># JVM内存溢出后，主动dump生成文件，启动时增加虚拟机参数</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4"></a>-XX:+HeapDumpOnOutOfMemoryError<span class="w"> </span>-XX:HeapDumpPath<span class="o">=</span>/tmp/heap_dump.hprof
+</span></code></pre></div></td></tr></table></div>
+<h2 id="接口变慢了应该如何排查">接口变慢了应该如何排查？<a class="headerlink" href="#接口变慢了应该如何排查" title="Permanent link"></a></h2>
+<p>排查思路：</p>
+<ol>
+<li>利用服务的监控，或使用监控工具查看CPU、内存、磁盘、网络等硬件资源的使用情况，<strong>看看是否有资源瓶颈</strong>。</li>
+<li>查看网络是否存在延迟或带宽瓶颈。</li>
+<li>查看接口的日志，确认接口是否一直慢，或者是否只是在某些时间段或特定请求下变慢。</li>
+<li>查看数据库，是否是慢查询、索引缺失或锁等情况</li>
+<li>检查代码问题，是否有不必要的同步、循环、递归等。</li>
+</ol>
+<blockquote>
+<p>资源瓶颈</p>
+</blockquote>
+<p>1、CPU使用过高：使用top查看系统的CPU占用率，查看消耗CPU的进程</p>
+<p>2、内存泄漏：内存泄漏导致内存消耗完频繁触发GC</p>
+<p>3、磁盘I/O负载高：使用iostat查看磁盘的使用情况</p>
+<p>4、网络带宽不足或高延迟，使用ping、netstat检查网络情况</p>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  <form class="md-feedback" name="feedback" hidden>
+    <fieldset>
+      <legend class="md-feedback__title">
+        Was this page helpful?
+      </legend>
+      <div class="md-feedback__inner">
+        <div class="md-feedback__list">
+          
+            <button class="md-feedback__icon md-icon" type="submit" title="This page was helpful" data-md-value="1">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 12a8 8 0 0 0-8-8 8 8 0 0 0-8 8 8 8 0 0 0 8 8 8 8 0 0 0 8-8m2 0a10 10 0 0 1-10 10A10 10 0 0 1 2 12 10 10 0 0 1 12 2a10 10 0 0 1 10 10M10 9.5c0 .8-.7 1.5-1.5 1.5S7 10.3 7 9.5 7.7 8 8.5 8s1.5.7 1.5 1.5m7 0c0 .8-.7 1.5-1.5 1.5S14 10.3 14 9.5 14.7 8 15.5 8s1.5.7 1.5 1.5m-5 7.73c-1.75 0-3.29-.73-4.19-1.81L9.23 14c.45.72 1.52 1.23 2.77 1.23s2.32-.51 2.77-1.23l1.42 1.42c-.9 1.08-2.44 1.81-4.19 1.81"/></svg>
+            </button>
+          
+            <button class="md-feedback__icon md-icon" type="submit" title="This page could be improved" data-md-value="0">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 12a8 8 0 0 0-8-8 8 8 0 0 0-8 8 8 8 0 0 0 8 8 8 8 0 0 0 8-8m2 0a10 10 0 0 1-10 10A10 10 0 0 1 2 12 10 10 0 0 1 12 2a10 10 0 0 1 10 10m-6.5-4c.8 0 1.5.7 1.5 1.5s-.7 1.5-1.5 1.5-1.5-.7-1.5-1.5.7-1.5 1.5-1.5M10 9.5c0 .8-.7 1.5-1.5 1.5S7 10.3 7 9.5 7.7 8 8.5 8s1.5.7 1.5 1.5m2 4.5c1.75 0 3.29.72 4.19 1.81l-1.42 1.42C14.32 16.5 13.25 16 12 16s-2.32.5-2.77 1.23l-1.42-1.42C8.71 14.72 10.25 14 12 14"/></svg>
+            </button>
+          
+        </div>
+        <div class="md-feedback__note">
+          
+            <div data-md-value="1" hidden>
+              
+              
+                
+              
+              
+              
+                
+                
+              
+              Thanks for your feedback!
+            </div>
+          
+            <div data-md-value="0" hidden>
+              
+              
+                
+              
+              
+              
+                
+                
+              
+              Thanks for your feedback! Help us improve this page by using our <a href="..." target="_blank" rel="noopener">feedback form</a>.
+            </div>
+          
+        </div>
+      </div>
+    </fieldset>
+  </form>
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2019 - 2024 wang
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "..", "features": ["content.action.edit", "content.code.copy", "content.code.select", "content.tabs.link", "navigation.tabs", "navigation.instant", "navigation.path", "toc.follow"], "search": "../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.92b07e13.min.js"></script>
+      
+    
+  <script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+document$.subscribe(() => { lightbox.reload() });
+</script></body>
+</html>
