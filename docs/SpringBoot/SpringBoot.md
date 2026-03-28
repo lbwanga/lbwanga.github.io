@@ -583,14 +583,19 @@ public class CartoonCatAndMouse{
 
 **SpringBoot自动配置原理**：
 
-1. SpringBoot启动时先加载 `spring-boot-autoconfigure` 下 `META-INF/spring.factories` 文件中的`org.springframework.boot.autoconfigure.EnableAutoConfiguration` 配置项，将其中配置的所有的类都加载成bean。SpringBoot3中：加载`spring-boot-autoconfigure` 包里面 `META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports` 文件,里面指定的所有启动要加载的自动配置类
-2. 在加载bean的时候，bean对应的类定义上都设置有加载条件 `@ConditionalOnXxx`，因此有可能加载成功，也可能条件检测失败不加载bean
-3. 对于可以正常加载成bean的类，通常会通过 `@EnableConfigurationProperties` 注解初始化对应的配置属性类并加载对应的配置
-4. 配置属性类上通常会通过 `@ConfigurationProperties` 加载指定前缀的配置，当然这些配置通常都有默认值。如果没有默认值，就强制必须配置后使用
+1、SpringBoot启动时先加载 `spring-boot-autoconfigure` 下 `META-INF/spring.factories` 文件中的`org.springframework.boot.autoconfigure.EnableAutoConfiguration` 配置项，将其中配置的所有的类都加载成bean。
+
+> SpringBoot3中：加载`spring-boot-autoconfigure` 包里面 `META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports` 文件,里面指定的所有启动要加载的自动配置类
+
+2、在加载bean的时候，bean对应的类定义上都设置有加载条件 `@ConditionalOnXxx`，因此有可能加载成功，也可能条件检测失败不加载bean
+
+3、对于可以正常加载成bean的类，通常会通过 `@EnableConfigurationProperties` 注解初始化对应的配置属性类并加载对应的配置
+
+4、配置属性类上通常会通过 `@ConfigurationProperties` 加载指定前缀的配置，当然这些配置通常都有默认值。如果没有默认值，就强制必须配置后使用
 
 
 
-@SpringBootApplication：
+**如何实现自动装配的？**
 
 ```java
 @SpringBootConfiguration

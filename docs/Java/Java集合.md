@@ -452,6 +452,118 @@ private void grow(int minCapacity) {
 
 
 
+### 遍历方式
+
+在Java中，集合的遍历方法主要有以下几种：
+
+* 普通 for 循环： 可以使用带有索引的普通 for 循环来遍历 List。
+
+- 增强 for 循环（for-each循环）： 用于循环访问数组或集合中的元素。
+
+- Iterator 迭代器： 可以使用迭代器来遍历集合，**特别适用于需要删除元素的情况**。
+
+  ```java
+  Iterator<String> iterator = list.iterator();
+  while(iterator.hasNext()) {
+      String element = iterator.next();
+      System.out.println(element);
+  }
+  ```
+
+- ListIterator 列表迭代器： ListIterator是迭代器的子类，可以双向访问列表并在迭代过程中修改元素。
+
+- 使用 forEach 方法： Java 8引入了 forEach 方法，可以对集合进行快速遍历。
+
+  ```java
+  list.forEach(element -> System.out.println(element));
+  ```
+
+- Stream API： Java 8的Stream API提供了丰富的功能，可以对集合进行函数式操作，如过滤、映射等。
+
+  ```java
+  list.stream().forEach(element -> System.out.println(element));
+  ```
+
+
+
+### fail-fast
+
+fail-fast 机制是java集合(Collection)中的一种错误机制。fail-fast是一种错误检测机制，一旦检测到可能发生错误，就立马抛出异常，程序不继续往下执行。
+
+```java
+List<String> userNames = new ArrayList<String>() {{
+    add("Hollis");
+    add("hollis");
+    add("HollisChuang");
+    add("H");
+}};
+
+for (String userName : userNames) {
+    if (userName.equals("Hollis")) {
+        userNames.remove(userName);
+    }
+}
+
+System.out.println(userNames);
+```
+
+以上代码，使用增强for循环遍历元素，并尝试删除其中的Hollis字符串元素。运行以上代码，会抛出以下异常：
+
+```java
+Exception in thread "main" java.util.ConcurrentModificationException
+```
+
+同样的，在增强for循环中使用add方法添加元素，结果也会同样抛出该异常。
+
+
+
+**异常产生的原因**：
+
+1. Java 的集合类（如 `ArrayList`, `HashMap`, `LinkedList`）中维护了一个字段：
+
+   ```java
+   protected transient int modCount = 0;
+   ```
+
+   每当集合结构（元素增删）变化时，`modCount++`。
+
+2. 当你创建一个 `Iterator` 时，迭代器会保存一个快照值：
+
+   ```java
+   expectedModCount = modCount;
+   ```
+
+3. 每次调用 `next()` 时，迭代器都会校验：
+
+   ```java
+   if (modCount != expectedModCount)
+       throw new ConcurrentModificationException();
+   ```
+
+4. 如果在遍历过程中，你通过**非迭代器**方式（例如 `list.remove()`）修改集合，
+
+   - 集合内部 `modCount` 增加；
+   - 迭代器自己的 `expectedModCount` 没变；
+   - 两者不一致 → 抛出 CME。
+
+增强for循环其实是Java提供的一个语法糖，我们将代码反编译后可以看到增强for循环其实是用的是`Iterator`迭代器。
+
+
+
+**正确操作**：
+
+1、直接使用普通for循环进行操作：这种方案其实存在一个问题，那就是remove操作会改变List中元素的下标，可能存在漏删的情况。
+
+2、直接使用Iterator进行操作：如果直接使用Iterator提供的remove方法，那么就可以修改到expectedModCount的值。那么就不会再抛出异常了。
+
+3、不要使用remove，使用Java 8中提供的filter过滤
+
+4、使用增强for循环其实也可以。如果，我们非常确定在一个集合中，某个即将删除的元素只包含一个的话， 比如对Set进行操作，那么其实也是可以使用增强for循环的，只要在删除之后，立刻结束循环体，不要再继续进行遍历就可以了，也就是说不让代码执行到下一次的next方法。
+
+5、直接使用fail-safe的集合类：例如CopyOnWriteArrayList
+
+
+
 ## Map
 
 `HashMap`：JDK1.8 之前 `HashMap` 由数组+链表组成的，数组是 `HashMap` 的主体，链表则是主要为了解决哈希冲突而存在的（“拉链法”解决冲突）。JDK1.8 以后在解决哈希冲突时有了较大的变化，当链表长度大于阈值（默认为 8）（将链表转换成红黑树前会判断，如果当前数组的长度小于 64，那么会选择先进行数组扩容，而不是转换为红黑树）时，将链表转化为红黑树，以减少搜索时间。
@@ -598,6 +710,8 @@ static class Node<K,V> implements Map.Entry<K,V> {
 }
 ```
 
+> 注意：HashMap重写了equals()方法，因为equals()默认是比较内存地址，而重写后，在HashMap中是比较key值。
+
 当某个索引位上的链表长度达到指定的阈值（默认为单向链表长度超过8）时，单向链表会转化为红黑树；当红黑树中的节点足够少（默认为红黑树中的节点数量少于6个）时，红黑树会转换为单向链表。
 
 红黑树 TreeNode：
@@ -697,6 +811,10 @@ final V putVal(int hash, K key, V value, boolean onlyIfAbsent,
 }
 ```
 
+1. 如果定位到的数组位置没有元素 就直接插入。
+
+2. 如果定位到的数组位置有元素就和要插入的 key 比较，如果 key 相同就直接覆盖，如果 key 不相同，就判断 p 是否是一个树节点，如果是就调用`e = ((TreeNode<K,V>)p).putTreeVal(this, tab, hash, key, value)`将元素添加进入。如果不是就遍历链表插入(插入的是链表尾部)。
+
 
 
 **树化**：
@@ -727,6 +845,8 @@ final void treeifyBin(Node<K,V>[] tab, int hash) {
 }
 ```
 
+> 当数组长度小于64时，如果有链表的长度大于8了，那么代表着当前数组中的数据哈希冲突比较严重，在这种情况下是不会直接发生红黑树转换的，而是会先对于数组进行扩容，扩容之后对数据重新进行哈希计算，重新散列分布。所以其实真正的链表转红黑树的条件是：**当数组长度已经超过64并且链表中的元素数量超过默认设定（8个）时，才会将链表转化为红黑树结构**。
+
 
 
 **扩容**：
@@ -740,6 +860,94 @@ final void treeifyBin(Node<K,V>[] tab, int hash) {
 
 1. 根据当前HashMap集合的情况，确认HashMap集合新的容量值和新的扩容门槛值，创建新的table。一般情况下2倍扩容。
 2. 将旧数组的元素整理到新数组中。因为我们使用的是2次幂的扩展，所以，元素的位置要么是在原位置，要么是在原位置再移动2次幂的位置。因此，我们在扩充HashMap的时候，不需要重新计算hash，只需要看看原来的hash值新增的那个bit是1还是0就好了，是0的话索引没变，是1的话索引变成“原索引+oldCap”。
+
+```java
+final Node<K,V>[] resize() {
+    Node<K,V>[] oldTab = table;
+    int oldCap = (oldTab == null) ? 0 : oldTab.length;
+    int oldThr = threshold;
+    int newCap, newThr = 0;
+    if (oldCap > 0) {
+        // 超过最大值就不再扩充了，就只好随你碰撞去吧
+        if (oldCap >= MAXIMUM_CAPACITY) {
+            threshold = Integer.MAX_VALUE;
+            return oldTab;
+        }
+        // 没超过最大值，就扩充为原来的2倍
+        else if ((newCap = oldCap << 1) < MAXIMUM_CAPACITY && oldCap >= DEFAULT_INITIAL_CAPACITY)
+            newThr = oldThr << 1; // double threshold
+    }
+    else if (oldThr > 0) // initial capacity was placed in threshold
+        // 创建对象时初始化容量大小放在threshold中，此时只需要将其作为新的数组容量
+        newCap = oldThr;
+    else {
+        // signifies using defaults 无参构造函数创建的对象在这里计算容量和阈值
+        newCap = DEFAULT_INITIAL_CAPACITY;
+        newThr = (int)(DEFAULT_LOAD_FACTOR * DEFAULT_INITIAL_CAPACITY);
+    }
+    if (newThr == 0) {
+        // 创建时指定了初始化容量或者负载因子，在这里进行阈值初始化，
+    	// 或者扩容前的旧容量小于16，在这里计算新的resize上限
+        float ft = (float)newCap * loadFactor;
+        newThr = (newCap < MAXIMUM_CAPACITY && ft < (float)MAXIMUM_CAPACITY ? (int)ft : Integer.MAX_VALUE);
+    }
+    threshold = newThr;
+    @SuppressWarnings({"rawtypes","unchecked"})
+        Node<K,V>[] newTab = (Node<K,V>[])new Node[newCap];
+    table = newTab;
+    if (oldTab != null) {
+        // 把每个bucket都移动到新的buckets中
+        for (int j = 0; j < oldCap; ++j) {
+            Node<K,V> e;
+            if ((e = oldTab[j]) != null) {
+                oldTab[j] = null;
+                if (e.next == null)
+                    // 只有一个节点，直接计算元素新的位置即可
+                    newTab[e.hash & (newCap - 1)] = e;
+                else if (e instanceof TreeNode)
+                    // 将红黑树拆分成2棵子树，如果子树节点数小于等于 UNTREEIFY_THRESHOLD（默认为 6），则将子树转换为链表。
+                    // 如果子树节点数大于 UNTREEIFY_THRESHOLD，则保持子树的树结构。
+                    ((TreeNode<K,V>)e).split(this, newTab, j, oldCap);
+                else {
+                    Node<K,V> loHead = null, loTail = null;
+                    Node<K,V> hiHead = null, hiTail = null;
+                    Node<K,V> next;
+                    do {
+                        next = e.next;
+                        // 原索引
+                        if ((e.hash & oldCap) == 0) {
+                            if (loTail == null)
+                                loHead = e;
+                            else
+                                loTail.next = e;
+                            loTail = e;
+                        }
+                        // 原索引+oldCap
+                        else {
+                            if (hiTail == null)
+                                hiHead = e;
+                            else
+                                hiTail.next = e;
+                            hiTail = e;
+                        }
+                    } while ((e = next) != null);
+                    // 原索引放到bucket里
+                    if (loTail != null) {
+                        loTail.next = null;
+                        newTab[j] = loHead;
+                    }
+                    // 原索引+oldCap放到bucket里
+                    if (hiTail != null) {
+                        hiTail.next = null;
+                        newTab[j + oldCap] = hiHead;
+                    }
+                }
+            }
+        }
+    }
+    return newTab;
+}
+```
 
 
 
@@ -868,7 +1076,11 @@ CopyOnWriteArrayList集合适合用于读操作远远多于写操作，并且在
      final void setArray(Object[] a) {
          array = a;
      }
-  	// 省略其他代码
+     
+  	 // get
+     public E get(int index) {
+         return get(getArray(), index);
+     }
  }
 ```
 
