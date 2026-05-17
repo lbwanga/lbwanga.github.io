@@ -1,0 +1,2619 @@
+<!DOCTYPE html><html lang="zh" class="no-js"><head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="个人笔记，博客">
+      
+      
+        <meta name="author" content="wang">
+      
+      
+        <link rel="canonical" href="https://lbwanga.github.io/Kubernetes/k8s.html">
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/logo.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>K8s - WNotes</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+  
+  
+
+<script id="__analytics">function __md_analytics(){function e(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],e("js",new Date),e("config","G-XXXXXXXXXX"),document.addEventListener("DOMContentLoaded",(function(){document.forms.search&&document.forms.search.query.addEventListener("blur",(function(){this.value&&e("event","search",{search_term:this.value})}));document$.subscribe((function(){var t=document.forms.feedback;if(void 0!==t)for(var a of t.querySelectorAll("[type=submit]"))a.addEventListener("click",(function(a){a.preventDefault();var n=document.location.pathname,d=this.getAttribute("data-md-value");e("event","feedback",{page:n,data:d}),t.firstElementChild.disabled=!0;var r=t.querySelector(".md-feedback__note [data-md-value='"+d+"']");r&&(r.hidden=!1)})),t.hidden=!1})),location$.subscribe((function(t){e("config","G-XXXXXXXXXX",{page_path:t.pathname})}))}));var t=document.createElement("script");t.async=!0,t.src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX",document.getElementById("__analytics").insertAdjacentElement("afterEnd",t)}</script>
+  
+    <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+  
+
+    
+    
+  <link href="../assets/stylesheets/glightbox.min.css" rel="stylesheet"><script src="../assets/javascripts/glightbox.min.js"></script><style id="glightbox-style">
+            html.glightbox-open { overflow: initial; height: 100%; }
+            .gslide-title { margin-top: 0px; user-select: text; }
+            .gslide-desc { color: #666; user-select: text; }
+            .gslide-image img { background: white; }
+            .gscrollbar-fixer { padding-right: 15px; }
+            .gdesc-inner { font-size: 0.75rem; }
+            body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color); }
+            body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color); }
+            body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color); }
+        </style></head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="white" data-md-color-accent="blue">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#组件" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../index.html" title="WNotes" class="md-header__button md-logo" aria-label="WNotes" data-md-component="logo">
+      
+  <img src="../assets/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            WNotes
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              K8s
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/lbwanga/lbwanga.github.io" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"></path></svg>
+  </div>
+  <div class="md-source__repository">
+    lbwanga
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../index.html" class="md-tabs__link">
+        
+  
+  
+    
+  
+  简介
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../Java/Java.html" class="md-tabs__link">
+          
+  
+  
+  Java
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../JUC/JUC.html" class="md-tabs__link">
+        
+  
+  
+    
+  
+  JUC
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../JVM/JVM.html" class="md-tabs__link">
+        
+  
+  
+    
+  
+  JVM
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../MySQL/MySQL.html" class="md-tabs__link">
+        
+  
+  
+    
+  
+  MySQL
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../Redis/Redis%E5%9F%BA%E7%A1%80.html" class="md-tabs__link">
+          
+  
+  
+  Redis
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../ES/ES.html" class="md-tabs__link">
+        
+  
+  
+    
+  
+  ES
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F.html" class="md-tabs__link">
+        
+  
+  
+    
+  
+  设计模式
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../Spring/Spring6.html" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Spring
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../SpringMVC/SpringMVC.html" class="md-tabs__link">
+        
+  
+  
+    
+  
+  SpringMVC
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../SpringBoot/SpringBoot.html" class="md-tabs__link">
+        
+  
+  
+    
+  
+  SpringBoot
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../MQ/MQ.html" class="md-tabs__link">
+        
+  
+  
+    
+  
+  MQ
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C.html" class="md-tabs__link">
+        
+  
+  
+    
+  
+  计算机网络
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F.html" class="md-tabs__link">
+        
+  
+  
+    
+  
+  操作系统
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1/DDD.html" class="md-tabs__link">
+        
+  
+  
+    
+  
+  DDD
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../AI/AI.html" class="md-tabs__link">
+        
+  
+  
+    
+  
+  AI
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../%E5%90%8E%E7%AB%AF%E5%9C%BA%E6%99%AF/%E5%9C%BA%E6%99%AF.html" class="md-tabs__link">
+        
+  
+  
+    
+  
+  后端场景
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../index.html" title="WNotes" class="md-nav__button md-logo" aria-label="WNotes" data-md-component="logo">
+      
+  <img src="../assets/logo.png" alt="logo">
+
+    </a>
+    WNotes
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/lbwanga/lbwanga.github.io" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"></path></svg>
+  </div>
+  <div class="md-source__repository">
+    lbwanga
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix="">
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    简介
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2">
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Java
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Java
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Java/Java.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Java基础
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Java/Java%E9%9B%86%E5%90%88.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Java集合
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../JUC/JUC.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    JUC
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../JVM/JVM.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    JVM
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../MySQL/MySQL.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MySQL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6">
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Redis
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Redis
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Redis/Redis%E5%9F%BA%E7%A1%80.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Redis基础
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Redis/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Redis数据结构
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Redis/Redis%E9%AB%98%E7%BA%A7.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Redis高级
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Redis/应用.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Redis应用
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ES/ES.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ES
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    设计模式
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Spring/Spring6.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Spring
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../SpringMVC/SpringMVC.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SpringMVC
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../SpringBoot/SpringBoot.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SpringBoot
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../MQ/MQ.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MQ
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    计算机网络
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    操作系统
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1/DDD.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DDD
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../AI/AI.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../%E5%90%8E%E7%AB%AF%E5%9C%BA%E6%99%AF/%E5%9C%BA%E6%99%AF.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    后端场景
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+      
+        <li class="md-nav__item">
+  <a href="#组件" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        组件
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="组件">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#kube-apiserver" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        kube-apiserver
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#kube-controller-manager" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        kube-controller-manager
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#kube-sheduler" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        kube-sheduler
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#etcd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        etcd
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#kubelet" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        kubelet
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#kube-proxy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        kube-proxy
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pod" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pod
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Pod">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pause容器" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pause容器
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#init容器" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Init容器
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#生命周期" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        生命周期
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="生命周期">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#容器探针" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        容器探针
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pod-hook" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pod Hook
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sidecar容器" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        sidecar容器
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#控制器" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        控制器
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="控制器">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#replicationcontroller-和-replicaset" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ReplicationController 和 ReplicaSet
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#deployment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Deployment
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#daemonset" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DaemonSet
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#job" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Job
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cronjob" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CronJob
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#statefulset" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        StatefulSet
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="StatefulSet">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pod-身份管理" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pod 身份管理
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#headless-service" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Headless Service
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#核心原理" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        核心原理
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#service" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        service
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="service">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#service-类型" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Service 类型
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#代理模式" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        代理模式
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#endpoint" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Endpoint
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ingress" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ingress
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#存储" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        存储
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="存储">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#configmap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        configMap
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#secret" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Secret
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#volume" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Volume
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Volume">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#emptydir" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        emptyDir
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hostpath" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        hostPath
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#persistent-volume" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Persistent Volume
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Persistent Volume">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#persistentvolume-pv" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PersistentVolume (PV)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#persistentvolumeclaim-pvc" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PersistentVolumeClaim (PVC)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#storageclass" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        StorageClass
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#调度器" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        调度器
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+                
+
+
+
+  
+
+
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/lbwanga/lbwanga.github.io/edit/master/docs/Kubernetes/k8s.md" title="编辑此页" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"></path></svg>
+    </a>
+  
+  
+
+
+  <h1>K8s</h1>
+
+<p><a href="https://kubernetes.io/zh-cn/docs/concepts/overview/#why-you-need-kubernetes-and-what-can-it-do">概述 | Kubernetes</a></p>
+<p><a href="https://jimmysong.io/book/kubernetes-handbook/interfaces/cri/">容器运行时接口（CRI） | Jimmy Song</a></p>
+<blockquote>
+<p><strong>为什么需要 Kubernetes，它能做什么？</strong></p>
+</blockquote>
+<p><strong>服务发现和负载均衡</strong></p>
+<p>Kubernetes 可以使用 DNS 名称或自己的 IP 地址来暴露容器。 如果进入容器的流量很大， Kubernetes 可以负载均衡并分配网络流量，从而使部署稳定。</p>
+<p><strong>存储编排</strong></p>
+<p>Kubernetes 允许你自动挂载你选择的存储系统，例如本地存储、公共云提供商等。</p>
+<p><strong>自动部署和回滚</strong></p>
+<p>你可以使用 Kubernetes 描述已部署容器的所需状态， 它可以以受控的速率将实际状态更改为期望状态。 例如，你可以自动化 Kubernetes 来为你的部署创建新容器， 删除现有容器并将它们的所有资源用于新容器。</p>
+<p><strong>自动完成装箱计算</strong></p>
+<p>你为 Kubernetes 提供许多节点组成的集群，在这个集群上运行容器化的任务。 你告诉 Kubernetes 每个容器需要多少 CPU 和内存 (RAM)。 Kubernetes 可以将这些容器按实际情况调度到你的节点上，以最佳方式利用你的资源。</p>
+<p><strong>自我修复</strong></p>
+<p>Kubernetes 将重新启动失败的容器、替换容器、杀死不响应用户定义的运行状况检查的容器， 并且在准备好服务之前不将其通告给客户端。</p>
+<p><strong>密钥与配置管理</strong></p>
+<p>Kubernetes 允许你存储和管理敏感信息，例如密码、OAuth 令牌和 SSH 密钥。 你可以在不重建容器镜像的情况下部署和更新密钥和应用程序配置，也无需在堆栈配置中暴露密钥。</p>
+<p><strong>批处理执行</strong> 除了服务外，Kubernetes 还可以管理你的批处理和 CI（持续集成）工作负载，如有需要，可以替换失败的容器。</p>
+<p><strong>水平扩缩</strong> 使用简单的命令、用户界面或根据 CPU 使用率自动对你的应用进行扩缩。</p>
+<h2 id="组件">组件<a class="headerlink" href="#组件" title="Permanent link"></a></h2>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="K8S/%E7%BB%84%E4%BB%B6.png" data-desc-position="bottom"><img alt="" src="K8S/%E7%BB%84%E4%BB%B6.png"></a></p>
+<p><strong>master</strong>：</p>
+<p>Master 节点会部署 kube-apiserver、kube-controller-manager、kube-scheduler 组件，其中 kube-controller-mananger、kube-scheduler 会通过本地回环接口同 kube-apiserver 通信。</p>
+<ul>
+<li><a href="https://kubernetes.io/zh-cn/docs/concepts/architecture/#kube-apiserver">kube-apiserver</a></li>
+</ul>
+<p>提供 Kubernetes API 的唯一入口，负责公开了 Kubernetes API，负责处理接受请求的工作。 </p>
+<p>承载着所有的资源增删改查、认证、鉴权等逻辑，其稳定性非常重要。为了确保 kube-apiserver 的高可用，企业会将 kube-apiserver 实例注册到负载均衡器中，通过负载均衡器来访问。通常建议的 kube-apiserver 副本数至少是 3 个。</p>
+<ul>
+<li><a href="https://kubernetes.io/zh-cn/docs/concepts/architecture/#etcd">etcd</a></li>
+</ul>
+<p>分布式键值存储，集群状态的唯一数据源</p>
+<ul>
+<li><a href="https://kubernetes.io/zh-cn/docs/concepts/architecture/#kube-scheduler">kube-scheduler</a></li>
+</ul>
+<p>查找尚未绑定到节点的 Pod，并将每个 Pod 分配给合适的节点。</p>
+<ul>
+<li><a href="https://kubernetes.io/zh-cn/docs/concepts/architecture/#kube-controller-manager">kube-controller-manager</a></li>
+</ul>
+<p>会 Watch kube-apiserver，在 Watch 到资源变更事件后，会根据事件的类型和内容，对资源进行调和，使资源处于预期的状态。</p>
+<p>内置控制器：</p>
+<ul>
+<li>Node Controller：节点状态管理</li>
+<li>Replication Controller：副本数量控制</li>
+<li>Endpoints Controller：服务端点管理</li>
+</ul>
+<p><strong>worker</strong>：</p>
+<p>Worker 节点主要用来运行 Pod。Worker 节点部署了 Kubernetes 的 kubelet、kube-proxy 组件。kubelet 负责跟底层的容器运行时交互，用来管理容器的生命周期。kube-proxy，作为 Kubernetes 集群内的服务注册中心，负责服务发现和负载均衡</p>
+<ul>
+<li><a href="https://kubernetes.io/zh-cn/docs/concepts/architecture/#kubelet">kubelet</a></li>
+</ul>
+<p>节点代理，管理 Pod 生命周期</p>
+<p>在 kube-scheduler 将 Pod 调度到具体的节点之后，会产生一个 Pod UPDATE 事件，kubelet watch Pod 的变更事件后，如果发现该 Pod 的 spec.nodeName 值跟 kubelet 所在的节点名相同，就会根据 Pod 的定义，调用底层的容器运行时，在节点上创建需要的容器，从而将 Pod 运行起来。</p>
+<ul>
+<li><a href="https://kubernetes.io/zh-cn/docs/concepts/architecture/#kube-proxy">kube-proxy</a></li>
+</ul>
+<p>kube-proxy 会 Watch 集群的 Service 和 Pod 资源，并动态维护一个 Service IP（VIP）和 Pod IP（RS） 列表的映射，在 Service 和 Pod 有更新时，会动态的更新这个映射表。在我们通过 Service IP 访问时，kube-proxy 会更具负载均衡策略，选择一个 Pod IP，将请求转发到这个 Pod 中，起到一个负载均衡器的功能。</p>
+<ul>
+<li><a href="https://kubernetes.io/zh-cn/docs/concepts/architecture/#container-runtime">容器运行时（Container runtime）</a></li>
+</ul>
+<p>负责管理 Kubernetes 环境中容器的执行和生命周期。</p>
+<h3 id="kube-apiserver">kube-apiserver<a class="headerlink" href="#kube-apiserver" title="Permanent link"></a></h3>
+<p>kube-apiserver 主要负责以下工作:</p>
+<ul>
+<li>
+<p><strong>API 服务</strong>：提供 Kubernetes API 接口，供用户和其他组件（如 Kubelet、Kube-controller-manager 等）进行交互。</p>
+</li>
+<li>
+<p><strong>资源管理</strong>：负责创建、更新、删除和列出集群中的资源（如 Pods、Services、Deployments 等）。</p>
+</li>
+<li>
+<p><strong>认证和授权</strong>：处理用户身份验证，支持多种认证方法（如基本认证、Bearer Tokens、Webhook 等）；检查用户是否有权限执行特定操作（即授权）。支持 ABAC、RBAC、Webhook 等授权策略。</p>
+</li>
+<li>
+<p><strong>审计日志</strong>：记录所有 API 请求和操作的审计日志，可以用于安全审计和问题排查。</p>
+</li>
+<li>
+<p><strong>API 版本管理</strong>：支持不同版本的 API，确保向后兼容性和逐步迁移；提供不同的版本（如 v1、v1beta 等），允许客户端选择适当的 API 版本。</p>
+</li>
+<li>
+<p><strong>数据存储</strong>：与 etcd 交互，负责持久化存储集群状态和配置数据；处理所有对 etcd 的读写请求，确保数据一致性和高可用性。</p>
+</li>
+<li>
+<p><strong>对象的 Watch 机制</strong>：支持客户端订阅对象变化，实现实时更新通知（Watch）；允许系统组件基于资源变化进行响应。</p>
+</li>
+<li>
+<p><strong>API 速率限制</strong>：实现请求速率限制，以确保 API Server 的稳定性和性能，防止过载。</p>
+</li>
+</ul>
+<h3 id="kube-controller-manager">kube-controller-manager<a class="headerlink" href="#kube-controller-manager" title="Permanent link"></a></h3>
+<p>kube-controller-manager 是一组控制器的集合，用于监控和管理集群中的各种资源。它包括节点控制器、副本控制器、服务控制器、端点控制器等。这些控制器负责监视资源的状态变化，并根据需要采取相应的操作，确保集群中的资源处于期望的状态。</p>
+<h3 id="kube-sheduler">kube-sheduler<a class="headerlink" href="#kube-sheduler" title="Permanent link"></a></h3>
+<p>kube-scheduler 负责将新创建的 Pod 调度到集群中的节点上。它负责监视新创建的、未指定运行节点（node）的 Pods，选择节点让 Pod 在上面运行。调度决策考虑的因素包括单个 Pod 和 Pod 集合的资源需求、硬件 / 软件 / 策略约束、亲和性和反亲和性规范、数据位置、工作负载间的干扰和最后时限。</p>
+<h3 id="etcd">etcd<a class="headerlink" href="#etcd" title="Permanent link"></a></h3>
+<p>etcd 是一个开源的强一致性分布式键值存储：</p>
+<ul>
+<li>强一致性：如果对一个节点进行了更新，强一致性将确保它立即更新到集群中的所有其他节点。在 CAP 定理的限制下，在强一致性和分区容忍的情况下，实现 100% 可用性是不可能的。</li>
+<li>分布式：etcd 被设计成在保留强一致性的前提下，作为一个集群在多个节点上运行。</li>
+<li>键值存储：将数据存储为键和值的非关系数据库。它还公开了一个键值 API。数据存储构建在 BoltDB 之上（BoltDB 是 BoltDB 的一个分支）。</li>
+</ul>
+<p>etcd 在 Kubernetes 集群中的作用包括：</p>
+<ul>
+<li><strong>etcd 存储 Kubernetes 对象的所有配置、状态和元数据</strong>。包括：Pods、Secrets、Daemonsets、Deployment、Configmaps、Statfulsets 等对象。</li>
+<li><strong>etcd 允许客户端使用 Watch() API 订阅事件</strong>。kube-apiserver 使用 etcd 的 Watch 功能来跟踪对象状态的变化。</li>
+<li><strong>etcd 使用 gRPC 公开键值 API</strong>。此外，gRPC 网关作为 RESTful 代理，将所有 HTTP API 调用转换为 gRPC 消息。这使得它成为 Kubernetes 的理想数据库。</li>
+<li><strong>etcd 以键值方式，将所有对象存储在 /registry 目录下</strong>。 例如，一个在 default 命名空间中，名字为 nginx 的 Pod，可以在 /registry/pods/default/nginx 下找到。</li>
+</ul>
+<h3 id="kubelet">kubelet<a class="headerlink" href="#kubelet" title="Permanent link"></a></h3>
+<p>kubelet 是负责容器真正运行的核心组件，主要职责如下所示：</p>
+<ul>
+<li>负责 Node 节点上 Pod 的创建、修改、监控、删除等全生命周期的管理。</li>
+<li>定时上报本地 Node 的状态信息给 kube-apiserver。</li>
+<li>kubelet 是 Master 和 Node 之间的桥梁，接收 kube-apiserver 分配给它的任务并执行。</li>
+<li>kubelet 通过 kube-apiserver 间接与 etcd 集群交互来读取集群配置信息。</li>
+<li>kubelet 在 Node 上做的主要工作具体如下:</li>
+<li>设置容器的环境变量、给容器绑定 Volume、给容器绑定 Port；</li>
+<li>为 Pod 创建，更新，删除容器；</li>
+<li>负责处理存活（Liveness）、就绪（Readiness）和启动（Startup）探针；</li>
+<li>通过读取 Pod 配置，在主机上为卷挂载创建相应的目录来挂载卷。</li>
+</ul>
+<h3 id="kube-proxy">kube-proxy<a class="headerlink" href="#kube-proxy" title="Permanent link"></a></h3>
+<p>kube-proxy 负责为 Pod 提供网络代理和负载均衡功能。它维护集群中的网络规则和转发表，并将请求转发到合适的目标 Pod 上。它支持多种代理模式，如用户空间代理、iptables 代理和 IPVS 代理，以满足不同网络环境的需求。</p>
+<h2 id="pod">Pod<a class="headerlink" href="#pod" title="Permanent link"></a></h2>
+<p>Pod 是 Kubernetes 中可以创建和部署的<strong>最小调度单元</strong>。Pod 代表集群中运行的一个或多个容器的集合。</p>
+<p>Pod 封装了以下内容：</p>
+<ul>
+<li>一个或多个应用容器</li>
+<li>共享的存储卷（Volumes）</li>
+<li>唯一的网络 IP 地址</li>
+<li>容器运行策略配置</li>
+</ul>
+<h3 id="pause容器">Pause容器<a class="headerlink" href="#pause容器" title="Permanent link"></a></h3>
+<p>要实现 Pod 内多个容器之间高效共享资源和数据，需要解决的核心问题是：<strong>如何打破容器间的 Linux Namespace 和 cgroups 隔离</strong>。</p>
+<p>Kubernetes 采用了巧妙的设计方案，通过 Pause 容器来解决这个问题，主要涉及两个方面：</p>
+<ol>
+<li><strong>网络共享</strong>：通过 Network Namespace 共享</li>
+<li><strong>存储共享</strong>：通过 Volume 挂载</li>
+</ol>
+<p>其他作用：</p>
+<ul>
+<li>
+<p>共享IPC、PID</p>
+</li>
+<li>
+<p>负责回收僵尸进程</p>
+</li>
+</ul>
+<blockquote>
+<p>Pause 容器具有以下显著特点：</p>
+</blockquote>
+<ul>
+<li><strong>轻量级</strong>：镜像极小，约 300-700KB</li>
+<li><strong>持久运行</strong>：永远处于 Pause（暂停）状态</li>
+<li><strong>多架构支持</strong>：支持 AMD64、ARM64 等多种架构</li>
+<li><strong>资源消耗极低</strong>：几乎不消耗 CPU 和内存资源</li>
+</ul>
+<blockquote>
+<p><strong>网络共享机制流程</strong>：</p>
+</blockquote>
+<p>Pod 内容器的网络共享按以下顺序执行：</p>
+<ol>
+<li><strong>Pod 创建</strong>：Kubernetes 调度器决定创建新 Pod</li>
+<li><strong>启动 Pause 容器</strong>：容器运行时首先创建并启动 Pause 容器</li>
+<li><strong>创建 Network Namespace</strong>：Pause 容器建立独立的网络命名空间</li>
+<li><strong>业务容器加入</strong>：后续创建的业务容器通过 <code>--net=container:pause</code> 参数加入相同的网络命名空间</li>
+<li><strong>实现资源共享</strong>：所有容器共享同一套网络资源（IP、端口、路由表等）</li>
+</ol>
+<h3 id="init容器">Init容器<a class="headerlink" href="#init容器" title="Permanent link"></a></h3>
+<p>Init 容器是 Kubernetes 中一种特殊的容器，它在应用程序容器启动之前运行，用来执行初始化任务。Init 容器可以包含一些应用镜像中不存在的实用工具或安装脚本，为主应用程序提供必要的前置条件。</p>
+<p>Init 容器与普通的容器非常像，除了如下两点：</p>
+<ul>
+<li>它们总是运行到完成。</li>
+<li>每个都必须在下一个启动之前成功完成。</li>
+</ul>
+<p>如果 Pod 的 Init 容器失败，kubelet 会不断地重启该 Init 容器直到该容器成功为止。 然而，如果 Pod 对应的 <code>restartPolicy</code> 值为 "Never"，并且 Pod 的 Init 容器失败， 则 Kubernetes 会将整个 Pod 状态设置为失败。</p>
+<blockquote>
+<p><strong>Init 容器的核心特性</strong></p>
+</blockquote>
+<ul>
+<li><strong>顺序执行</strong>：多个 Init 容器按照定义顺序一个接一个地运行</li>
+<li><strong>必须成功</strong>：每个 Init 容器都必须成功完成，下一个容器才能启动</li>
+<li><strong>阻塞启动</strong>：所有 Init 容器成功完成后，应用容器才开始启动</li>
+<li><strong>独立镜像</strong>：Init 容器可以使用与应用容器不同的镜像</li>
+</ul>
+<p>Init 容器支持应用容器的大部分特性，但有以下重要区别：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">特性</th>
+<th style="text-align: left;">Init 容器</th>
+<th style="text-align: left;">应用容器</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">运行方式</td>
+<td style="text-align: left;">顺序执行，运行至完成</td>
+<td style="text-align: left;">并行运行，持续运行</td>
+</tr>
+<tr>
+<td style="text-align: left;">重启策略</td>
+<td style="text-align: left;">失败时重启整个 Pod</td>
+<td style="text-align: left;">根据 restartPolicy 处理</td>
+</tr>
+<tr>
+<td style="text-align: left;">就绪探针</td>
+<td style="text-align: left;">不支持 readinessProbe</td>
+<td style="text-align: left;">支持各种探针</td>
+</tr>
+<tr>
+<td style="text-align: left;">生命周期</td>
+<td style="text-align: left;">一次性执行</td>
+<td style="text-align: left;">长期运行</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>使用场景</strong></p>
+</blockquote>
+<ul>
+<li>依赖服务检查</li>
+<li>数据预处理：下载配置文件或初始数据，克隆 Git 仓库到共享卷，生成动态配置文件等</li>
+<li>权限和安全设置</li>
+<li>资源准备：创建必要的目录结构，安装依赖等</li>
+</ul>
+<blockquote>
+<p><strong>执行顺序</strong></p>
+</blockquote>
+<ol>
+<li>Pod 被调度到节点</li>
+<li>网络和存储卷初始化</li>
+<li>Init 容器按顺序依次执行</li>
+<li>所有 Init 容器成功后，应用容器启动</li>
+</ol>
+<h3 id="生命周期">生命周期<a class="headerlink" href="#生命周期" title="Permanent link"></a></h3>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="K8S/pod%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F.png" data-desc-position="bottom"><img alt="" src="K8S/pod%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F.png"></a></p>
+<h4 id="容器探针">容器探针<a class="headerlink" href="#容器探针" title="Permanent link"></a></h4>
+<p><strong>探针是 kubelet 对容器执行的定期健康检查。</strong></p>
+<p>使用探针来检查容器有四种不同的方法。 每个探针都必须准确定义为这四种机制中的一种：</p>
+<ul>
+<li><code>exec</code></li>
+</ul>
+<p>在容器内执行指定命令。如果命令退出时返回码为 0 则认为诊断成功。</p>
+<ul>
+<li><code>grpc</code></li>
+</ul>
+<p>使用 <a href="https://grpc.io/">gRPC</a> 执行一个远程过程调用。 目标应该实现 <a href="https://grpc.io/grpc/core/md_doc_health-checking.html">gRPC 健康检查</a>。 如果响应的状态是 "SERVING"，则认为诊断成功。</p>
+<ul>
+<li><code>httpGet</code></li>
+</ul>
+<p>对容器的 IP 地址上指定端口和路径执行 HTTP <code>GET</code> 请求。如果响应的状态码大于等于 200 且小于 400，则诊断被认为是成功的。</p>
+<ul>
+<li><code>tcpSocket</code></li>
+</ul>
+<p>对容器的 IP 地址上的指定端口执行 TCP 检查。如果端口打开，则诊断被认为是成功的。 如果远程系统（容器）在打开连接后立即将其关闭，这算作是健康的。</p>
+<p>探针类型：</p>
+<ul>
+<li>
+<p>存活探针（Liveness Probe）</p>
+</li>
+<li>
+<p>用途：检测容器是否正在运行</p>
+</li>
+<li>
+<p>失败处理：kubelet 杀死容器，容器根据重启策略处理</p>
+</li>
+<li>
+<p>默认状态：如未配置，默认为 <code>Success</code></p>
+</li>
+<li>
+<p>就绪探针（Readiness Probe）</p>
+</li>
+<li>
+<p>用途：检测容器是否准备好接收流量</p>
+</li>
+<li>
+<p>失败处理：从所有匹配的 Service 端点中移除 Pod IP</p>
+</li>
+<li>
+<p>默认状态：如未配置，默认为 <code>Success</code></p>
+</li>
+<li>
+<p>启动探针（Startup Probe）</p>
+</li>
+<li>
+<p>用途：用于检测容器是否已启动</p>
+</li>
+<li>
+<p>优先级：启动探针成功前，其他探针被禁用</p>
+</li>
+<li>
+<p>适用场景：遗留应用或启动时间较长的容器</p>
+</li>
+</ul>
+<h4 id="pod-hook">Pod Hook<a class="headerlink" href="#pod-hook" title="Permanent link"></a></h4>
+<p>Pod Hook（钩子）是 Kubernetes 容器生命周期管理的重要机制，由 kubelet 负责执行。Hook 在容器启动后或终止前运行，为容器提供了在关键时刻执行自定义逻辑的能力。</p>
+<p><strong>PostStart Hook</strong></p>
+<ul>
+<li>触发时机：容器创建后立即执行</li>
+<li>执行方式：与容器主进程异步运行</li>
+<li>阻塞行为：Kubernetes 会等待 postStart 完成后才将容器状态设置为 RUNNING</li>
+<li>使用场景：初始化配置、注册服务、预热缓存等</li>
+</ul>
+<p><strong>PreStop Hook</strong></p>
+<ul>
+<li>触发时机：容器终止前执行</li>
+<li>执行方式：同步阻塞调用</li>
+<li>超时时间：默认 30 秒（可通过 <code>terminationGracePeriodSeconds</code> 配置）</li>
+<li>使用场景：优雅关闭、清理资源、保存状态等</li>
+</ul>
+<p>Kubernetes 支持两种类型的 Hook：</p>
+<ul>
+<li>Exec Hook：执行容器内的命令或脚本</li>
+<li>HTTP Hook：向指定端点发送 HTTP 请求</li>
+</ul>
+<h3 id="sidecar容器">sidecar容器<a class="headerlink" href="#sidecar容器" title="Permanent link"></a></h3>
+<p>指的是在同一个 Pod 中运行的辅助容器，用来增强或扩展主容器的功能。就像摩托车的边车一样，Sidecar 容器与主容器紧密配合，共享相同的网络和存储资源。</p>
+<p>常见使用场景：</p>
+<ul>
+<li>日志收集：将主容器产生的日志文件收集并转发到日志系统。</li>
+<li>服务网格代理：负责拦截和转发进出主容器的流量，实现流量管理、可观测性、服务发现和安全等功能。</li>
+<li>配置热更新：通过将配置文件以 ConfigMap 的方式挂载到 Pod，并由 Sidecar 容器负责监听配置变更、通知主容器或自动重载配置，可以实现应用的无缝配置更新。</li>
+</ul>
+<h2 id="控制器">控制器<a class="headerlink" href="#控制器" title="Permanent link"></a></h2>
+<h3 id="replicationcontroller-和-replicaset">ReplicationController 和 ReplicaSet<a class="headerlink" href="#replicationcontroller-和-replicaset" title="Permanent link"></a></h3>
+<p>ReplicationController 和 ReplicaSet 都是 Kubernetes 中用于管理 Pod 副本的控制器，它们确保指定数量的 Pod 副本始终在集群中运行。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">特性</th>
+<th style="text-align: left;">ReplicationController</th>
+<th style="text-align: left;">ReplicaSet</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">标签选择器</td>
+<td style="text-align: left;">仅支持相等性选择器</td>
+<td style="text-align: left;">支持集合式选择器和相等性选择器</td>
+</tr>
+<tr>
+<td style="text-align: left;">API 版本</td>
+<td style="text-align: left;">v1</td>
+<td style="text-align: left;">apps/v1</td>
+</tr>
+<tr>
+<td style="text-align: left;">推荐使用</td>
+<td style="text-align: left;">已弃用</td>
+<td style="text-align: left;">推荐使用</td>
+</tr>
+</tbody>
+</table>
+<h3 id="deployment">Deployment<a class="headerlink" href="#deployment" title="Permanent link"></a></h3>
+<p>Deployment 为 Pod 和 ReplicaSet 提供声明式更新能力。你只需要在 Deployment 中描述期望的目标状态，Deployment Controller 就会帮你将 Pod 和 ReplicaSet 的实际状态改变到目标状态。</p>
+<p>主要功能：</p>
+<ul>
+<li><strong>创建管理</strong>：定义 Deployment 来创建 Pod 和 ReplicaSet</li>
+<li><strong>滚动更新</strong>：支持应用的滚动升级和回滚</li>
+<li><strong>弹性伸缩</strong>：支持应用的扩容和缩容</li>
+<li><strong>暂停控制</strong>：可以暂停和继续 Deployment 的部署过程</li>
+</ul>
+<p>Deployment 采用滚动更新策略，确保在更新过程中服务的可用性：</p>
+<ul>
+<li>默认情况下，最多有 25% 的 Pod 不可用（maxUnavailable）</li>
+<li>最多有 25% 的 Pod 超出期望数量（maxSurge）</li>
+<li>这样确保在更新过程中始终有足够的 Pod 提供服务</li>
+</ul>
+<h3 id="daemonset">DaemonSet<a class="headerlink" href="#daemonset" title="Permanent link"></a></h3>
+<p>DaemonSet 是 Kubernetes 中的一种控制器，它确保在集群中的每个（或特定）节点上运行一个 Pod 副本。当有新节点加入集群时，DaemonSet 会自动在新节点上创建 Pod；当节点从集群中移除时，对应的 Pod 也会被回收。删除 DaemonSet 时，它创建的所有 Pod 都会被删除。</p>
+<p>DaemonSet 适用于需要在每个节点上运行系统级服务的场景：</p>
+<ul>
+<li><strong>存储服务</strong>：在每个节点上运行分布式存储守护进程，如 <code>glusterd</code>、<code>ceph</code></li>
+<li><strong>日志收集</strong>：在每个节点上运行日志收集代理，如 <code>fluentd</code>、<code>filebeat</code>、<code>logstash</code></li>
+<li><strong>监控代理</strong>：在每个节点上运行监控组件，如 <a href="https://github.com/prometheus/node_exporter">Prometheus Node Exporter </a>、<code>collectd</code>、Datadog Agent、New Relic Agent</li>
+<li><strong>网络组件</strong>：运行网络插件或代理，如 CNI 网络插件</li>
+</ul>
+<h3 id="job">Job<a class="headerlink" href="#job" title="Permanent link"></a></h3>
+<p>Job 是 Kubernetes 中专门用于批处理任务的控制器，负责管理仅执行一次的任务。它确保批处理任务中的一个或多个 Pod 成功完成，并在任务结束后自动清理。</p>
+<p>Job 控制器会持续监控 Pod 的状态，直到指定数量的 Pod 成功完成。与长期运行的服务不同，Job 适用于：</p>
+<ul>
+<li>数据处理和分析任务</li>
+<li>批量计算作业</li>
+<li>数据库迁移</li>
+<li>定期清理任务</li>
+</ul>
+<p>基本配置项：</p>
+<ul>
+<li>spec.template: Pod 模板，格式与 Pod 规范相同</li>
+<li>restartPolicy: 仅支持 <code>Never</code> 或 <code>OnFailure</code></li>
+<li>spec.completions: 指定需要成功完成的 Pod 数量，默认为 1</li>
+<li>spec.parallelism: 指定并行运行的 Pod 数量，默认为 1</li>
+<li>spec.backoffLimit: 指定失败重试次数，默认为 6</li>
+<li>spec.activeDeadlineSeconds: 指定 Job 的最大运行时间，超时后终止</li>
+<li>spec.ttlSecondsAfterFinished: 指定 Job 完成后的保留时间</li>
+</ul>
+<h3 id="cronjob">CronJob<a class="headerlink" href="#cronjob" title="Permanent link"></a></h3>
+<p>CronJob 管理基于时间的Job ，即：</p>
+<ul>
+<li>在给定时间点只运行一次</li>
+<li>周期性地在给定时间点运行</li>
+</ul>
+<h3 id="statefulset">StatefulSet<a class="headerlink" href="#statefulset" title="Permanent link"></a></h3>
+<p>StatefulSet 主要解决有状态服务的问题，其典型应用场景包括：</p>
+<ul>
+<li><strong>稳定的持久化存储</strong>：Pod 重新调度后仍能访问相同的持久化数据，基于 PVC 实现</li>
+<li><strong>稳定的网络标识</strong>：Pod 重新调度后 PodName 和 HostName 保持不变，基于 Headless Service 实现</li>
+<li><strong>有序部署和扩展</strong>：Pod 按照定义的顺序依次部署（从 0 到 N-1），下一个 Pod 运行前所有之前的 Pod 必须处于 Running 和 Ready 状态</li>
+<li><strong>有序收缩和删除</strong>：按照从 N-1 到 0 的顺序进行</li>
+<li><strong>有序滚动更新</strong>：支持分段更新和金丝雀发布</li>
+</ul>
+<p>StatefulSet 由以下几个关键部分组成：</p>
+<ul>
+<li><strong>Headless Service</strong>：用于定义网络标识的 DNS 域</li>
+<li><strong>volumeClaimTemplates</strong>：用于创建 PersistentVolumes 的模板</li>
+<li><strong>StatefulSet 规约</strong>：定义具体应用的配置</li>
+</ul>
+<h4 id="pod-身份管理">Pod 身份管理<a class="headerlink" href="#pod-身份管理" title="Permanent link"></a></h4>
+<p><strong>序数标识</strong></p>
+<p>对于有 N 个副本的 StatefulSet，每个副本都有一个唯一的整数序数，范围在 [0,N) 之间。</p>
+<p><strong>稳定的网络标识</strong></p>
+<p>每个 Pod 的主机名遵循 <code>$(statefulset 名称)-$(序数)</code> 的模式。上述示例将创建名为 <code>web-0</code>、<code>web-1</code>、<code>web-2</code> 的 Pod。</p>
+<p>DNS 解析示例：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">集群域</th>
+<th style="text-align: left;">Service</th>
+<th style="text-align: left;">StatefulSet</th>
+<th style="text-align: left;">Pod DNS</th>
+<th style="text-align: left;">Pod 主机名</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">cluster.local</td>
+<td style="text-align: left;">default/nginx</td>
+<td style="text-align: left;">default/web</td>
+<td style="text-align: left;">web-{0..N-1}.nginx.default.svc.cluster.local</td>
+<td style="text-align: left;">web-{0..N-1}</td>
+</tr>
+</tbody>
+</table>
+<p><strong>稳定存储</strong></p>
+<p>Kubernetes 会为每个 VolumeClaimTemplate 创建 PersistentVolume。Pod 重新调度时，volumeMounts 会挂载对应的 PersistentVolume。需要注意的是，删除 Pod 或 StatefulSet 时，PersistentVolume 不会被自动删除。</p>
+<h4 id="headless-service">Headless Service<a class="headerlink" href="#headless-service" title="Permanent link"></a></h4>
+<p>有时不需要负载均衡和单独的 Service IP。这种情况下，可以通过将 Cluster IP（<code>spec.clusterIP</code>）设置为 <code>"None"</code> 来创建 Headless Service。</p>
+<p>对于 Headless Service，不会分配 Cluster IP，kube-proxy 不会处理它们，平台也不会进行负载均衡和路由。</p>
+<p>Headless Service 通过内部 DNS 记录报告各个 Pod 的端点 IP 地址。</p>
+<h3 id="核心原理">核心原理<a class="headerlink" href="#核心原理" title="Permanent link"></a></h3>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="K8S/%E6%8E%A7%E5%88%B6%E5%99%A8.png" data-desc-position="bottom"><img alt="" src="K8S/%E6%8E%A7%E5%88%B6%E5%99%A8.png"></a></p>
+<p>首先，控制器在启动时，会创建并启动一个 Shared Informer，Informer 负责 List-Watch kube-apiserver，获取指定资源的变更事件，并将事件保存在一个限速队列中。控制器在启动时，还会启动一个 Go 协程 runWorker。runWorker方法中会不断从 RateLimiting Queue 中获取事件的 key，并调用 syncHandler 方法。syncHandler 方法就是执行资源调谐的执行函数，该函数会根据 key 从 Infromer 的 Indexer 中获取完整的资源对象（Object），并根据资源对象的 Spec，执行一系列的业务逻辑，完成最终的调谐，并将调谐结果和状态更新到 kube-apiserver 中。</p>
+<h2 id="service">service<a class="headerlink" href="#service" title="Permanent link"></a></h2>
+<p>每个 Pod 都会获得自己的 IP 地址，但这些 IP 地址并不总是稳定可靠的。这就带来了一个关键问题：在 Kubernetes 集群中，如果一组 Pod（后端服务）为其他 Pod（前端应用）提供服务，那么前端应用应该如何发现并连接到这些后端 Pod 呢？</p>
+<p>Kubernetes Service 定义了一种抽象：将一组功能相同的 Pod 进行逻辑分组，并提供访问这些 Pod 的统一策略——这通常被称为微服务。Service 能够通过标签选择器（Label Selector）来识别和访问后端 Pod。</p>
+<h3 id="service-类型">Service 类型<a class="headerlink" href="#service-类型" title="Permanent link"></a></h3>
+<p>对一些应用的某些部分（如前端），你可能希望将其公开于某外部 IP 地址， 也就是可以从集群外部访问的某个地址，默认是 <code>ClusterIP</code>。</p>
+<p><strong>ClusterIP</strong></p>
+<p>通过集群的内部 IP 公开 Service，选择该值时 Service <strong>只能够在集群内部访问</strong>。</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="K8S/clustersIP.png" data-desc-position="bottom"><img alt="" src="K8S/clustersIP.png"></a></p>
+<p><strong>NodePort</strong></p>
+<p>通过每个 Node 的 IP 和静态端口（NodePort）暴露服务。NodePort 服务会路由到自动创建的 ClusterIP 服务。通过 <code>&lt;NodeIP&gt;:&lt;NodePort&gt;</code> 可以<strong>从集群外部访问 NodePort 服务。</strong></p>
+<p>当设置 <code>type</code> 为 <code>"NodePort"</code> 时，Kubernetes 控制平面会从配置的端口范围内（默认：30000-32767）分配端口。每个 Node 都会从该端口代理到 Service。该端口通过 <code>Service</code> 的 <code>spec.ports[*].nodePort</code> 字段指定。</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="K8S/nodePort.png" data-desc-position="bottom"><img alt="" src="K8S/nodePort.png"></a></p>
+<p><strong>LoadBalancer</strong></p>
+<p>使用云提供商的负载均衡器向外部暴露服务。外部负载均衡器会路由到 NodePort 和 ClusterIP 服务。</p>
+<p>设置 <code>type</code> 为 <code>"LoadBalancer"</code> 时，云提供商会创建负载均衡器。负载均衡器信息通过 <code>Service</code> 的 <code>status.loadBalancer</code> 字段发布。</p>
+<div class="language-yaml highlight"><table class="highlighttable"><tbody><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-0-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-0-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-0-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-0-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-0-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-0-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-0-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-0-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-0-10">10</a></span>
+<span class="normal"><a href="#__codelineno-0-11">11</a></span>
+<span class="normal"><a href="#__codelineno-0-12">12</a></span>
+<span class="normal"><a href="#__codelineno-0-13">13</a></span>
+<span class="normal"><a href="#__codelineno-0-14">14</a></span>
+<span class="normal"><a href="#__codelineno-0-15">15</a></span>
+<span class="normal"><a href="#__codelineno-0-16">16</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v1</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2"></a><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Service</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3"></a><span class="nt">metadata</span><span class="p">:</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4"></a><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-service</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5"></a><span class="nt">spec</span><span class="p">:</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6"></a><span class="w">  </span><span class="nt">selector</span><span class="p">:</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7"></a><span class="w">    </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MyApp</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8"></a><span class="w">  </span><span class="nt">ports</span><span class="p">:</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">protocol</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">TCP</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10"></a><span class="w">      </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">80</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11"></a><span class="w">      </span><span class="nt">targetPort</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">9376</span>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12"></a><span class="w">  </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">LoadBalancer</span>
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13"></a><span class="nt">status</span><span class="p">:</span>
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14"></a><span class="w">  </span><span class="nt">loadBalancer</span><span class="p">:</span>
+</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15"></a><span class="w">    </span><span class="nt">ingress</span><span class="p">:</span>
+</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">ip</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">146.148.47.155</span>
+</span></code></pre></div></td></tr></tbody></table></div>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="K8S/loadBalance.png" data-desc-position="bottom"><img alt="" src="K8S/loadBalance.png"></a></p>
+<p><strong>ExternalName</strong></p>
+<p>通过返回 CNAME 记录将服务映射到 <code>externalName</code> 字段的内容（如 <code>foo.bar.example.com</code>）。不会创建任何形式的代理。</p>
+<div class="language-yaml highlight"><table class="highlighttable"><tbody><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1">1</a></span>
+<span class="normal"><a href="#__codelineno-1-2">2</a></span>
+<span class="normal"><a href="#__codelineno-1-3">3</a></span>
+<span class="normal"><a href="#__codelineno-1-4">4</a></span>
+<span class="normal"><a href="#__codelineno-1-5">5</a></span>
+<span class="normal"><a href="#__codelineno-1-6">6</a></span>
+<span class="normal"><a href="#__codelineno-1-7">7</a></span>
+<span class="normal"><a href="#__codelineno-1-8">8</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v1</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2"></a><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Service</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3"></a><span class="nt">metadata</span><span class="p">:</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4"></a><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-service</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5"></a><span class="w">  </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">prod</span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6"></a><span class="nt">spec</span><span class="p">:</span>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7"></a><span class="w">  </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ExternalName</span>
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8"></a><span class="w">  </span><span class="nt">externalName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my.database.example.com</span>
+</span></code></pre></div></td></tr></tbody></table></div>
+<p><strong>注意</strong>：ExternalName 接受 IPv4 地址格式的字符串，但它被视为由数字组成的 DNS 名称，而不是 IP 地址。类似 IPv4 地址的 ExternalName 不能被 CoreDNS 解析，因为 ExternalName 的目的是指定规范的 DNS 名称。如需硬编码 IP 地址，请考虑使用 Headless Service。</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="K8S/name.png" data-desc-position="bottom"><img alt="" src="K8S/name.png"></a></p>
+<h3 id="代理模式">代理模式<a class="headerlink" href="#代理模式" title="Permanent link"></a></h3>
+<p>在 Kubernetes 集群中，每个 Node 运行一个 <code>kube-proxy</code> 进程。<code>kube-proxy</code> 负责为 Service 实现虚拟 IP（VIP）形式的代理，而不是 ExternalName 形式。默认是<strong>iptables 代理模式</strong>。</p>
+<p><strong>iptables 代理模式</strong></p>
+<p>在此模式下，kube-proxy 监视 Kubernetes 控制平面对 Service 和 Endpoints 对象的添加和删除。对每个 Service，它会创建 iptables 规则来捕获到达该 Service ClusterIP 和端口的请求，并将请求重定向到 Service 的后端 Pod 之一。对于每个 Endpoints 对象，它也会创建 iptables 规则来选择后端 Pod。</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="K8S/services-iptables-overview.png" data-desc-position="bottom"><img alt="" src="K8S/services-iptables-overview.png"></a></p>
+<p><strong>IPVS 代理模式</strong></p>
+<p>在此模式下，kube-proxy 监视 Kubernetes Service 和 Endpoints，调用 netlink 接口创建 IPVS 规则，并定期同步以确保 IPVS 状态与预期一致。访问服务时，流量会被重定向到后端 Pod 之一。</p>
+<p>IPVS 代理模式基于内核空间的哈希表，比 iptables 代理模式具有更好的性能，特别是在大规模集群中。IPVS 还支持多种负载均衡算法：</p>
+<ul>
+<li>rr：round-robin（轮询）</li>
+<li>lc：least connection（最少连接数）</li>
+<li>dh：destination hashing（目标哈希）</li>
+<li>sh：source hashing（源哈希）</li>
+<li>sed：shortest expected delay（最短预期延迟）</li>
+<li>nq：never queue（从不排队）</li>
+</ul>
+<h3 id="endpoint">Endpoint<a class="headerlink" href="#endpoint" title="Permanent link"></a></h3>
+<p>在 Kubernetes API 中，Endpoints 定义的是网络端点的列表，通常由 Service 引用， 以定义可以将流量发送到哪些 Pod。</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="K8S/Endpoint.png" data-desc-position="bottom"><img alt="" src="K8S/Endpoint.png"></a></p>
+<h2 id="ingress">Ingress<a class="headerlink" href="#ingress" title="Permanent link"></a></h2>
+<p>Ingress 是 Kubernetes 的一个资源对象，用于管理集群外部到集群内服务的 HTTP 和 HTTPS 访问。它充当智能路由器，根据定义的规则将外部流量路由到集群内的不同服务。</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="K8S/Ingress.svg" data-desc-position="bottom"><img alt="" src="K8S/Ingress.svg"></a></p>
+<p>Ingress 提供以下核心功能：</p>
+<ul>
+<li><strong>外部 URL 访问</strong>：为集群内服务提供外部可访问的 URL</li>
+<li><strong>负载均衡</strong>：在多个 Pod 实例之间分发流量</li>
+<li><strong>SSL/TLS 终结</strong>：处理 HTTPS 证书和加密</li>
+<li><strong>基于名称的虚拟主机</strong>：根据主机名路由到不同服务</li>
+<li><strong>路径路由</strong>：根据 URL 路径将请求路由到不同服务</li>
+</ul>
+<h2 id="存储">存储<a class="headerlink" href="#存储" title="Permanent link"></a></h2>
+<p>分类：</p>
+<ul>
+<li>元数据类型：</li>
+<li>configMap：用于保存配置数据（明文）</li>
+<li>Secret：用于保存敏感数据</li>
+<li>Downward API：容器运行时从kubernetes API服务器获取有关自身的信息</li>
+<li>真实数据：</li>
+<li>Volume：用于存储临时或持久性数据</li>
+<li>PersistentVolume：申请制的持久化机制</li>
+</ul>
+<h3 id="configmap">configMap<a class="headerlink" href="#configmap" title="Permanent link"></a></h3>
+<p>ConfigMap API 提供了向容器<strong>注入</strong>配置信息的能力，用于存储<strong>键值对</strong>配置数据，既可以保存单个属性，也可以保存完整的配置文件或 JSON 数据。</p>
+<blockquote>
+<p>共享：每次读取文件时都会发生网络IO</p>
+<p>注入：一次注入后，多次读取不再消耗网络IO</p>
+</blockquote>
+<p>ConfigMap 可以用于：</p>
+<ol>
+<li><strong>环境变量</strong>：设置容器的环境变量值</li>
+<li><strong>命令行参数</strong>：为容器提供启动参数</li>
+<li><strong>配置文件</strong>：在数据卷中创建配置文件</li>
+<li><strong>应用配置</strong>：存储应用程序的配置信息</li>
+</ol>
+<p><strong>热更新</strong></p>
+<ul>
+<li>环境变量方式挂载：当 ConfigMap 以环境变量方式注入容器时，配置数据在 Pod 启动时被读取并固定，<strong>不支持运行时更新</strong>。</li>
+<li>Volume 方式挂载：使用 Volume 方式挂载的 ConfigMap 支持热更新，kubelet 会定期同步 ConfigMap 的变化到挂载的文件系统中。</li>
+<li>subPath 挂载限制：使用 <code>subPath</code> 挂载 ConfigMap 中的特定文件时，Kubernetes <strong>不支持</strong>热更新</li>
+</ul>
+<blockquote>
+<p>对于不支持热更新的环境变量方式，可以通过修改 Pod 模板触发滚动更新</p>
+</blockquote>
+<p>Volume 方式的热更新存在延迟，影响因素包括：</p>
+<ul>
+<li><strong>kubelet 同步周期</strong>：默认为 1 分钟，可通过 <code>--sync-frequency</code> 参数调整</li>
+<li><strong>ConfigMap 缓存 TTL</strong>：默认为 1 分钟，可通过 <code>--configmap-and-secret-change-detection-strategy</code> 控制</li>
+<li><strong>文件系统同步</strong>：依赖于底层存储的同步机制</li>
+</ul>
+<p>通常更新延迟在 <strong>10-60 秒</strong> 之间。</p>
+<p>当卷中使用的 ConfigMap 被更新时，所投射的键最终也会被更新。 kubelet 组件会在每次周期性同步时检查所挂载的 ConfigMap 是否为最新。 不过，kubelet 使用的是其本地的高速缓存来获得 ConfigMap 的当前值。</p>
+<p>ConfigMap 既可以通过 watch 操作实现内容传播（默认形式），也可实现基于 TTL 的缓存，还可以直接经过所有请求重定向到 API 服务器。 因此，从 ConfigMap 被更新的那一刻算起，到新的主键被投射到 Pod 中去， 这一时间跨度可能与 kubelet 的同步周期加上高速缓存的传播延迟相等（大概10s）。 </p>
+<p>以<strong>环境变量</strong>方式使用的 ConfigMap 数据不会被自动更新。 更新这些数据需要重新启动 Pod。</p>
+<h3 id="secret">Secret<a class="headerlink" href="#secret" title="Permanent link"></a></h3>
+<p>Secret 是 Kubernetes 中专门用于存储和管理敏感数据的资源对象，如密码、OAuth token、SSH 密钥等。使用 Secret 可以避免将敏感信息直接写入容器镜像或 Pod 规范中，提高了应用的安全性。</p>
+<p>特性：</p>
+<ul>
+<li>Secret只会存储在节点的内存中，永不写入物理存储，这样从节点删除Secret时就不需要擦除磁盘数据</li>
+<li>etcd会以加密形式存储，一定程度保证安全性</li>
+<li>数据必须使用 base64 编码。</li>
+</ul>
+<p>Kubernetes 支持多种类型的 Secret：</p>
+<ul>
+<li><strong>Opaque</strong>：用户定义的任意数据，最常用的类型。数据必须使用 base64 编码。</li>
+<li><strong>kubernetes.io/service-account-token</strong>：Service Account 的认证令牌</li>
+<li><strong>kubernetes.io/dockerconfigjson</strong>：Docker registry 认证信息</li>
+<li><strong>kubernetes.io/tls</strong>：TLS 证书和私钥</li>
+<li><strong>kubernetes.io/basic-auth</strong>：基本认证凭据</li>
+</ul>
+<div class="language-sh highlight"><table class="highlighttable"><tbody><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1">1</a></span>
+<span class="normal"><a href="#__codelineno-2-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1"></a><span class="nb">echo</span><span class="w"> </span>-n<span class="w"> </span><span class="s2">"admin"</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>base64
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2"></a><span class="c1"># 输出：YWRtaW4=</span>
+</span></code></pre></div></td></tr></tbody></table></div>
+<h3 id="volume">Volume<a class="headerlink" href="#volume" title="Permanent link"></a></h3>
+<p>容器中的文件在磁盘上是临时存放的，这给容器中运行的应用带来一些问题：</p>
+<ol>
+<li><strong>容器崩溃时文件丢失</strong>：当容器崩溃时，kubelet 会重新启动容器，但容器中的文件将会丢失——因为容器会以干净的状态重新启动</li>
+<li><strong>Pod 中容器间文件共享</strong>：当在一个 Pod 中同时运行多个容器时，容器间需要共享文件</li>
+</ol>
+<p>Kubernetes <a href="https://kubernetes.io/zh-cn/docs/concepts/storage/volumes/">卷（Volume）</a> 这一抽象概念能够解决这两个问题。</p>
+<p>临时卷类型将生命期关联到特定的 Pod， 但持久卷可以比任意独立 Pod 的生命期长。 当 Pod 不再存在时，Kubernetes 也会销毁临时卷；不过 Kubernetes 不会销毁持久卷。 对于给定 Pod 中任何类型的卷，在容器重启期间数据都不会丢失。</p>
+<p>卷的核心是一个目录，其中可能存有数据，Pod 中的容器可以访问该目录中的数据。 所采用的特定的卷类型将决定该目录如何形成的、使用何种介质保存数据以及目录中存放的内容。</p>
+<p>使用卷时, 在 <code>.spec.volumes</code> 字段中设置为 Pod 提供的卷，并在 <code>.spec.containers[*].volumeMounts</code> 字段中声明卷在容器中的挂载位置。</p>
+<p><strong>常用的卷类型</strong>：</p>
+<p>临时卷类型</p>
+<ul>
+<li><code>emptyDir</code></li>
+<li><code>configMap</code></li>
+<li><code>downwardAPI</code></li>
+<li><code>secret</code></li>
+<li><code>projected</code></li>
+</ul>
+<p>持久卷类型</p>
+<ul>
+<li><code>persistentVolumeClaim</code></li>
+<li><code>local</code></li>
+<li><code>hostPath</code></li>
+</ul>
+<p>网络存储卷类型</p>
+<ul>
+<li><code>nfs</code></li>
+<li><code>cephfs</code></li>
+<li><code>glusterfs</code></li>
+<li><code>iscsi</code></li>
+<li><code>fc</code> (光纤通道)</li>
+</ul>
+<p>云存储卷类型</p>
+<ul>
+<li><code>awsElasticBlockStore</code></li>
+<li><code>azureDisk</code></li>
+<li><code>azureFile</code></li>
+<li><code>gcePersistentDisk</code></li>
+<li><code>vsphereVolume</code></li>
+</ul>
+<p>特殊用途卷类型</p>
+<ul>
+<li><code>csi</code></li>
+</ul>
+<h4 id="emptydir">emptyDir<a class="headerlink" href="#emptydir" title="Permanent link"></a></h4>
+<p>当 Pod 被分配给节点时，首先创建 <code>emptyDir</code> 卷，并且只要该 Pod 在该节点上运行，该卷就会存在。正如卷的名字所述，它最初是空的。Pod 中的容器可以读取和写入 <code>emptyDir</code> 卷中的相同文件，尽管该卷可以挂载到每个容器中的相同或不同路径上。当出于任何原因从节点中删除 Pod 时，<code>emptyDir</code> 中的数据将被永久删除。</p>
+<p><strong>注意</strong>：容器崩溃不会从节点中移除 Pod，因此 <code>emptyDir</code> 卷中的数据在容器崩溃时是安全的。</p>
+<p><code>emptyDir</code> 的用法有：</p>
+<ul>
+<li>暂存空间，例如用于基于磁盘的合并排序</li>
+<li>用作长时间计算崩溃恢复时的检查点</li>
+<li>Web 服务器容器提供数据时，保存内容管理器容器提取的文件</li>
+<li>容器间共享数据</li>
+</ul>
+<h4 id="hostpath">hostPath<a class="headerlink" href="#hostpath" title="Permanent link"></a></h4>
+<p><code>hostPath</code> 卷能将主机节点文件系统上的文件或目录挂载到你的 Pod 中。</p>
+<h3 id="persistent-volume">Persistent Volume<a class="headerlink" href="#persistent-volume" title="Permanent link"></a></h3>
+<h4 id="persistentvolume-pv">PersistentVolume (PV)<a class="headerlink" href="#persistentvolume-pv" title="Permanent link"></a></h4>
+<p>集群管理员预先配置或动态创建的存储资源，是集群基础设施的一部分。PV 具有独立于 Pod 的生命周期，封装了底层存储实现的具体细节（如 NFS、iSCSI、云存储等）。</p>
+<blockquote>
+<p><strong>PV 和 PVC 遵循标准的生命周期流程：</strong></p>
+</blockquote>
+<p><strong>1、配置阶段（Provisioning）</strong></p>
+<ol>
+<li>
+<p>静态配置：集群管理员预先创建一组 PV 资源池，这些 PV 包含实际存储的详细信息，供集群用户按需使用。适用于已有存储基础设施的场景。</p>
+</li>
+<li>
+<p>动态配置：当现有静态 PV 无法满足 PVC 需求时，集群根据 StorageClass 配置自动创建匹配的 PV。这种方式提供了更好的灵活性和自动化程度。</p>
+</li>
+</ol>
+<p><strong>2、绑定阶段（Binding）</strong></p>
+<p>控制平面持续监控新创建的 PVC，寻找匹配的 PV 并建立绑定关系。绑定是一对一的排他性关系，确保数据安全。未找到匹配 PV 的 PVC 将保持 Pending 状态。</p>
+<p>绑定匹配条件包括：</p>
+<ul>
+<li>存储容量满足需求</li>
+<li>访问模式兼容</li>
+<li>StorageClass 匹配</li>
+<li>标签选择器匹配</li>
+</ul>
+<p><strong>3、使用阶段（Using）</strong></p>
+<p>Pod 通过在 volume 配置中引用 PVC 来使用持久化存储。集群调度器确保 Pod 被调度到能访问对应存储的节点上，kubelet 负责挂载存储卷。</p>
+<p><strong>4、回收阶段（Reclaiming）</strong></p>
+<p>当 PVC 被删除后，PV 根据其回收策略进行处理：</p>
+<ul>
+<li>Retain（保留）：保留 PV 和数据，需要管理员手动处理</li>
+<li>Delete（删除）：自动删除 PV 和底层存储资源（推荐用于动态配置）</li>
+<li>Recycle（回收）：已废弃，使用动态配置替代</li>
+</ul>
+<h4 id="persistentvolumeclaim-pvc">PersistentVolumeClaim (PVC)<a class="headerlink" href="#persistentvolumeclaim-pvc" title="Permanent link"></a></h4>
+<p>用户对存储资源的请求声明。类似于 Pod 消耗节点资源，PVC 消耗 PV 资源。用户通过 PVC 请求特定大小和访问模式的存储，无需了解底层存储实现。</p>
+<h4 id="storageclass">StorageClass<a class="headerlink" href="#storageclass" title="Permanent link"></a></h4>
+<p>为了满足用户对不同性能和特性存储的需求，StorageClass 提供了一种描述存储"类别"的机制。它支持动态配置、不同的服务质量级别，并可定义配置参数和回收策略。</p>
+<h2 id="调度器">调度器<a class="headerlink" href="#调度器" title="Permanent link"></a></h2>
+<p><code>kube-scheduler</code> 是 Kubernetes 集群中负责 Pod 调度的核心组件，其主要职责包括：</p>
+<ul>
+<li>监听 <code>kube-apiserver</code> 中未调度的 Pod</li>
+<li>根据调度算法为 Pod 选择合适的节点</li>
+<li>通过预选和优选两个阶段完成调度决策</li>
+</ul>
+<p>调度流程：</p>
+<ol>
+<li><strong>预选阶段（Filtering）</strong>：过滤掉不满足 Pod 运行条件的节点</li>
+<li><strong>优选阶段（Scoring）</strong>：对候选节点进行评分，选择最优节点</li>
+<li><strong>绑定阶段（Binding）</strong>：将 Pod 分配到选定的节点上</li>
+</ol>
+<p>高级调度功能：</p>
+<ul>
+<li><strong>节点选择器（NodeSelector）</strong>：可以将 <code>nodeSelector</code> 字段添加到 Pod 的规约中设置你希望目标节点所具有的<a href="https://kubernetes.io/zh-cn/docs/concepts/scheduling-eviction/assign-pod-node/#built-in-node-labels">节点标签</a>。 Kubernetes 只会将 Pod 调度到拥有你所指定的每个标签的节点上。</li>
+<li><strong>节点亲和性（Node Affinity）</strong></li>
+<li><code>requiredDuringSchedulingIgnoredDuringExecution</code>： 必须满足条件</li>
+<li><code>preferredDuringSchedulingIgnoredDuringExecution</code>： 最好满足条件</li>
+<li><strong>Pod 亲和性和反亲和性（Pod Affinity/Anti-Affinity）</strong></li>
+<li><strong>污点和容忍（Taints and Tolerations）</strong>：每个节点可以应用一个或多个 Taint，表示该节点不接受无法容忍这些污点的 Pod。为 Pod 设置 Toleration 后，该 Pod 可以（但不强制）被调度到具有相应 Taint 的节点上。</li>
+</ul>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  <form class="md-feedback" name="feedback" hidden="">
+    <fieldset>
+      <legend class="md-feedback__title">
+        Was this page helpful?
+      </legend>
+      <div class="md-feedback__inner">
+        <div class="md-feedback__list">
+          
+            <button class="md-feedback__icon md-icon" type="submit" title="This page was helpful" data-md-value="1">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 12a8 8 0 0 0-8-8 8 8 0 0 0-8 8 8 8 0 0 0 8 8 8 8 0 0 0 8-8m2 0a10 10 0 0 1-10 10A10 10 0 0 1 2 12 10 10 0 0 1 12 2a10 10 0 0 1 10 10M10 9.5c0 .8-.7 1.5-1.5 1.5S7 10.3 7 9.5 7.7 8 8.5 8s1.5.7 1.5 1.5m7 0c0 .8-.7 1.5-1.5 1.5S14 10.3 14 9.5 14.7 8 15.5 8s1.5.7 1.5 1.5m-5 7.73c-1.75 0-3.29-.73-4.19-1.81L9.23 14c.45.72 1.52 1.23 2.77 1.23s2.32-.51 2.77-1.23l1.42 1.42c-.9 1.08-2.44 1.81-4.19 1.81"></path></svg>
+            </button>
+          
+            <button class="md-feedback__icon md-icon" type="submit" title="This page could be improved" data-md-value="0">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 12a8 8 0 0 0-8-8 8 8 0 0 0-8 8 8 8 0 0 0 8 8 8 8 0 0 0 8-8m2 0a10 10 0 0 1-10 10A10 10 0 0 1 2 12 10 10 0 0 1 12 2a10 10 0 0 1 10 10m-6.5-4c.8 0 1.5.7 1.5 1.5s-.7 1.5-1.5 1.5-1.5-.7-1.5-1.5.7-1.5 1.5-1.5M10 9.5c0 .8-.7 1.5-1.5 1.5S7 10.3 7 9.5 7.7 8 8.5 8s1.5.7 1.5 1.5m2 4.5c1.75 0 3.29.72 4.19 1.81l-1.42 1.42C14.32 16.5 13.25 16 12 16s-2.32.5-2.77 1.23l-1.42-1.42C8.71 14.72 10.25 14 12 14"></path></svg>
+            </button>
+          
+        </div>
+        <div class="md-feedback__note">
+          
+            <div data-md-value="1" hidden="">
+              
+              
+                
+              
+              
+              
+                
+                
+              
+              Thanks for your feedback!
+            </div>
+          
+            <div data-md-value="0" hidden="">
+              
+              
+                
+              
+              
+              
+                
+                
+              
+              Thanks for your feedback! Help us improve this page by using our <a href="..." target="_blank" rel="noopener">feedback form</a>.
+            </div>
+          
+        </div>
+      </div>
+    </fieldset>
+  </form>
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright © 2019 - 2024 wang
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["content.action.edit", "content.code.copy", "content.code.select", "content.tabs.link", "navigation.tabs", "navigation.instant", "navigation.path", "toc.follow"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  
+<script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+document$.subscribe(()=>{ lightbox.reload(); });
+</script></body></html>

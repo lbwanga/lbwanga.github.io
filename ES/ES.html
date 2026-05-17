@@ -1,0 +1,4039 @@
+<!DOCTYPE html><html lang="zh" class="no-js"><head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="个人笔记，博客">
+      
+      
+        <meta name="author" content="wang">
+      
+      
+        <link rel="canonical" href="https://lbwanga.github.io/ES/ES.html">
+      
+      
+        <link rel="prev" href="../Redis/Redis%E9%AB%98%E7%BA%A7.html">
+      
+      
+        <link rel="next" href="../%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F.html">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/logo.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>ES - WNotes</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+  
+  
+
+<script id="__analytics">function __md_analytics(){function e(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],e("js",new Date),e("config","G-XXXXXXXXXX"),document.addEventListener("DOMContentLoaded",(function(){document.forms.search&&document.forms.search.query.addEventListener("blur",(function(){this.value&&e("event","search",{search_term:this.value})}));document$.subscribe((function(){var t=document.forms.feedback;if(void 0!==t)for(var a of t.querySelectorAll("[type=submit]"))a.addEventListener("click",(function(a){a.preventDefault();var n=document.location.pathname,d=this.getAttribute("data-md-value");e("event","feedback",{page:n,data:d}),t.firstElementChild.disabled=!0;var r=t.querySelector(".md-feedback__note [data-md-value='"+d+"']");r&&(r.hidden=!1)})),t.hidden=!1})),location$.subscribe((function(t){e("config","G-XXXXXXXXXX",{page_path:t.pathname})}))}));var t=document.createElement("script");t.async=!0,t.src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX",document.getElementById("__analytics").insertAdjacentElement("afterEnd",t)}</script>
+  
+    <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+  
+
+    
+    
+  <link href="../assets/stylesheets/glightbox.min.css" rel="stylesheet"><script src="../assets/javascripts/glightbox.min.js"></script><style id="glightbox-style">
+            html.glightbox-open { overflow: initial; height: 100%; }
+            .gslide-title { margin-top: 0px; user-select: text; }
+            .gslide-desc { color: #666; user-select: text; }
+            .gslide-image img { background: white; }
+            .gscrollbar-fixer { padding-right: 15px; }
+            .gdesc-inner { font-size: 0.75rem; }
+            body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color); }
+            body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color); }
+            body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color); }
+        </style></head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="white" data-md-color-accent="blue">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#倒排索引" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../index.html" title="WNotes" class="md-header__button md-logo" aria-label="WNotes" data-md-component="logo">
+      
+  <img src="../assets/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            WNotes
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              ES
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/lbwanga/lbwanga.github.io" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"></path></svg>
+  </div>
+  <div class="md-source__repository">
+    lbwanga
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../index.html" class="md-tabs__link">
+        
+  
+  
+    
+  
+  简介
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../Java/Java.html" class="md-tabs__link">
+          
+  
+  
+  Java
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../JUC/JUC.html" class="md-tabs__link">
+        
+  
+  
+    
+  
+  JUC
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../JVM/JVM.html" class="md-tabs__link">
+        
+  
+  
+    
+  
+  JVM
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../MySQL/MySQL.html" class="md-tabs__link">
+        
+  
+  
+    
+  
+  MySQL
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../Redis/Redis%E5%9F%BA%E7%A1%80.html" class="md-tabs__link">
+          
+  
+  
+  Redis
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    <li class="md-tabs__item md-tabs__item--active">
+      <a href="ES.html" class="md-tabs__link">
+        
+  
+  
+    
+  
+  ES
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F.html" class="md-tabs__link">
+        
+  
+  
+    
+  
+  设计模式
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../Spring/Spring6.html" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Spring
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../SpringMVC/SpringMVC.html" class="md-tabs__link">
+        
+  
+  
+    
+  
+  SpringMVC
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../SpringBoot/SpringBoot.html" class="md-tabs__link">
+        
+  
+  
+    
+  
+  SpringBoot
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../MQ/MQ.html" class="md-tabs__link">
+        
+  
+  
+    
+  
+  MQ
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C.html" class="md-tabs__link">
+        
+  
+  
+    
+  
+  计算机网络
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F.html" class="md-tabs__link">
+        
+  
+  
+    
+  
+  操作系统
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1/DDD.html" class="md-tabs__link">
+        
+  
+  
+    
+  
+  DDD
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../AI/AI.html" class="md-tabs__link">
+        
+  
+  
+    
+  
+  AI
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../%E5%90%8E%E7%AB%AF%E5%9C%BA%E6%99%AF/%E5%9C%BA%E6%99%AF.html" class="md-tabs__link">
+        
+  
+  
+    
+  
+  后端场景
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../index.html" title="WNotes" class="md-nav__button md-logo" aria-label="WNotes" data-md-component="logo">
+      
+  <img src="../assets/logo.png" alt="logo">
+
+    </a>
+    WNotes
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/lbwanga/lbwanga.github.io" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"></path></svg>
+  </div>
+  <div class="md-source__repository">
+    lbwanga
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix="">
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    简介
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2">
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Java
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Java
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Java/Java.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Java基础
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Java/Java%E9%9B%86%E5%90%88.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Java集合
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../JUC/JUC.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    JUC
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../JVM/JVM.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    JVM
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../MySQL/MySQL.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MySQL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6">
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Redis
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Redis
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Redis/Redis%E5%9F%BA%E7%A1%80.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Redis基础
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Redis/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Redis数据结构
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Redis/Redis%E9%AB%98%E7%BA%A7.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Redis高级
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Redis/应用.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Redis应用
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ES
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="ES.html" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ES
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+      
+        <li class="md-nav__item">
+  <a href="#倒排索引" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        倒排索引
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#基础概念" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        基础概念
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#索引库操作" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        索引库操作
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="索引库操作">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mapping映射属性" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        mapping映射属性
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#crud" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CRUD
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="CRUD">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#创建索引库和映射" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        创建索引库和映射
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#查询索引库" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        查询索引库
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#修改索引库" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        修改索引库
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#删除索引库" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        删除索引库
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#文档操作" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        文档操作
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="文档操作">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#新增文档" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        新增文档
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#查询文档" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        查询文档
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#删除文档" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        删除文档
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#修改文档" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        修改文档
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="修改文档">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#全量修改" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        全量修改
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#增量修改" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        增量修改
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reindex迁移文档" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        reindex：迁移文档
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dsl查询" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DSL查询
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="DSL查询">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#全文检索" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        全文检索
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#精准匹配检索" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        精准匹配检索
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#组合检索" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        组合检索
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#地理坐标查询" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        地理坐标查询
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#搜索结果处理" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        搜索结果处理
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="搜索结果处理">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#排序" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        排序
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#分页" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        分页
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#高亮" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        高亮
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#数据聚合" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        数据聚合
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="数据聚合">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bucket聚合语法" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bucket聚合语法
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#限定聚合范围" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        限定聚合范围
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#metric聚合语法" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Metric聚合语法
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#分词" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        分词
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#数据同步" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        数据同步
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#集群" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        集群
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#内部数据结构" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        内部数据结构
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#核心工作原理" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        核心工作原理
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="核心工作原理">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#稳定版本的应用原理" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        稳定版本的应用原理
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#文档更新删除的原理" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        文档更新/删除的原理
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#elasticsearch写入的原理" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Elasticsearch写入的原理
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Elasticsearch写入的原理">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#写入的实现流程" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        写入的实现流程
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#refresh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        refresh
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#flush" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        flush
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#merge" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        merge
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#elasticsearch检索的原理" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Elasticsearch检索的原理
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#elasticsearch性能优化" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Elasticsearch性能优化
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Elasticsearch性能优化">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#写入优化" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        写入优化
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#查询优化" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        查询优化
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#elasticsearch缓存" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Elasticsearch缓存
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    设计模式
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Spring/Spring6.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Spring
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../SpringMVC/SpringMVC.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SpringMVC
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../SpringBoot/SpringBoot.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SpringBoot
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../MQ/MQ.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MQ
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    计算机网络
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    操作系统
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1/DDD.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DDD
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../AI/AI.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../%E5%90%8E%E7%AB%AF%E5%9C%BA%E6%99%AF/%E5%9C%BA%E6%99%AF.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    后端场景
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+      
+        <li class="md-nav__item">
+  <a href="#倒排索引" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        倒排索引
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#基础概念" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        基础概念
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#索引库操作" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        索引库操作
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="索引库操作">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mapping映射属性" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        mapping映射属性
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#crud" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CRUD
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="CRUD">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#创建索引库和映射" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        创建索引库和映射
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#查询索引库" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        查询索引库
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#修改索引库" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        修改索引库
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#删除索引库" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        删除索引库
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#文档操作" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        文档操作
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="文档操作">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#新增文档" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        新增文档
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#查询文档" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        查询文档
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#删除文档" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        删除文档
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#修改文档" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        修改文档
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="修改文档">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#全量修改" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        全量修改
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#增量修改" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        增量修改
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reindex迁移文档" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        reindex：迁移文档
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dsl查询" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DSL查询
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="DSL查询">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#全文检索" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        全文检索
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#精准匹配检索" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        精准匹配检索
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#组合检索" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        组合检索
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#地理坐标查询" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        地理坐标查询
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#搜索结果处理" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        搜索结果处理
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="搜索结果处理">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#排序" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        排序
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#分页" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        分页
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#高亮" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        高亮
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#数据聚合" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        数据聚合
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="数据聚合">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bucket聚合语法" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bucket聚合语法
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#限定聚合范围" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        限定聚合范围
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#metric聚合语法" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Metric聚合语法
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#分词" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        分词
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#数据同步" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        数据同步
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#集群" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        集群
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#内部数据结构" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        内部数据结构
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#核心工作原理" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        核心工作原理
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="核心工作原理">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#稳定版本的应用原理" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        稳定版本的应用原理
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#文档更新删除的原理" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        文档更新/删除的原理
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#elasticsearch写入的原理" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Elasticsearch写入的原理
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Elasticsearch写入的原理">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#写入的实现流程" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        写入的实现流程
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#refresh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        refresh
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#flush" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        flush
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#merge" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        merge
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#elasticsearch检索的原理" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Elasticsearch检索的原理
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#elasticsearch性能优化" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Elasticsearch性能优化
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Elasticsearch性能优化">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#写入优化" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        写入优化
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#查询优化" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        查询优化
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#elasticsearch缓存" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Elasticsearch缓存
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+                
+
+
+
+  
+
+
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/lbwanga/lbwanga.github.io/edit/master/docs/ES/ES.md" title="编辑此页" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"></path></svg>
+    </a>
+  
+  
+
+
+  <h1>ES</h1>
+
+<p><a href="https://www.elastic.co/docs/solutions/search">Elasticsearch | Elastic Docs</a></p>
+<p>什么是elasticsearch？</p>
+<ul>
+<li>一个开源的分布式搜索引擎，可以用来实现搜索、日志统计、分析、系统监控等功能</li>
+</ul>
+<p>什么是elastic stack（ELK）？</p>
+<ul>
+<li>是以elasticsearch为核心的技术栈，包括beats、Logstash、kibana、elasticsearch</li>
+</ul>
+<p>什么是Lucene？</p>
+<ul>
+<li>是Apache的开源搜索引擎类库，提供了搜索引擎的核心API</li>
+</ul>
+<h2 id="倒排索引">倒排索引<a class="headerlink" href="#倒排索引" title="Permanent link"></a></h2>
+<p>倒排索引中有两个非常重要的概念：</p>
+<ul>
+<li>文档（<code>Document</code>）：用来搜索的数据，其中的每一条数据就是一个文档。例如一个网页、一个商品信息</li>
+<li>词条（<code>Term</code>）：对文档数据或用户搜索数据，利用某种算法分词，得到的具备含义的词语就是词条。例如：我是中国人，就可以分为：我、是、中国人、中国、国人这样的几个词条</li>
+<li>词典（Term Dictionary）：也叫字典，是词条的组合。搜索引擎的通常索引单位是单词，单词词典是文档集合中出现过的所有单词构成的字符串集合，单词词典内每条索引项记载单词本身的一些信息以及指向倒排索引的指针。</li>
+</ul>
+<p><strong>词典查找的挑战</strong>：全文检索系统通常需要处理大量的文本数据，这会导致词典（Term Dictionary）的规模变得非常庞大。尽管可以通过使用高效的数据结构（如哈希表、B树等）来提高查找速度，但这些数据结构通常需要将数据加载到内存中，以达到最佳的查找性能。然而，将如此庞大的词典加载到内存中，可能会导致极大的内存消耗，甚至可能导致内存不足的情况。</p>
+<p><strong>词项索引（Term Index）的作用</strong>：</p>
+<ul>
+<li>为了解决内存和查找性能的问题，引入了词项索引（Term Index）。词项索引旨在以更紧凑、更高效的方式查找词典中的词项。通常，词项索引采用Trie树（或前缀树）结构来存储词项的前缀信息，从而加快查找速度。</li>
+<li>Trie树是一种专门用于存储和快速查找字符串（或其他数据类型）的树形数据结构。在Trie树中，从根节点到任意一个节点的路径表示一个相应的字符串。这种结构非常适合存储大量字符串，尤其是在需要快速查找具有相同前缀的字符串时表现出色。</li>
+<li>然而，传统的Trie树在处理非常大的词典时，可能会消耗大量内存。为了解决这个问题，可以使用压缩版的Trie树，即有限状态转换器（Finite State Transducers，FST）。FST是一种特殊的有限状态机，用于表示字符串之间的映射关系，并且在内存使用方面非常高效。</li>
+</ul>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="es/FST.png" data-desc-position="bottom"><img alt="" src="es/FST.png"></a></p>
+<p><strong>创建倒排索引</strong>是对正向索引的一种特殊处理，流程如下：</p>
+<ul>
+<li>将每一个文档的数据利用算法分词，得到一个个词条</li>
+<li>创建表，每行数据包括词条、词条所在文档id、位置等信息</li>
+<li>因为词条唯一性，可以给词条创建索引，例如hash表结构索引</li>
+</ul>
+<p>如图：</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="es/%E5%80%92%E6%8E%92%E7%B4%A2%E5%BC%95.png" data-desc-position="bottom"><img alt="" src="es/%E5%80%92%E6%8E%92%E7%B4%A2%E5%BC%95.png"></a></p>
+<p>倒排索引的<strong>搜索流程</strong>如下（以搜索"华为手机"为例）：</p>
+<p>1）用户输入条件<code>"华为手机"</code>进行搜索。</p>
+<p>2）对用户输入内容<strong>分词</strong>，得到词条：<code>华为</code>、<code>手机</code>。</p>
+<p>3）拿着词条在倒排索引中查找，可以得到包含词条的文档id：1、2、3。</p>
+<p>4）拿着文档id到正向索引中查找具体文档。</p>
+<p>如图：</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="es/%E6%90%9C%E7%B4%A2%E6%B5%81%E7%A8%8B.png" data-desc-position="bottom"><img alt="" src="es/%E6%90%9C%E7%B4%A2%E6%B5%81%E7%A8%8B.png"></a></p>
+<p>虽然要先查询倒排索引，再查询倒排索引，但是无论是词条、还是文档id都建立了索引，查询速度非常快！无需全表扫描。</p>
+<p>那么为什么一个叫做正向索引，一个叫做倒排索引呢？</p>
+<ul>
+<li>
+<p><strong>正向索引</strong>是最传统的，根据id索引的方式。但根据词条查询时，必须先逐条获取每个文档，然后判断文档中是否包含所需要的词条，是<strong>根据文档找词条的过程</strong>。</p>
+</li>
+<li>
+<p>而<strong>倒排索引</strong>则相反，是先找到用户要搜索的词条，根据词条得到保护词条的文档的id，然后根据id获取文档。是<strong>根据词条找文档的过程</strong>。</p>
+</li>
+</ul>
+<p>那么两者方式的优缺点是什么呢？</p>
+<p><strong>正向索引</strong>：</p>
+<ul>
+<li>优点：</li>
+<li>可以给多个字段创建索引</li>
+<li>根据索引字段搜索、排序速度非常快</li>
+<li>缺点：</li>
+<li>根据非索引字段，或者索引字段中的部分词条查找时，只能全表扫描。</li>
+</ul>
+<p><strong>倒排索引</strong>：</p>
+<ul>
+<li>优点：</li>
+<li>根据词条搜索、模糊搜索时，速度非常快</li>
+<li>缺点：</li>
+<li>只能给词条创建索引，而不是字段</li>
+<li>无法根据字段做排序</li>
+</ul>
+<h2 id="基础概念">基础概念<a class="headerlink" href="#基础概念" title="Permanent link"></a></h2>
+<p>检索质量的评价指标：</p>
+<ul>
+<li><strong>召回率</strong>是指在一次返回的搜索结果中与搜索关键词相关的文档占所有相关文档的比例。召回率的本质是衡量检索结果的查全率，评价检索系统是否把该召回的文档都召回了。</li>
+<li><strong>精准率</strong>也叫精确率，可以定义为本次搜索结果中相关文档所占的比例。精准率的本质是衡量检索结果的查准率。当数据规模非常大时，用户更加关注的是排在前面的检索结果是否相关，是否达到搜索预期。所以，相较于召回率，大数据业务场景的用户更关注精准率。</li>
+</ul>
+<p><strong>索引（Index）</strong>，就是相同类型的文档的集合。可以把索引当做是数据库中的表。</p>
+<p>数据库的表会有约束信息，用来定义表的结构、字段的名称、类型等信息。因此，索引库中就有<strong>映射（mapping）</strong>，是索引中文档的字段约束信息，类似表的结构约束。</p>
+<table>
+<thead>
+<tr>
+<th><strong>MySQL</strong></th>
+<th><strong>Elasticsearch</strong></th>
+<th><strong>说明</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Table</td>
+<td>Index</td>
+<td>索引(index)，就是文档的集合，类似数据库的表(table)</td>
+</tr>
+<tr>
+<td>Row</td>
+<td>Document</td>
+<td>文档（Document），就是一条条的数据，类似数据库中的行（Row），文档都是JSON格式</td>
+</tr>
+<tr>
+<td>Column</td>
+<td>Field</td>
+<td>字段（Field），就是JSON文档中的字段，类似数据库中的列（Column）</td>
+</tr>
+<tr>
+<td>Schema</td>
+<td>Mapping</td>
+<td>Mapping（映射）是索引中文档的约束，例如字段类型约束。类似数据库的表结构（Schema）</td>
+</tr>
+<tr>
+<td>SQL</td>
+<td>DSL</td>
+<td>DSL是elasticsearch提供的JSON风格的请求语句，用来操作elasticsearch，实现CRUD</td>
+</tr>
+</tbody>
+</table>
+<p><strong>分片</strong></p>
+<p>Elasticsearch 提供了将索引划分成多份的能力，每一份就称之为分片。当你创建一个索引的时候，你可以指定你想要的分片的数量。每个分片本身也是一个功能完善并且独立的“索引”，这个“索引”可以被放置到集群中的任何节点上。</p>
+<p>分片很重要，主要有两方面的原因：</p>
+<ul>
+<li>允许你水平分割 / 扩展你的内容容量。</li>
+<li>允许你在分片之上进行分布式的、并行的操作，进而提高性能/吞吐量。</li>
+</ul>
+<p><strong>副本</strong></p>
+<p>Elasticsearch 允许你创建分片的一份或多份拷贝，这些拷贝叫做复制分片(副本)。</p>
+<p>复制分片之所以重要，有两个主要原因：</p>
+<ul>
+<li>在分片/节点失败的情况下，<strong>提供了高可用性</strong>。因为这个原因，注意到复制分片从不与原/主要（original/primary）分片置于同一节点上是非常重要的。</li>
+<li>扩展你的搜索量/吞吐量，因为搜索可以在所有的副本上并行运行。</li>
+</ul>
+<p>elasticsearch vs. mysql:</p>
+<ul>
+<li>
+<p>Mysql：擅长事务类型操作，可以确保数据的安全和一致性</p>
+</li>
+<li>
+<p>Elasticsearch：擅长海量数据的搜索、分析、计算</p>
+</li>
+</ul>
+<h2 id="索引库操作">索引库操作<a class="headerlink" href="#索引库操作" title="Permanent link"></a></h2>
+<h3 id="mapping映射属性">mapping映射属性<a class="headerlink" href="#mapping映射属性" title="Permanent link"></a></h3>
+<p>mapping是对索引库中文档的约束，常见的mapping属性包括：</p>
+<ul>
+<li>type：字段数据类型，常见的简单类型有：</li>
+<li>字符串：text（可分词的文本）、keyword（精确值，例如：品牌、国家、ip地址）</li>
+<li>数值：long、integer、short、byte、double、float、</li>
+<li>布尔：boolean</li>
+<li>日期：date</li>
+<li>对象：object</li>
+<li>index：是否创建索引，默认为true</li>
+<li>analyzer：使用哪种分词器</li>
+<li>properties：该字段的子字段</li>
+</ul>
+<p>例如下面的json文档：</p>
+<div class="language-json highlight"><table class="highlighttable"><tbody><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-0-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-0-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-0-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-0-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-0-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-0-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-0-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-0-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-0-10">10</a></span>
+<span class="normal"><a href="#__codelineno-0-11">11</a></span>
+<span class="normal"><a href="#__codelineno-0-12">12</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="p">{</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="nt">"age"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="mi">21</span><span class="p">,</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="nt">"weight"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="mf">52.1</span><span class="p">,</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="nt">"isMarried"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="kc">false</span><span class="p">,</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="nt">"info"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="s2">"黑马程序员Java讲师"</span><span class="p">,</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6"></a><span class="w">    </span><span class="nt">"email"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="s2">"zy@itcast.cn"</span><span class="p">,</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7"></a><span class="w">    </span><span class="nt">"score"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="p">[</span><span class="mf">99.1</span><span class="p">,</span><span class="w"> </span><span class="mf">99.5</span><span class="p">,</span><span class="w"> </span><span class="mf">98.9</span><span class="p">],</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="nt">"name"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="p">{</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="nt">"firstName"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="s2">"云"</span><span class="p">,</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="nt">"lastName"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="s2">"赵"</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="p">}</span>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12"></a><span class="p">}</span>
+</span></code></pre></div></td></tr></tbody></table></div>
+<p>对应的每个字段映射（mapping）：</p>
+<ul>
+<li>age：类型为 integer；参与搜索，因此需要index为true；无需分词器</li>
+<li>weight：类型为float；参与搜索，因此需要index为true；无需分词器</li>
+<li>isMarried：类型为boolean；参与搜索，因此需要index为true；无需分词器</li>
+<li>info：类型为字符串，需要分词，因此是text；参与搜索，因此需要index为true；分词器可以用ik_smart</li>
+<li>email：类型为字符串，但是不需要分词，因此是keyword；不参与搜索，因此需要index为false；无需分词器</li>
+<li>score：虽然是数组，但是我们只看元素的类型，类型为float；参与搜索，因此需要index为true；无需分词器</li>
+<li>name：类型为object，需要定义多个子属性</li>
+<li>name.firstName；类型为字符串，但是不需要分词，因此是keyword；参与搜索，因此需要index为true；无需分词器</li>
+<li>name.lastName；类型为字符串，但是不需要分词，因此是keyword；参与搜索，因此需要index为true；无需分词器</li>
+</ul>
+<h3 id="crud">CRUD<a class="headerlink" href="#crud" title="Permanent link"></a></h3>
+<h4 id="创建索引库和映射">创建索引库和映射<a class="headerlink" href="#创建索引库和映射" title="Permanent link"></a></h4>
+<p>基本语法：</p>
+<ul>
+<li>请求方式：PUT</li>
+<li>请求路径：/索引库名，可以自定义</li>
+<li>请求参数：mapping映射</li>
+</ul>
+<p>格式：</p>
+<div class="language-json highlight"><table class="highlighttable"><tbody><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-1-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-1-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-1-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-1-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-1-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-1-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-1-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-1-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-1-10">10</a></span>
+<span class="normal"><a href="#__codelineno-1-11">11</a></span>
+<span class="normal"><a href="#__codelineno-1-12">12</a></span>
+<span class="normal"><a href="#__codelineno-1-13">13</a></span>
+<span class="normal"><a href="#__codelineno-1-14">14</a></span>
+<span class="normal"><a href="#__codelineno-1-15">15</a></span>
+<span class="normal"><a href="#__codelineno-1-16">16</a></span>
+<span class="normal"><a href="#__codelineno-1-17">17</a></span>
+<span class="normal"><a href="#__codelineno-1-18">18</a></span>
+<span class="normal"><a href="#__codelineno-1-19">19</a></span>
+<span class="normal"><a href="#__codelineno-1-20">20</a></span>
+<span class="normal"><a href="#__codelineno-1-21">21</a></span>
+<span class="normal"><a href="#__codelineno-1-22">22</a></span>
+<span class="normal"><a href="#__codelineno-1-23">23</a></span>
+<span class="normal"><a href="#__codelineno-1-24">24</a></span>
+<span class="normal"><a href="#__codelineno-1-25">25</a></span>
+<span class="normal"><a href="#__codelineno-1-26">26</a></span>
+<span class="normal"><a href="#__codelineno-1-27">27</a></span>
+<span class="normal"><a href="#__codelineno-1-28">28</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="err">PUT&nbsp;/索引库名称</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2"></a><span class="p">{</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3"></a><span class="err">&nbsp;&nbsp;</span><span class="nt">"mappings"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="p">{</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="nt">"properties"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="p">{</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="nt">"字段名"</span><span class="p">:{</span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="nt">"type"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="s2">"text"</span><span class="p">,</span>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="nt">"analyzer"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="s2">"ik_smart"</span><span class="p">,</span>
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8"></a><span class="w">        </span><span class="nt">"copy_to"</span><span class="p">:</span><span class="w"> </span><span class="s2">"all"</span>
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="p">},</span>
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="nt">"字段名2"</span><span class="p">:{</span>
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="nt">"type"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="s2">"keyword"</span><span class="p">,</span>
+</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="nt">"index"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="s2">"false"</span>
+</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="p">},</span>
+</span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="nt">"字段名3"</span><span class="p">:{</span>
+</span><span id="__span-1-15"><a id="__codelineno-1-15" name="__codelineno-1-15"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="nt">"properties"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="p">{</span>
+</span><span id="__span-1-16"><a id="__codelineno-1-16" name="__codelineno-1-16"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="nt">"子字段"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="p">{</span>
+</span><span id="__span-1-17"><a id="__codelineno-1-17" name="__codelineno-1-17"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="nt">"type"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="s2">"keyword"</span>
+</span><span id="__span-1-18"><a id="__codelineno-1-18" name="__codelineno-1-18"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="p">}</span>
+</span><span id="__span-1-19"><a id="__codelineno-1-19" name="__codelineno-1-19"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="p">}</span>
+</span><span id="__span-1-20"><a id="__codelineno-1-20" name="__codelineno-1-20"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="p">},</span>
+</span><span id="__span-1-21"><a id="__codelineno-1-21" name="__codelineno-1-21"></a><span class="w">      </span><span class="c1">// ...略</span>
+</span><span id="__span-1-22"><a id="__codelineno-1-22" name="__codelineno-1-22"></a><span class="w">      </span><span class="nt">"all"</span><span class="p">:{</span>
+</span><span id="__span-1-23"><a id="__codelineno-1-23" name="__codelineno-1-23"></a><span class="w">        </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"text"</span><span class="p">,</span>
+</span><span id="__span-1-24"><a id="__codelineno-1-24" name="__codelineno-1-24"></a><span class="w">        </span><span class="nt">"analyzer"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ik_max_word"</span>
+</span><span id="__span-1-25"><a id="__codelineno-1-25" name="__codelineno-1-25"></a><span class="w">      </span><span class="p">}</span>
+</span><span id="__span-1-26"><a id="__codelineno-1-26" name="__codelineno-1-26"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="p">}</span>
+</span><span id="__span-1-27"><a id="__codelineno-1-27" name="__codelineno-1-27"></a><span class="err">&nbsp;&nbsp;</span><span class="p">}</span>
+</span><span id="__span-1-28"><a id="__codelineno-1-28" name="__codelineno-1-28"></a><span class="p">}</span>
+</span></code></pre></div></td></tr></tbody></table></div>
+<blockquote>
+<p><strong>all</strong>：一个组合字段，其目的是将多字段的值 利用copy_to合并，提供给用户搜索</p>
+</blockquote>
+<h4 id="查询索引库">查询索引库<a class="headerlink" href="#查询索引库" title="Permanent link"></a></h4>
+<p>基本语法：</p>
+<ul>
+<li>
+<p>请求方式：GET</p>
+</li>
+<li>
+<p>请求路径：/索引库名</p>
+</li>
+<li>
+<p>请求参数：无</p>
+</li>
+</ul>
+<p>格式：</p>
+<div class="language-text highlight"><table class="highlighttable"><tbody><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1"></a>GET /索引库名
+</span></code></pre></div></td></tr></tbody></table></div>
+<h4 id="修改索引库">修改索引库<a class="headerlink" href="#修改索引库" title="Permanent link"></a></h4>
+<p>倒排索引结构虽然不复杂，但是一旦数据结构改变（比如改变了分词器），就需要重新创建倒排索引，这简直是灾难。因此索引库<strong>一旦创建，无法修改mapping</strong>。</p>
+<p>虽然无法修改mapping中已有的字段，但是却允许添加新的字段到mapping中，因为不会对倒排索引产生影响。</p>
+<p>语法说明：</p>
+<div class="language-json highlight"><table class="highlighttable"><tbody><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1">1</a></span>
+<span class="normal"><a href="#__codelineno-3-2">2</a></span>
+<span class="normal"><a href="#__codelineno-3-3">3</a></span>
+<span class="normal"><a href="#__codelineno-3-4">4</a></span>
+<span class="normal"><a href="#__codelineno-3-5">5</a></span>
+<span class="normal"><a href="#__codelineno-3-6">6</a></span>
+<span class="normal"><a href="#__codelineno-3-7">7</a></span>
+<span class="normal"><a href="#__codelineno-3-8">8</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1"></a><span class="err">PUT&nbsp;/索引库名/_mappi</span><span class="kc">n</span><span class="err">g</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2"></a><span class="p">{</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3"></a><span class="err">&nbsp;&nbsp;</span><span class="nt">"properties"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="p">{</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="nt">"新字段名"</span><span class="p">:{</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="nt">"type"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="s2">"integer"</span>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="p">}</span>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7"></a><span class="err">&nbsp;&nbsp;</span><span class="p">}</span>
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8"></a><span class="p">}</span>
+</span></code></pre></div></td></tr></tbody></table></div>
+<h4 id="删除索引库">删除索引库<a class="headerlink" href="#删除索引库" title="Permanent link"></a></h4>
+<p>语法：</p>
+<ul>
+<li>
+<p>请求方式：DELETE</p>
+</li>
+<li>
+<p>请求路径：/索引库名</p>
+</li>
+<li>
+<p>请求参数：无</p>
+</li>
+</ul>
+<p>格式：</p>
+<div class="language-text highlight"><table class="highlighttable"><tbody><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1"></a>DELETE /索引库名
+</span></code></pre></div></td></tr></tbody></table></div>
+<h2 id="文档操作">文档操作<a class="headerlink" href="#文档操作" title="Permanent link"></a></h2>
+<h3 id="新增文档">新增文档<a class="headerlink" href="#新增文档" title="Permanent link"></a></h3>
+<p>语法：</p>
+<div class="language-json highlight"><table class="highlighttable"><tbody><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-5-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-5-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-5-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-5-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-5-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-5-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-5-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-5-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-5-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-5-10">10</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1"></a><span class="err">POST&nbsp;/索引库名/_doc/文档id</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2"></a><span class="p">{</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="nt">"字段1"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="s2">"值1"</span><span class="p">,</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="nt">"字段2"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="s2">"值2"</span><span class="p">,</span>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="nt">"字段3"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="p">{</span>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="nt">"子属性1"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="s2">"值3"</span><span class="p">,</span>
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="nt">"子属性2"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="s2">"值4"</span>
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="p">},</span>
+</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9"></a><span class="w">    </span><span class="c1">// ...</span>
+</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10"></a><span class="p">}</span>
+</span></code></pre></div></td></tr></tbody></table></div>
+<h3 id="查询文档">查询文档<a class="headerlink" href="#查询文档" title="Permanent link"></a></h3>
+<p>根据rest风格，新增是post，查询应该是get，不过查询一般都需要条件，这里我们把文档id带上。</p>
+<p>语法：</p>
+<div class="language-json highlight"><table class="highlighttable"><tbody><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-6-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1"></a><span class="err">GET</span><span class="w"> </span><span class="err">/</span><span class="p">{</span><span class="err">索引库名称</span><span class="p">}</span><span class="err">/_doc/</span><span class="p">{</span><span class="err">id</span><span class="p">}</span>
+</span></code></pre></div></td></tr></tbody></table></div>
+<h3 id="删除文档">删除文档<a class="headerlink" href="#删除文档" title="Permanent link"></a></h3>
+<p>删除使用DELETE请求，同样，需要根据id进行删除：</p>
+<p>语法：</p>
+<div class="language-js highlight"><table class="highlighttable"><tbody><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-7-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1"></a><span class="nx">DELETE</span><span class="w"> </span><span class="o">/</span><span class="p">{</span><span class="nx">索引库名</span><span class="p">}</span><span class="o">/</span><span class="nx">_doc</span><span class="o">/</span><span class="nx">id值</span>
+</span></code></pre></div></td></tr></tbody></table></div>
+<h3 id="修改文档">修改文档<a class="headerlink" href="#修改文档" title="Permanent link"></a></h3>
+<p>修改有两种方式：</p>
+<ul>
+<li>全量修改：直接覆盖原来的文档</li>
+<li>增量修改：修改文档中的部分字段</li>
+</ul>
+<h4 id="全量修改">全量修改<a class="headerlink" href="#全量修改" title="Permanent link"></a></h4>
+<p>全量修改是覆盖原来的文档，其本质是：</p>
+<ul>
+<li>根据指定的id删除文档</li>
+<li>新增一个相同id的文档</li>
+</ul>
+<p><strong>注意</strong>：如果根据id删除时，id不存在，第二步的新增也会执行，也就从修改变成了新增操作了。</p>
+<p>语法：</p>
+<div class="language-json highlight"><table class="highlighttable"><tbody><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-8-1">1</a></span>
+<span class="normal"><a href="#__codelineno-8-2">2</a></span>
+<span class="normal"><a href="#__codelineno-8-3">3</a></span>
+<span class="normal"><a href="#__codelineno-8-4">4</a></span>
+<span class="normal"><a href="#__codelineno-8-5">5</a></span>
+<span class="normal"><a href="#__codelineno-8-6">6</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1"></a><span class="err">PUT&nbsp;/</span><span class="p">{</span><span class="err">索引库名</span><span class="p">}</span><span class="err">/_doc/文档id</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2"></a><span class="p">{</span>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="nt">"字段1"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="s2">"值1"</span><span class="p">,</span>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="nt">"字段2"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="s2">"值2"</span><span class="p">,</span>
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5"></a><span class="w">    </span><span class="c1">// ... 略</span>
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6"></a><span class="p">}</span>
+</span></code></pre></div></td></tr></tbody></table></div>
+<h4 id="增量修改">增量修改<a class="headerlink" href="#增量修改" title="Permanent link"></a></h4>
+<p>增量修改是只修改指定id匹配的文档中的部分字段。</p>
+<p>语法：</p>
+<div class="language-json highlight"><table class="highlighttable"><tbody><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-9-1">1</a></span>
+<span class="normal"><a href="#__codelineno-9-2">2</a></span>
+<span class="normal"><a href="#__codelineno-9-3">3</a></span>
+<span class="normal"><a href="#__codelineno-9-4">4</a></span>
+<span class="normal"><a href="#__codelineno-9-5">5</a></span>
+<span class="normal"><a href="#__codelineno-9-6">6</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1"></a><span class="err">POST&nbsp;/</span><span class="p">{</span><span class="err">索引库名</span><span class="p">}</span><span class="err">/_upda</span><span class="kc">te</span><span class="err">/文档id</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2"></a><span class="p">{</span>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="nt">"doc"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4"></a><span class="w">         </span><span class="nt">"字段名"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="s2">"新的值"</span><span class="p">,</span>
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6"></a><span class="p">}</span>
+</span></code></pre></div></td></tr></tbody></table></div>
+<h3 id="reindex迁移文档">reindex：迁移文档<a class="headerlink" href="#reindex迁移文档" title="Permanent link"></a></h3>
+<p>reindex的本质是将文档从一个索引复制到另一个索引。</p>
+<p>语法：</p>
+<div class="language-text highlight"><table class="highlighttable"><tbody><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-10-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-10-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-10-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-10-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-10-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-10-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-10-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-10-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-10-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-10-10">10</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1"></a>POST _reindex
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2"></a>{
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3"></a>    "conflicts":"proceed" # _reindex将在版本冲突时继续执行。
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4"></a>    "source": {
+</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5"></a>        "index": "index_02"
+</span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6"></a>    },
+</span><span id="__span-10-7"><a id="__codelineno-10-7" name="__codelineno-10-7"></a>    "dest": {
+</span><span id="__span-10-8"><a id="__codelineno-10-8" name="__codelineno-10-8"></a>        "index": "index_03"
+</span><span id="__span-10-9"><a id="__codelineno-10-9" name="__codelineno-10-9"></a>    }
+</span><span id="__span-10-10"><a id="__codelineno-10-10" name="__codelineno-10-10"></a>}
+</span></code></pre></div></td></tr></tbody></table></div>
+<p>此外，还能：</p>
+<ul>
+<li>源索引设置检索条件</li>
+<li>基于script脚本的索引迁移</li>
+<li>基于预处理管道的数据迁移</li>
+</ul>
+<p>涉及跨集群数据迁移，必须要提前配置白名单。在elasticsearch.yml配置文件中完成相关配置后，重启才能生效。</p>
+<h2 id="dsl查询">DSL查询<a class="headerlink" href="#dsl查询" title="Permanent link"></a></h2>
+<p>Elasticsearch提供了基于JSON的DSL（<a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl.html">Domain Specific Language</a>）来定义查询。常见的查询类型包括：</p>
+<ul>
+<li>
+<p><strong>查询所有</strong>：查询出所有数据，一般测试用。例如：match_all</p>
+</li>
+<li>
+<p><strong>全文检索（full text）查询</strong>：利用分词器对用户输入内容分词，然后去倒排索引库中匹配。例如：</p>
+</li>
+<li>match_query</li>
+<li>multi_match_query</li>
+<li><strong>精确查询</strong>：根据精确词条值查找数据，一般是查找keyword、数值、日期、boolean等类型字段。例如：</li>
+<li>ids</li>
+<li>range</li>
+<li>term</li>
+<li><strong>地理（geo）查询</strong>：根据经纬度查询。例如：</li>
+<li>geo_distance</li>
+<li>geo_bounding_box</li>
+<li><strong>复合（compound）查询</strong>：复合查询可以将上述各种查询条件组合起来，合并查询条件。例如：</li>
+<li>bool</li>
+<li>function_score</li>
+</ul>
+<p>查询的语法基本一致：</p>
+<div class="language-json highlight"><table class="highlighttable"><tbody><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-11-1">1</a></span>
+<span class="normal"><a href="#__codelineno-11-2">2</a></span>
+<span class="normal"><a href="#__codelineno-11-3">3</a></span>
+<span class="normal"><a href="#__codelineno-11-4">4</a></span>
+<span class="normal"><a href="#__codelineno-11-5">5</a></span>
+<span class="normal"><a href="#__codelineno-11-6">6</a></span>
+<span class="normal"><a href="#__codelineno-11-7">7</a></span>
+<span class="normal"><a href="#__codelineno-11-8">8</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1"></a><span class="err">GET&nbsp;/i</span><span class="kc">n</span><span class="err">dexName/_search</span>
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2"></a><span class="p">{</span>
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3"></a><span class="err">&nbsp;&nbsp;</span><span class="nt">"query"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="p">{</span>
+</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="nt">"查询类型"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="p">{</span>
+</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="nt">"查询条件"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="s2">"条件值"</span>
+</span><span id="__span-11-6"><a id="__codelineno-11-6" name="__codelineno-11-6"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="p">}</span>
+</span><span id="__span-11-7"><a id="__codelineno-11-7" name="__codelineno-11-7"></a><span class="err">&nbsp;&nbsp;</span><span class="p">}</span>
+</span><span id="__span-11-8"><a id="__codelineno-11-8" name="__codelineno-11-8"></a><span class="p">}</span>
+</span></code></pre></div></td></tr></tbody></table></div>
+<h3 id="全文检索">全文检索<a class="headerlink" href="#全文检索" title="Permanent link"></a></h3>
+<p>全文检索考虑词汇的语义关联，包括词干、同义词等，并通常对文档进行评分，以衡量其与查询关键词的相关程度。此类检索主要应用于非结构化文本数据，如文章和评论等。</p>
+<p>在Elasticsearch中，全文检索主要使用match、match_phrase、query_string等查询类型。</p>
+<ul>
+<li>match：match检索适合应用于高召回率和结果精准度要求较低的场景，在追求高精准度的情境中应慎重选用。match检索的<strong>核心</strong>就是将待检索的语句根据设定的分词器分解为独立的词项单元，然后对多个词项单元分别进行term检索，最后对各term检索词项进行bool组合。</li>
+<li>match_phrase：match_phrase检索适用于注重精准度的召回场景。match_phrase检索要求查询的词条顺序和文档中的词条顺序保持一致，以确保更高的精准度。</li>
+<li>multi_match：检索适用于在多个字段上执行match检索的场景。</li>
+<li>query_string：query_string检索允许用户使用Lucene查询语法直接编写复杂的查询表达式。这种查询方式具有高度的灵活性和精确度，支持多字段查询、通配符查询、模糊查询、范围查询等多种检索类型。应用场景包括高级搜索、数据分析和报表等。</li>
+</ul>
+<p><strong>match</strong>：</p>
+<div class="language-json highlight"><table class="highlighttable"><tbody><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-12-1">1</a></span>
+<span class="normal"><a href="#__codelineno-12-2">2</a></span>
+<span class="normal"><a href="#__codelineno-12-3">3</a></span>
+<span class="normal"><a href="#__codelineno-12-4">4</a></span>
+<span class="normal"><a href="#__codelineno-12-5">5</a></span>
+<span class="normal"><a href="#__codelineno-12-6">6</a></span>
+<span class="normal"><a href="#__codelineno-12-7">7</a></span>
+<span class="normal"><a href="#__codelineno-12-8">8</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1"></a><span class="err">GET&nbsp;/i</span><span class="kc">n</span><span class="err">dexName/_search</span>
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2"></a><span class="p">{</span>
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3"></a><span class="err">&nbsp;&nbsp;</span><span class="nt">"query"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="p">{</span>
+</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="nt">"match"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="p">{</span>
+</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="nt">"FIELD"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="s2">"TEXT"</span>
+</span><span id="__span-12-6"><a id="__codelineno-12-6" name="__codelineno-12-6"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="p">}</span>
+</span><span id="__span-12-7"><a id="__codelineno-12-7" name="__codelineno-12-7"></a><span class="err">&nbsp;&nbsp;</span><span class="p">}</span>
+</span><span id="__span-12-8"><a id="__codelineno-12-8" name="__codelineno-12-8"></a><span class="p">}</span>
+</span></code></pre></div></td></tr></tbody></table></div>
+<p><strong>mulit_match</strong>：</p>
+<div class="language-json highlight"><table class="highlighttable"><tbody><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-13-1">1</a></span>
+<span class="normal"><a href="#__codelineno-13-2">2</a></span>
+<span class="normal"><a href="#__codelineno-13-3">3</a></span>
+<span class="normal"><a href="#__codelineno-13-4">4</a></span>
+<span class="normal"><a href="#__codelineno-13-5">5</a></span>
+<span class="normal"><a href="#__codelineno-13-6">6</a></span>
+<span class="normal"><a href="#__codelineno-13-7">7</a></span>
+<span class="normal"><a href="#__codelineno-13-8">8</a></span>
+<span class="normal"><a href="#__codelineno-13-9">9</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1"></a><span class="err">GET&nbsp;/i</span><span class="kc">n</span><span class="err">dexName/_search</span>
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2"></a><span class="p">{</span>
+</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3"></a><span class="err">&nbsp;&nbsp;</span><span class="nt">"query"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="p">{</span>
+</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="nt">"multi_match"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="p">{</span>
+</span><span id="__span-13-5"><a id="__codelineno-13-5" name="__codelineno-13-5"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="nt">"query"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="s2">"TEXT"</span><span class="p">,</span>
+</span><span id="__span-13-6"><a id="__codelineno-13-6" name="__codelineno-13-6"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="nt">"fields"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="p">[</span><span class="s2">"FIELD1"</span><span class="p">,</span><span class="err">&nbsp;</span><span class="s2">" FIELD12"</span><span class="p">]</span>
+</span><span id="__span-13-7"><a id="__codelineno-13-7" name="__codelineno-13-7"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="p">}</span>
+</span><span id="__span-13-8"><a id="__codelineno-13-8" name="__codelineno-13-8"></a><span class="err">&nbsp;&nbsp;</span><span class="p">}</span>
+</span><span id="__span-13-9"><a id="__codelineno-13-9" name="__codelineno-13-9"></a><span class="p">}</span>
+</span></code></pre></div></td></tr></tbody></table></div>
+<blockquote>
+<p>搜索字段越多，对查询性能影响越大，因此建议采用 <strong>copy_to</strong>，然后单字段查询的方式。</p>
+</blockquote>
+<h3 id="精准匹配检索">精准匹配检索<a class="headerlink" href="#精准匹配检索" title="Permanent link"></a></h3>
+<p>精确查询一般是查找keyword、数值、日期、boolean等类型字段。所以<strong>不会</strong>对搜索条件分词。常见的有：</p>
+<ul>
+<li>term：单字段精准匹配，需要避免将term检索应用于text类型的检索</li>
+<li>terms：多字段精准匹配</li>
+<li>range：范围检索。range检索支持多种比较操作符，如大于(gt)、大于等于(gte)、小于(lt)和小于等于(lte)等，可以实现灵活的区间查询。</li>
+<li>exists检索：是否存在检索。适用于检查文档中是否存在某个字段，或者该字段是否包含非空值。</li>
+<li>wildcard检索：通配符检索</li>
+<li>prefix检索：前缀匹配检索</li>
+<li>IDs检索</li>
+<li>regexp检索：正则匹配检索</li>
+</ul>
+<p><strong>term</strong></p>
+<div class="language-json highlight"><table class="highlighttable"><tbody><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-14-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-14-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-14-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-14-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-14-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-14-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-14-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-14-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-14-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-14-10">10</a></span>
+<span class="normal"><a href="#__codelineno-14-11">11</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1"></a><span class="c1">//&nbsp;term查询</span>
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2"></a><span class="err">GET&nbsp;/i</span><span class="kc">n</span><span class="err">dexName/_search</span>
+</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3"></a><span class="p">{</span>
+</span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4"></a><span class="err">&nbsp;&nbsp;</span><span class="nt">"query"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="p">{</span>
+</span><span id="__span-14-5"><a id="__codelineno-14-5" name="__codelineno-14-5"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="nt">"term"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="p">{</span>
+</span><span id="__span-14-6"><a id="__codelineno-14-6" name="__codelineno-14-6"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="nt">"FIELD"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="p">{</span>
+</span><span id="__span-14-7"><a id="__codelineno-14-7" name="__codelineno-14-7"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="nt">"value"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="s2">"VALUE"</span>
+</span><span id="__span-14-8"><a id="__codelineno-14-8" name="__codelineno-14-8"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="p">}</span>
+</span><span id="__span-14-9"><a id="__codelineno-14-9" name="__codelineno-14-9"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="p">}</span>
+</span><span id="__span-14-10"><a id="__codelineno-14-10" name="__codelineno-14-10"></a><span class="err">&nbsp;&nbsp;</span><span class="p">}</span>
+</span><span id="__span-14-11"><a id="__codelineno-14-11" name="__codelineno-14-11"></a><span class="p">}</span>
+</span></code></pre></div></td></tr></tbody></table></div>
+<p><strong>range</strong></p>
+<div class="language-json highlight"><table class="highlighttable"><tbody><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-15-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-15-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-15-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-15-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-15-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-15-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-15-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-15-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-15-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-15-10">10</a></span>
+<span class="normal"><a href="#__codelineno-15-11">11</a></span>
+<span class="normal"><a href="#__codelineno-15-12">12</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1"></a><span class="c1">//&nbsp;range查询</span>
+</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2"></a><span class="err">GET&nbsp;/i</span><span class="kc">n</span><span class="err">dexName/_search</span>
+</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3"></a><span class="p">{</span>
+</span><span id="__span-15-4"><a id="__codelineno-15-4" name="__codelineno-15-4"></a><span class="err">&nbsp;&nbsp;</span><span class="nt">"query"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="p">{</span>
+</span><span id="__span-15-5"><a id="__codelineno-15-5" name="__codelineno-15-5"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="nt">"range"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="p">{</span>
+</span><span id="__span-15-6"><a id="__codelineno-15-6" name="__codelineno-15-6"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="nt">"FIELD"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="p">{</span>
+</span><span id="__span-15-7"><a id="__codelineno-15-7" name="__codelineno-15-7"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="nt">"gte"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="c1">// 这里的gte代表大于等于，gt则代表大于</span>
+</span><span id="__span-15-8"><a id="__codelineno-15-8" name="__codelineno-15-8"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="nt">"lte"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="mi">20</span><span class="w"> </span><span class="c1">// lte代表小于等于，lt则代表小于</span>
+</span><span id="__span-15-9"><a id="__codelineno-15-9" name="__codelineno-15-9"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="p">}</span>
+</span><span id="__span-15-10"><a id="__codelineno-15-10" name="__codelineno-15-10"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="p">}</span>
+</span><span id="__span-15-11"><a id="__codelineno-15-11" name="__codelineno-15-11"></a><span class="err">&nbsp;&nbsp;</span><span class="p">}</span>
+</span><span id="__span-15-12"><a id="__codelineno-15-12" name="__codelineno-15-12"></a><span class="p">}</span>
+</span></code></pre></div></td></tr></tbody></table></div>
+<h3 id="组合检索">组合检索<a class="headerlink" href="#组合检索" title="Permanent link"></a></h3>
+<p>组合检索可以针对不同字段进行精准匹配和全文检索，并将它们组合在一个查询中。组合检索主要分为两大类：bool组合检索和自定义评分检索。</p>
+<p>在Elasticsearch中，组合检索主要使用bool检索来实现多条件查询，包括must（与）、should（或）、must_not（非）等子句。</p>
+<p>常见的有两种：</p>
+<ul>
+<li>
+<p>bool query：布尔查询，利用逻辑关系组合多个其它的查询，实现复杂搜索</p>
+</li>
+<li>
+<p>fuction score：算分函数查询，可以控制文档相关性算分，控制文档排名</p>
+</li>
+</ul>
+<p>bool组合检索主要包括以下4种子查询类型：</p>
+<ol>
+<li>must：查询结果必须满足指定条件。</li>
+<li>must_not：查询结果必须不满足指定条件。在此情况下，召回的数据评分为0，且不考虑评分。 </li>
+<li>filter：过滤条件，同样不考虑评分，召回的数据评分为0。使用filter可以借助缓存机制提高查询性能。</li>
+<li>should：查询结果可以满足的部分条件，具体满足条件的最小数量由minimum_should_match参数控制。</li>
+</ol>
+<p>Elasticsearch查询语句中的query和filter具有不同的用途。</p>
+<ol>
+<li>query用于评估文档相关性，并对结果进行评分，通常用于搜索场景。</li>
+<li>filter用于筛选文档，不会对文档评分，通常用于过滤场景。</li>
+</ol>
+<p>因此，在性能优化方面，filter比query更有效，因为它不需要进行评分，并且可以被缓存。</p>
+<p><strong>相关性算分</strong></p>
+<p>当我们利用match查询时，文档结果会根据与搜索词条的关联度打分（_score），返回结果时按照分值降序排列。</p>
+<p>例如，我们搜索 "虹桥如家"，结果如下：</p>
+<div class="language-json highlight"><table class="highlighttable"><tbody><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-16-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-16-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-16-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-16-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-16-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-16-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-16-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-16-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-16-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-16-10">10</a></span>
+<span class="normal"><a href="#__codelineno-16-11">11</a></span>
+<span class="normal"><a href="#__codelineno-16-12">12</a></span>
+<span class="normal"><a href="#__codelineno-16-13">13</a></span>
+<span class="normal"><a href="#__codelineno-16-14">14</a></span>
+<span class="normal"><a href="#__codelineno-16-15">15</a></span>
+<span class="normal"><a href="#__codelineno-16-16">16</a></span>
+<span class="normal"><a href="#__codelineno-16-17">17</a></span>
+<span class="normal"><a href="#__codelineno-16-18">18</a></span>
+<span class="normal"><a href="#__codelineno-16-19">19</a></span>
+<span class="normal"><a href="#__codelineno-16-20">20</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1"></a><span class="p">[</span>
+</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2"></a><span class="err">&nbsp;&nbsp;</span><span class="p">{</span>
+</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="s2">"_score"</span><span class="err">&nbsp;</span><span class="p">:</span><span class="err">&nbsp;</span><span class="mf">17.850193</span><span class="p">,</span>
+</span><span id="__span-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="s2">"_source"</span><span class="err">&nbsp;</span><span class="p">:</span><span class="err">&nbsp;</span><span class="p">{</span>
+</span><span id="__span-16-5"><a id="__codelineno-16-5" name="__codelineno-16-5"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="s2">"name"</span><span class="err">&nbsp;</span><span class="p">:</span><span class="err">&nbsp;</span><span class="s2">"虹桥如家酒店真不错"</span><span class="p">,</span>
+</span><span id="__span-16-6"><a id="__codelineno-16-6" name="__codelineno-16-6"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="p">}</span>
+</span><span id="__span-16-7"><a id="__codelineno-16-7" name="__codelineno-16-7"></a><span class="err">&nbsp;&nbsp;</span><span class="p">},</span>
+</span><span id="__span-16-8"><a id="__codelineno-16-8" name="__codelineno-16-8"></a><span class="err">&nbsp;&nbsp;</span><span class="p">{</span>
+</span><span id="__span-16-9"><a id="__codelineno-16-9" name="__codelineno-16-9"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="s2">"_score"</span><span class="err">&nbsp;</span><span class="p">:</span><span class="err">&nbsp;</span><span class="mf">12.259849</span><span class="p">,</span>
+</span><span id="__span-16-10"><a id="__codelineno-16-10" name="__codelineno-16-10"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="s2">"_source"</span><span class="err">&nbsp;</span><span class="p">:</span><span class="err">&nbsp;</span><span class="p">{</span>
+</span><span id="__span-16-11"><a id="__codelineno-16-11" name="__codelineno-16-11"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="s2">"name"</span><span class="err">&nbsp;</span><span class="p">:</span><span class="err">&nbsp;</span><span class="s2">"外滩如家酒店真不错"</span><span class="p">,</span>
+</span><span id="__span-16-12"><a id="__codelineno-16-12" name="__codelineno-16-12"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="p">}</span>
+</span><span id="__span-16-13"><a id="__codelineno-16-13" name="__codelineno-16-13"></a><span class="err">&nbsp;&nbsp;</span><span class="p">},</span>
+</span><span id="__span-16-14"><a id="__codelineno-16-14" name="__codelineno-16-14"></a><span class="err">&nbsp;&nbsp;</span><span class="p">{</span>
+</span><span id="__span-16-15"><a id="__codelineno-16-15" name="__codelineno-16-15"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="s2">"_score"</span><span class="err">&nbsp;</span><span class="p">:</span><span class="err">&nbsp;</span><span class="mf">11.91091</span><span class="p">,</span>
+</span><span id="__span-16-16"><a id="__codelineno-16-16" name="__codelineno-16-16"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="s2">"_source"</span><span class="err">&nbsp;</span><span class="p">:</span><span class="err">&nbsp;</span><span class="p">{</span>
+</span><span id="__span-16-17"><a id="__codelineno-16-17" name="__codelineno-16-17"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="s2">"name"</span><span class="err">&nbsp;</span><span class="p">:</span><span class="err">&nbsp;</span><span class="s2">"迪士尼如家酒店真不错"</span><span class="p">,</span>
+</span><span id="__span-16-18"><a id="__codelineno-16-18" name="__codelineno-16-18"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="p">}</span>
+</span><span id="__span-16-19"><a id="__codelineno-16-19" name="__codelineno-16-19"></a><span class="err">&nbsp;&nbsp;</span><span class="p">}</span>
+</span><span id="__span-16-20"><a id="__codelineno-16-20" name="__codelineno-16-20"></a><span class="p">]</span>
+</span></code></pre></div></td></tr></tbody></table></div>
+<p>在elasticsearch中，早期使用的打分算法是TF-IDF算法，公式如下：</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="es/TF-IDF.png" data-desc-position="bottom"><img alt="" src="es/TF-IDF.png"></a></p>
+<p>在后来的5.1版本升级中，elasticsearch将算法改进为BM25算法，公式如下：</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="es/BM25.png" data-desc-position="bottom"><img alt="" src="es/BM25.png"></a></p>
+<p>TF-IDF算法有一各缺陷，就是词条频率越高，文档得分也会越高，单个词条对文档影响较大。而BM25则会让单个词条的算分有一个上限，曲线更加平滑</p>
+<p>小结：elasticsearch会根据词条和文档的相关度做打分，算法由两种：</p>
+<ul>
+<li>TF-IDF算法</li>
+<li>BM25算法，elasticsearch5.1版本后采用的算法</li>
+</ul>
+<p><strong>算分函数查询</strong></p>
+<p>根据相关度打分是比较合理的需求，但<strong>合理的不一定是产品经理需要</strong>的。</p>
+<p>要想认为控制相关性算分，就需要利用elasticsearch中的function score 查询了。</p>
+<p>语法说明:</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="es/function_score.png" data-desc-position="bottom"><img alt="" src="es/function_score.png"></a></p>
+<p>function score 查询中包含四部分内容：</p>
+<ul>
+<li><strong>原始查询</strong>条件：query部分，基于这个条件搜索文档，并且基于BM25算法给文档打分，<strong>原始算分</strong>（query score)</li>
+<li><strong>过滤条件</strong>：filter部分，符合该条件的文档才会重新算分</li>
+<li><strong>算分函数</strong>：符合filter条件的文档要根据这个函数做运算，得到的<strong>函数算分</strong>（function score），有四种函数</li>
+<li>weight：函数结果是常量</li>
+<li>field_value_factor：以文档中的某个字段值作为函数结果</li>
+<li>random_score：以随机数作为函数结果</li>
+<li>script_score：自定义算分函数算法</li>
+<li><strong>运算模式</strong>：算分函数的结果、原始查询的相关性算分，两者之间的运算方式，包括：</li>
+<li>multiply：相乘</li>
+<li>replace：用function score替换query score</li>
+<li>其它，例如：sum、avg、max、min</li>
+</ul>
+<p>function score的运行流程如下：</p>
+<ul>
+<li>1）根据<strong>原始条件</strong>查询搜索文档，并且计算相关性算分，称为<strong>原始算分</strong>（query score）</li>
+<li>2）根据<strong>过滤条件</strong>，过滤文档</li>
+<li>3）符合<strong>过滤条件</strong>的文档，基于<strong>算分函数</strong>运算，得到<strong>函数算分</strong>（function score）</li>
+<li>4）将<strong>原始算分</strong>（query score）和<strong>函数算分</strong>（function score）基于<strong>运算模式</strong>做运算，得到最终结果，作为相关性算分。</li>
+</ul>
+<p>因此，其中的关键点是：</p>
+<ul>
+<li>过滤条件：决定哪些文档的算分被修改</li>
+<li>算分函数：决定函数算分的算法</li>
+<li>运算模式：决定最终算分结果</li>
+</ul>
+<h3 id="地理坐标查询">地理坐标查询<a class="headerlink" href="#地理坐标查询" title="Permanent link"></a></h3>
+<p>所谓的地理坐标查询，其实就是根据经纬度查询，官方文档：<a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/geo-queries.html">https://www.elastic.co/guide/en/elasticsearch/reference/current/geo-queries.html</a></p>
+<p>常见的使用场景包括：</p>
+<ul>
+<li>携程：搜索我附近的酒店</li>
+<li>滴滴：搜索我附近的出租车</li>
+<li>微信：搜索我附近的人</li>
+</ul>
+<p><strong>矩形范围查询</strong></p>
+<p>矩形范围查询，也就是geo_bounding_box查询，查询坐标落在某个矩形范围的所有文档：</p>
+<p>查询时，需要指定矩形的<strong>左上</strong>、<strong>右下</strong>两个点的坐标，然后画出一个矩形，落在该矩形内的都是符合条件的点。</p>
+<p>语法如下：</p>
+<div class="language-json highlight"><table class="highlighttable"><tbody><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-17-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-17-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-17-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-17-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-17-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-17-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-17-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-17-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-17-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-17-10">10</a></span>
+<span class="normal"><a href="#__codelineno-17-11">11</a></span>
+<span class="normal"><a href="#__codelineno-17-12">12</a></span>
+<span class="normal"><a href="#__codelineno-17-13">13</a></span>
+<span class="normal"><a href="#__codelineno-17-14">14</a></span>
+<span class="normal"><a href="#__codelineno-17-15">15</a></span>
+<span class="normal"><a href="#__codelineno-17-16">16</a></span>
+<span class="normal"><a href="#__codelineno-17-17">17</a></span>
+<span class="normal"><a href="#__codelineno-17-18">18</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1"></a><span class="c1">//&nbsp;geo_bounding_box查询</span>
+</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2"></a><span class="err">GET&nbsp;/i</span><span class="kc">n</span><span class="err">dexName/_search</span>
+</span><span id="__span-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3"></a><span class="p">{</span>
+</span><span id="__span-17-4"><a id="__codelineno-17-4" name="__codelineno-17-4"></a><span class="err">&nbsp;&nbsp;</span><span class="nt">"query"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="p">{</span>
+</span><span id="__span-17-5"><a id="__codelineno-17-5" name="__codelineno-17-5"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="nt">"geo_bounding_box"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="p">{</span>
+</span><span id="__span-17-6"><a id="__codelineno-17-6" name="__codelineno-17-6"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="nt">"FIELD"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="p">{</span>
+</span><span id="__span-17-7"><a id="__codelineno-17-7" name="__codelineno-17-7"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="nt">"top_left"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="p">{</span><span class="w"> </span><span class="c1">// 左上点</span>
+</span><span id="__span-17-8"><a id="__codelineno-17-8" name="__codelineno-17-8"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="nt">"lat"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="mf">31.1</span><span class="p">,</span>
+</span><span id="__span-17-9"><a id="__codelineno-17-9" name="__codelineno-17-9"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="nt">"lon"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="mf">121.5</span>
+</span><span id="__span-17-10"><a id="__codelineno-17-10" name="__codelineno-17-10"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="p">},</span>
+</span><span id="__span-17-11"><a id="__codelineno-17-11" name="__codelineno-17-11"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="nt">"bottom_right"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="p">{</span><span class="w"> </span><span class="c1">// 右下点</span>
+</span><span id="__span-17-12"><a id="__codelineno-17-12" name="__codelineno-17-12"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="nt">"lat"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="mf">30.9</span><span class="p">,</span>
+</span><span id="__span-17-13"><a id="__codelineno-17-13" name="__codelineno-17-13"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="nt">"lon"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="mf">121.7</span>
+</span><span id="__span-17-14"><a id="__codelineno-17-14" name="__codelineno-17-14"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="p">}</span>
+</span><span id="__span-17-15"><a id="__codelineno-17-15" name="__codelineno-17-15"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="p">}</span>
+</span><span id="__span-17-16"><a id="__codelineno-17-16" name="__codelineno-17-16"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="p">}</span>
+</span><span id="__span-17-17"><a id="__codelineno-17-17" name="__codelineno-17-17"></a><span class="err">&nbsp;&nbsp;</span><span class="p">}</span>
+</span><span id="__span-17-18"><a id="__codelineno-17-18" name="__codelineno-17-18"></a><span class="p">}</span>
+</span></code></pre></div></td></tr></tbody></table></div>
+<p><strong>附近查询</strong></p>
+<p>附近查询，也叫做距离查询（geo_distance）：查询到指定中心点小于某个距离值的所有文档。</p>
+<p>换句话来说，在地图上找一个点作为圆心，以指定距离为半径，画一个圆，落在圆内的坐标都算符合条件：</p>
+<p>语法说明：</p>
+<div class="language-json highlight"><table class="highlighttable"><tbody><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-18-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-18-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-18-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-18-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-18-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-18-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-18-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-18-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-18-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-18-10">10</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1"></a><span class="c1">//&nbsp;geo_distance 查询</span>
+</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2"></a><span class="err">GET&nbsp;/i</span><span class="kc">n</span><span class="err">dexName/_search</span>
+</span><span id="__span-18-3"><a id="__codelineno-18-3" name="__codelineno-18-3"></a><span class="p">{</span>
+</span><span id="__span-18-4"><a id="__codelineno-18-4" name="__codelineno-18-4"></a><span class="err">&nbsp;&nbsp;</span><span class="nt">"query"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="p">{</span>
+</span><span id="__span-18-5"><a id="__codelineno-18-5" name="__codelineno-18-5"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="nt">"geo_distance"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="p">{</span>
+</span><span id="__span-18-6"><a id="__codelineno-18-6" name="__codelineno-18-6"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="nt">"distance"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="s2">"15km"</span><span class="p">,</span><span class="w"> </span><span class="c1">// 半径</span>
+</span><span id="__span-18-7"><a id="__codelineno-18-7" name="__codelineno-18-7"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="nt">"FIELD"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="s2">"31.21,121.5"</span><span class="w"> </span><span class="c1">// 圆心</span>
+</span><span id="__span-18-8"><a id="__codelineno-18-8" name="__codelineno-18-8"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="p">}</span>
+</span><span id="__span-18-9"><a id="__codelineno-18-9" name="__codelineno-18-9"></a><span class="err">&nbsp;&nbsp;</span><span class="p">}</span>
+</span><span id="__span-18-10"><a id="__codelineno-18-10" name="__codelineno-18-10"></a><span class="p">}</span>
+</span></code></pre></div></td></tr></tbody></table></div>
+<h2 id="搜索结果处理">搜索结果处理<a class="headerlink" href="#搜索结果处理" title="Permanent link"></a></h2>
+<h3 id="排序">排序<a class="headerlink" href="#排序" title="Permanent link"></a></h3>
+<p>elasticsearch默认是根据相关度算分（_score）来排序，但是也支持自定义方式对搜索<a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/sort-search-results.html">结果排序</a>。可以排序字段类型有：keyword类型、数值类型、地理坐标类型、日期类型等。</p>
+<p><strong>普通字段排序</strong></p>
+<p>keyword、数值、日期类型排序的语法基本一致。</p>
+<p>语法：</p>
+<div class="language-json highlight"><table class="highlighttable"><tbody><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-19-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-19-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-19-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-19-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-19-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-19-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-19-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-19-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-19-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-19-10">10</a></span>
+<span class="normal"><a href="#__codelineno-19-11">11</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1"></a><span class="err">GET&nbsp;/i</span><span class="kc">n</span><span class="err">dexName/_search</span>
+</span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2"></a><span class="p">{</span>
+</span><span id="__span-19-3"><a id="__codelineno-19-3" name="__codelineno-19-3"></a><span class="err">&nbsp;&nbsp;</span><span class="nt">"query"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="p">{</span>
+</span><span id="__span-19-4"><a id="__codelineno-19-4" name="__codelineno-19-4"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="nt">"match_all"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="p">{}</span>
+</span><span id="__span-19-5"><a id="__codelineno-19-5" name="__codelineno-19-5"></a><span class="err">&nbsp;&nbsp;</span><span class="p">},</span>
+</span><span id="__span-19-6"><a id="__codelineno-19-6" name="__codelineno-19-6"></a><span class="err">&nbsp;&nbsp;</span><span class="nt">"sort"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="p">[</span>
+</span><span id="__span-19-7"><a id="__codelineno-19-7" name="__codelineno-19-7"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="p">{</span>
+</span><span id="__span-19-8"><a id="__codelineno-19-8" name="__codelineno-19-8"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="nt">"FIELD"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="s2">"desc"</span><span class="err">&nbsp;&nbsp;</span><span class="c1">//&nbsp;排序字段、排序方式ASC、DESC</span>
+</span><span id="__span-19-9"><a id="__codelineno-19-9" name="__codelineno-19-9"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="p">}</span>
+</span><span id="__span-19-10"><a id="__codelineno-19-10" name="__codelineno-19-10"></a><span class="err">&nbsp;&nbsp;</span><span class="p">]</span>
+</span><span id="__span-19-11"><a id="__codelineno-19-11" name="__codelineno-19-11"></a><span class="p">}</span>
+</span></code></pre></div></td></tr></tbody></table></div>
+<p>排序条件是一个数组，也就是可以写多个排序条件。按照声明的顺序，当第一个条件相等时，再按照第二个条件排序，以此类推</p>
+<p><strong>地理坐标排序</strong></p>
+<p>地理坐标排序略有不同。</p>
+<p>语法：</p>
+<div class="language-json highlight"><table class="highlighttable"><tbody><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-20-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-20-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-20-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-20-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-20-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-20-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-20-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-20-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-20-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-20-10">10</a></span>
+<span class="normal"><a href="#__codelineno-20-11">11</a></span>
+<span class="normal"><a href="#__codelineno-20-12">12</a></span>
+<span class="normal"><a href="#__codelineno-20-13">13</a></span>
+<span class="normal"><a href="#__codelineno-20-14">14</a></span>
+<span class="normal"><a href="#__codelineno-20-15">15</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1"></a><span class="err">GET&nbsp;/i</span><span class="kc">n</span><span class="err">dexName/_search</span>
+</span><span id="__span-20-2"><a id="__codelineno-20-2" name="__codelineno-20-2"></a><span class="p">{</span>
+</span><span id="__span-20-3"><a id="__codelineno-20-3" name="__codelineno-20-3"></a><span class="err">&nbsp;&nbsp;</span><span class="nt">"query"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="p">{</span>
+</span><span id="__span-20-4"><a id="__codelineno-20-4" name="__codelineno-20-4"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="nt">"match_all"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="p">{}</span>
+</span><span id="__span-20-5"><a id="__codelineno-20-5" name="__codelineno-20-5"></a><span class="err">&nbsp;&nbsp;</span><span class="p">},</span>
+</span><span id="__span-20-6"><a id="__codelineno-20-6" name="__codelineno-20-6"></a><span class="err">&nbsp;&nbsp;</span><span class="nt">"sort"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="p">[</span>
+</span><span id="__span-20-7"><a id="__codelineno-20-7" name="__codelineno-20-7"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="p">{</span>
+</span><span id="__span-20-8"><a id="__codelineno-20-8" name="__codelineno-20-8"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="s2">"_geo_distance"</span><span class="err">&nbsp;</span><span class="p">:</span><span class="err">&nbsp;</span><span class="p">{</span>
+</span><span id="__span-20-9"><a id="__codelineno-20-9" name="__codelineno-20-9"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="s2">"FIELD"</span><span class="err">&nbsp;</span><span class="p">:</span><span class="err">&nbsp;</span><span class="s2">"纬度，经度"</span><span class="p">,</span><span class="w"> </span><span class="c1">// 文档中geo_point类型的字段名、目标坐标点</span>
+</span><span id="__span-20-10"><a id="__codelineno-20-10" name="__codelineno-20-10"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="s2">"order"</span><span class="err">&nbsp;</span><span class="p">:</span><span class="err">&nbsp;</span><span class="s2">"asc"</span><span class="p">,</span><span class="w"> </span><span class="c1">// 排序方式</span>
+</span><span id="__span-20-11"><a id="__codelineno-20-11" name="__codelineno-20-11"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="s2">"unit"</span><span class="err">&nbsp;</span><span class="p">:</span><span class="err">&nbsp;</span><span class="s2">"km"</span><span class="w"> </span><span class="c1">// 排序的距离单位</span>
+</span><span id="__span-20-12"><a id="__codelineno-20-12" name="__codelineno-20-12"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="p">}</span>
+</span><span id="__span-20-13"><a id="__codelineno-20-13" name="__codelineno-20-13"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="p">}</span>
+</span><span id="__span-20-14"><a id="__codelineno-20-14" name="__codelineno-20-14"></a><span class="err">&nbsp;&nbsp;</span><span class="p">]</span>
+</span><span id="__span-20-15"><a id="__codelineno-20-15" name="__codelineno-20-15"></a><span class="p">}</span>
+</span></code></pre></div></td></tr></tbody></table></div>
+<p>这个查询的含义是：</p>
+<ul>
+<li>指定一个坐标，作为目标点</li>
+<li>计算每一个文档中，指定字段（必须是geo_point类型）的坐标 到目标点的距离是多少</li>
+<li>根据距离排序</li>
+</ul>
+<h3 id="分页">分页<a class="headerlink" href="#分页" title="Permanent link"></a></h3>
+<p>elasticsearch 默认情况下只返回top10的数据。而如果要查询更多数据就需要修改分页参数了。elasticsearch中通过修改from、size参数来控制要返回的分页结果：</p>
+<ul>
+<li>from：从第几个文档开始</li>
+<li>size：总共查询几个文档</li>
+</ul>
+<p>类似于mysql中的<code>limit ?, ?</code></p>
+<p><strong>基本的分页</strong>:</p>
+<p>分页的基本语法如下：</p>
+<div class="language-json highlight"><table class="highlighttable"><tbody><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-21-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-21-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-21-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-21-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-21-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-21-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-21-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-21-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-21-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-21-10">10</a></span>
+<span class="normal"><a href="#__codelineno-21-11">11</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1"></a><span class="err">GET&nbsp;/ho</span><span class="kc">tel</span><span class="err">/_search</span>
+</span><span id="__span-21-2"><a id="__codelineno-21-2" name="__codelineno-21-2"></a><span class="p">{</span>
+</span><span id="__span-21-3"><a id="__codelineno-21-3" name="__codelineno-21-3"></a><span class="err">&nbsp;&nbsp;</span><span class="nt">"query"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="p">{</span>
+</span><span id="__span-21-4"><a id="__codelineno-21-4" name="__codelineno-21-4"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="nt">"match_all"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="p">{}</span>
+</span><span id="__span-21-5"><a id="__codelineno-21-5" name="__codelineno-21-5"></a><span class="err">&nbsp;&nbsp;</span><span class="p">},</span>
+</span><span id="__span-21-6"><a id="__codelineno-21-6" name="__codelineno-21-6"></a><span class="err">&nbsp;&nbsp;</span><span class="nt">"from"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="mi">0</span><span class="p">,</span><span class="err">&nbsp;</span><span class="c1">//&nbsp;分页开始的位置，默认为0</span>
+</span><span id="__span-21-7"><a id="__codelineno-21-7" name="__codelineno-21-7"></a><span class="err">&nbsp;&nbsp;</span><span class="nt">"size"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="mi">10</span><span class="p">,</span><span class="err">&nbsp;</span><span class="c1">//&nbsp;期望获取的文档总数</span>
+</span><span id="__span-21-8"><a id="__codelineno-21-8" name="__codelineno-21-8"></a><span class="err">&nbsp;&nbsp;</span><span class="nt">"sort"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="p">[</span>
+</span><span id="__span-21-9"><a id="__codelineno-21-9" name="__codelineno-21-9"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="p">{</span><span class="nt">"price"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="s2">"asc"</span><span class="p">}</span>
+</span><span id="__span-21-10"><a id="__codelineno-21-10" name="__codelineno-21-10"></a><span class="err">&nbsp;&nbsp;</span><span class="p">]</span>
+</span><span id="__span-21-11"><a id="__codelineno-21-11" name="__codelineno-21-11"></a><span class="p">}</span>
+</span></code></pre></div></td></tr></tbody></table></div>
+<p><strong>深度分页问题</strong></p>
+<p>现在，我要查询990~1000的数据，查询逻辑要这么写：</p>
+<div class="language-json highlight"><table class="highlighttable"><tbody><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-22-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-22-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-22-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-22-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-22-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-22-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-22-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-22-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-22-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-22-10">10</a></span>
+<span class="normal"><a href="#__codelineno-22-11">11</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1"></a><span class="err">GET&nbsp;/ho</span><span class="kc">tel</span><span class="err">/_search</span>
+</span><span id="__span-22-2"><a id="__codelineno-22-2" name="__codelineno-22-2"></a><span class="p">{</span>
+</span><span id="__span-22-3"><a id="__codelineno-22-3" name="__codelineno-22-3"></a><span class="err">&nbsp;&nbsp;</span><span class="nt">"query"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="p">{</span>
+</span><span id="__span-22-4"><a id="__codelineno-22-4" name="__codelineno-22-4"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="nt">"match_all"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="p">{}</span>
+</span><span id="__span-22-5"><a id="__codelineno-22-5" name="__codelineno-22-5"></a><span class="err">&nbsp;&nbsp;</span><span class="p">},</span>
+</span><span id="__span-22-6"><a id="__codelineno-22-6" name="__codelineno-22-6"></a><span class="err">&nbsp;&nbsp;</span><span class="nt">"from"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="mi">990</span><span class="p">,</span><span class="err">&nbsp;</span><span class="c1">//&nbsp;分页开始的位置，默认为0</span>
+</span><span id="__span-22-7"><a id="__codelineno-22-7" name="__codelineno-22-7"></a><span class="err">&nbsp;&nbsp;</span><span class="nt">"size"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="mi">10</span><span class="p">,</span><span class="err">&nbsp;</span><span class="c1">//&nbsp;期望获取的文档总数</span>
+</span><span id="__span-22-8"><a id="__codelineno-22-8" name="__codelineno-22-8"></a><span class="err">&nbsp;&nbsp;</span><span class="nt">"sort"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="p">[</span>
+</span><span id="__span-22-9"><a id="__codelineno-22-9" name="__codelineno-22-9"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="p">{</span><span class="nt">"price"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="s2">"asc"</span><span class="p">}</span>
+</span><span id="__span-22-10"><a id="__codelineno-22-10" name="__codelineno-22-10"></a><span class="err">&nbsp;&nbsp;</span><span class="p">]</span>
+</span><span id="__span-22-11"><a id="__codelineno-22-11" name="__codelineno-22-11"></a><span class="p">}</span>
+</span></code></pre></div></td></tr></tbody></table></div>
+<p>这里是查询990开始的数据，也就是 第990~第1000条 数据。</p>
+<p>不过，elasticsearch内部分页时，必须先查询 0~1000条，然后截取其中的990 ~ 1000的这10条。</p>
+<p>查询TOP1000，如果es是单点模式，这并无太大影响。</p>
+<p>但是elasticsearch将来一定是集群，例如我集群有5个节点，我要查询TOP1000的数据，并不是每个节点查询200条就可以了。</p>
+<p>因为节点A的TOP200，在另一个节点可能排到10000名以外了。</p>
+<p>因此要想获取整个集群的TOP1000，必须先查询出每个节点的TOP1000，汇总结果后，重新排名，重新截取TOP1000。</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="es/%E5%88%86%E9%A1%B5%E6%9F%A5%E8%AF%A2.png" data-desc-position="bottom"><img alt="" src="es/%E5%88%86%E9%A1%B5%E6%9F%A5%E8%AF%A2.png"></a></p>
+<p>当查询分页深度较大时，汇总数据过多，对内存和CPU会产生非常大的压力，因此elasticsearch会禁止from+ size 超过10000的请求。</p>
+<p>针对深度分页，ES提供了两种解决方案，<a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/paginate-search-results.html">官方文档</a>：</p>
+<ul>
+<li>search after：基本工作原理是以前一页结果的排序值作为参照点，进而检索与这个参照点相邻的下一页的匹配数据。官方推荐使用的方式。</li>
+<li>scroll：原理将排序后的文档id形成快照，保存在内存。官方已经不推荐使用。</li>
+</ul>
+<p>分页查询的常见实现方案以及优缺点：</p>
+<ul>
+<li><code>from + size</code>：</li>
+<li>优点：支持随机翻页</li>
+<li>缺点：深度分页问题，默认查询上限（from + size）是10000</li>
+<li>场景：百度、京东、谷歌、淘宝这样的随机翻页搜索</li>
+<li><code>after search</code>：</li>
+<li>优点：没有查询上限（单次查询的size不超过10000）</li>
+<li>缺点：只能向后逐页查询，不支持随机翻页</li>
+<li>
+<p>场景：没有随机翻页需求的搜索，例如手机向下滚动翻页</p>
+</li>
+<li>
+<p><code>scroll</code>：</p>
+</li>
+<li>优点：没有查询上限（单次查询的size不超过10000）</li>
+<li>缺点：会有额外内存消耗，并且搜索结果是非实时的</li>
+<li>场景：海量数据的获取和迁移。从ES7.1开始不推荐，建议用 after search方案。</li>
+</ul>
+<h3 id="高亮">高亮<a class="headerlink" href="#高亮" title="Permanent link"></a></h3>
+<p><strong>高亮原理</strong></p>
+<p>高亮显示的实现分为两步：</p>
+<ul>
+<li>1）给文档中的所有关键字都添加一个标签，例如<code>&lt;em&gt;</code>标签</li>
+<li>2）页面给<code>&lt;em&gt;</code>标签编写CSS样式</li>
+</ul>
+<p><strong>实现高亮</strong></p>
+<p>高亮的语法：</p>
+<div class="language-json highlight"><table class="highlighttable"><tbody><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-23-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-23-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-23-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-23-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-23-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-23-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-23-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-23-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-23-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-23-10">10</a></span>
+<span class="normal"><a href="#__codelineno-23-11">11</a></span>
+<span class="normal"><a href="#__codelineno-23-12">12</a></span>
+<span class="normal"><a href="#__codelineno-23-13">13</a></span>
+<span class="normal"><a href="#__codelineno-23-14">14</a></span>
+<span class="normal"><a href="#__codelineno-23-15">15</a></span>
+<span class="normal"><a href="#__codelineno-23-16">16</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1"></a><span class="err">GET&nbsp;/ho</span><span class="kc">tel</span><span class="err">/_search</span>
+</span><span id="__span-23-2"><a id="__codelineno-23-2" name="__codelineno-23-2"></a><span class="p">{</span>
+</span><span id="__span-23-3"><a id="__codelineno-23-3" name="__codelineno-23-3"></a><span class="err">&nbsp;&nbsp;</span><span class="nt">"query"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="p">{</span>
+</span><span id="__span-23-4"><a id="__codelineno-23-4" name="__codelineno-23-4"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="nt">"match"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="p">{</span>
+</span><span id="__span-23-5"><a id="__codelineno-23-5" name="__codelineno-23-5"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="nt">"FIELD"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="s2">"TEXT"</span><span class="w"> </span><span class="c1">// 查询条件，高亮一定要使用全文检索查询</span>
+</span><span id="__span-23-6"><a id="__codelineno-23-6" name="__codelineno-23-6"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="p">}</span>
+</span><span id="__span-23-7"><a id="__codelineno-23-7" name="__codelineno-23-7"></a><span class="err">&nbsp;&nbsp;</span><span class="p">},</span>
+</span><span id="__span-23-8"><a id="__codelineno-23-8" name="__codelineno-23-8"></a><span class="err">&nbsp;&nbsp;</span><span class="nt">"highlight"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="p">{</span>
+</span><span id="__span-23-9"><a id="__codelineno-23-9" name="__codelineno-23-9"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="nt">"fields"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="p">{</span><span class="err">&nbsp;</span><span class="c1">//&nbsp;指定要高亮的字段</span>
+</span><span id="__span-23-10"><a id="__codelineno-23-10" name="__codelineno-23-10"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="nt">"FIELD"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="p">{</span>
+</span><span id="__span-23-11"><a id="__codelineno-23-11" name="__codelineno-23-11"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="nt">"pre_tags"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="s2">"&lt;em&gt;"</span><span class="p">,</span><span class="err">&nbsp;&nbsp;</span><span class="c1">//&nbsp;用来标记高亮字段的前置标签</span>
+</span><span id="__span-23-12"><a id="__codelineno-23-12" name="__codelineno-23-12"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="nt">"post_tags"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="s2">"&lt;/em&gt;"</span><span class="err">&nbsp;</span><span class="c1">//&nbsp;用来标记高亮字段的后置标签</span>
+</span><span id="__span-23-13"><a id="__codelineno-23-13" name="__codelineno-23-13"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="p">}</span>
+</span><span id="__span-23-14"><a id="__codelineno-23-14" name="__codelineno-23-14"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="p">}</span>
+</span><span id="__span-23-15"><a id="__codelineno-23-15" name="__codelineno-23-15"></a><span class="err">&nbsp;&nbsp;</span><span class="p">}</span>
+</span><span id="__span-23-16"><a id="__codelineno-23-16" name="__codelineno-23-16"></a><span class="p">}</span>
+</span></code></pre></div></td></tr></tbody></table></div>
+<p><strong>注意：</strong></p>
+<ul>
+<li>高亮是对关键字高亮，因此<strong>搜索条件必须带有关键字</strong>，而不能是范围这样的查询。</li>
+<li>默认情况下，<strong>高亮的字段，必须与搜索指定的字段一致</strong>，否则无法高亮</li>
+<li>如果要对非搜索字段高亮，则需要添加一个属性：required_field_match=false</li>
+</ul>
+<h2 id="数据聚合">数据聚合<a class="headerlink" href="#数据聚合" title="Permanent link"></a></h2>
+<p><strong><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/search-aggregations.html">聚合（</a><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/search-aggregations.html">aggregations</a><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/search-aggregations.html">）</a></strong>可以让我们极其方便的实现对数据的统计、分析、运算。</p>
+<p>实现这些统计功能的比数据库的sql要方便的多，而且查询速度非常快，可以实现近实时搜索效果。</p>
+<p>聚合常见的有三类：</p>
+<ul>
+<li><strong>桶（Bucket）</strong>聚合：用来对文档做分组</li>
+<li>TermAggregation：按照文档字段值分组，例如按照品牌值分组、按照国家分组</li>
+<li>
+<p>Date Histogram：按照日期阶梯分组，例如一周为一组，或者一月为一组</p>
+</li>
+<li>
+<p><strong>度量（Metric）</strong>聚合：用以计算一些值，比如：最大值、最小值、平均值等</p>
+</li>
+<li>Avg：求平均值</li>
+<li>Max：求最大值</li>
+<li>Min：求最小值</li>
+<li>Stats：同时求max、min、avg、sum等</li>
+<li><strong>管道（pipeline）</strong>聚合：其它聚合的结果为基础做聚合</li>
+</ul>
+<blockquote>
+<p><strong>注意：</strong>参加聚合的字段必须是keyword、日期、数值、布尔类型</p>
+</blockquote>
+<h3 id="bucket聚合语法">Bucket聚合语法<a class="headerlink" href="#bucket聚合语法" title="Permanent link"></a></h3>
+<p>语法如下：</p>
+<div class="language-json highlight"><table class="highlighttable"><tbody><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-24-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-24-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-24-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-24-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-24-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-24-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-24-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-24-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-24-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-24-10">10</a></span>
+<span class="normal"><a href="#__codelineno-24-11">11</a></span>
+<span class="normal"><a href="#__codelineno-24-12">12</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-24-1"><a id="__codelineno-24-1" name="__codelineno-24-1"></a><span class="err">GET&nbsp;/ho</span><span class="kc">tel</span><span class="err">/_search</span>
+</span><span id="__span-24-2"><a id="__codelineno-24-2" name="__codelineno-24-2"></a><span class="p">{</span>
+</span><span id="__span-24-3"><a id="__codelineno-24-3" name="__codelineno-24-3"></a><span class="err">&nbsp;&nbsp;</span><span class="nt">"size"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="mi">0</span><span class="p">,</span><span class="err">&nbsp;&nbsp;</span><span class="c1">//&nbsp;设置size为0，结果中不包含文档，只包含聚合结果</span>
+</span><span id="__span-24-4"><a id="__codelineno-24-4" name="__codelineno-24-4"></a><span class="err">&nbsp;&nbsp;</span><span class="nt">"aggs"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="p">{</span><span class="err">&nbsp;</span><span class="c1">//&nbsp;定义聚合</span>
+</span><span id="__span-24-5"><a id="__codelineno-24-5" name="__codelineno-24-5"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="nt">"brandAgg"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="p">{</span><span class="err">&nbsp;</span><span class="c1">//给聚合起个名字</span>
+</span><span id="__span-24-6"><a id="__codelineno-24-6" name="__codelineno-24-6"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="nt">"terms"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="p">{</span><span class="err">&nbsp;</span><span class="c1">//&nbsp;聚合的类型，按照品牌值聚合，所以选择term</span>
+</span><span id="__span-24-7"><a id="__codelineno-24-7" name="__codelineno-24-7"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="nt">"field"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="s2">"brand"</span><span class="p">,</span><span class="err">&nbsp;</span><span class="c1">//&nbsp;参与聚合的字段</span>
+</span><span id="__span-24-8"><a id="__codelineno-24-8" name="__codelineno-24-8"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="nt">"size"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="mi">20</span><span class="err">&nbsp;</span><span class="c1">//&nbsp;希望获取的聚合结果数量</span>
+</span><span id="__span-24-9"><a id="__codelineno-24-9" name="__codelineno-24-9"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="p">}</span>
+</span><span id="__span-24-10"><a id="__codelineno-24-10" name="__codelineno-24-10"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="p">}</span>
+</span><span id="__span-24-11"><a id="__codelineno-24-11" name="__codelineno-24-11"></a><span class="err">&nbsp;&nbsp;</span><span class="p">}</span>
+</span><span id="__span-24-12"><a id="__codelineno-24-12" name="__codelineno-24-12"></a><span class="p">}</span>
+</span></code></pre></div></td></tr></tbody></table></div>
+<p><strong>聚合结果排序</strong>：</p>
+<p>默认情况下，Bucket聚合会统计Bucket内的文档数量，记为_count，并且按照_count降序排序。</p>
+<p>我们可以指定order属性，自定义聚合的排序方式：</p>
+<div class="language-json highlight"><table class="highlighttable"><tbody><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-25-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-25-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-25-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-25-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-25-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-25-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-25-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-25-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-25-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-25-10">10</a></span>
+<span class="normal"><a href="#__codelineno-25-11">11</a></span>
+<span class="normal"><a href="#__codelineno-25-12">12</a></span>
+<span class="normal"><a href="#__codelineno-25-13">13</a></span>
+<span class="normal"><a href="#__codelineno-25-14">14</a></span>
+<span class="normal"><a href="#__codelineno-25-15">15</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-25-1"><a id="__codelineno-25-1" name="__codelineno-25-1"></a><span class="err">GET&nbsp;/ho</span><span class="kc">tel</span><span class="err">/_search</span>
+</span><span id="__span-25-2"><a id="__codelineno-25-2" name="__codelineno-25-2"></a><span class="p">{</span>
+</span><span id="__span-25-3"><a id="__codelineno-25-3" name="__codelineno-25-3"></a><span class="err">&nbsp;&nbsp;</span><span class="nt">"size"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="mi">0</span><span class="p">,</span><span class="err">&nbsp;</span>
+</span><span id="__span-25-4"><a id="__codelineno-25-4" name="__codelineno-25-4"></a><span class="err">&nbsp;&nbsp;</span><span class="nt">"aggs"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="p">{</span>
+</span><span id="__span-25-5"><a id="__codelineno-25-5" name="__codelineno-25-5"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="nt">"brandAgg"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="p">{</span>
+</span><span id="__span-25-6"><a id="__codelineno-25-6" name="__codelineno-25-6"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="nt">"terms"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="p">{</span>
+</span><span id="__span-25-7"><a id="__codelineno-25-7" name="__codelineno-25-7"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="nt">"field"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="s2">"brand"</span><span class="p">,</span>
+</span><span id="__span-25-8"><a id="__codelineno-25-8" name="__codelineno-25-8"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="nt">"order"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="p">{</span>
+</span><span id="__span-25-9"><a id="__codelineno-25-9" name="__codelineno-25-9"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="nt">"_count"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="s2">"asc"</span><span class="w"> </span><span class="c1">//&nbsp;按照_count升序排列</span>
+</span><span id="__span-25-10"><a id="__codelineno-25-10" name="__codelineno-25-10"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="p">},</span>
+</span><span id="__span-25-11"><a id="__codelineno-25-11" name="__codelineno-25-11"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="nt">"size"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="mi">20</span>
+</span><span id="__span-25-12"><a id="__codelineno-25-12" name="__codelineno-25-12"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="p">}</span>
+</span><span id="__span-25-13"><a id="__codelineno-25-13" name="__codelineno-25-13"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="p">}</span>
+</span><span id="__span-25-14"><a id="__codelineno-25-14" name="__codelineno-25-14"></a><span class="err">&nbsp;&nbsp;</span><span class="p">}</span>
+</span><span id="__span-25-15"><a id="__codelineno-25-15" name="__codelineno-25-15"></a><span class="p">}</span>
+</span></code></pre></div></td></tr></tbody></table></div>
+<h3 id="限定聚合范围">限定聚合范围<a class="headerlink" href="#限定聚合范围" title="Permanent link"></a></h3>
+<p>默认情况下，Bucket聚合是对索引库的所有文档做聚合，但真实场景下，用户会输入搜索条件，因此聚合必须是对搜索结果聚合。那么聚合必须添加限定条件。</p>
+<p>我们可以限定要聚合的文档范围，只要添加query条件即可：</p>
+<div class="language-json highlight"><table class="highlighttable"><tbody><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-26-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-26-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-26-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-26-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-26-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-26-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-26-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-26-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-26-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-26-10">10</a></span>
+<span class="normal"><a href="#__codelineno-26-11">11</a></span>
+<span class="normal"><a href="#__codelineno-26-12">12</a></span>
+<span class="normal"><a href="#__codelineno-26-13">13</a></span>
+<span class="normal"><a href="#__codelineno-26-14">14</a></span>
+<span class="normal"><a href="#__codelineno-26-15">15</a></span>
+<span class="normal"><a href="#__codelineno-26-16">16</a></span>
+<span class="normal"><a href="#__codelineno-26-17">17</a></span>
+<span class="normal"><a href="#__codelineno-26-18">18</a></span>
+<span class="normal"><a href="#__codelineno-26-19">19</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-26-1"><a id="__codelineno-26-1" name="__codelineno-26-1"></a><span class="err">GET&nbsp;/ho</span><span class="kc">tel</span><span class="err">/_search</span>
+</span><span id="__span-26-2"><a id="__codelineno-26-2" name="__codelineno-26-2"></a><span class="p">{</span>
+</span><span id="__span-26-3"><a id="__codelineno-26-3" name="__codelineno-26-3"></a><span class="err">&nbsp;&nbsp;</span><span class="nt">"query"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="p">{</span>
+</span><span id="__span-26-4"><a id="__codelineno-26-4" name="__codelineno-26-4"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="nt">"range"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="p">{</span>
+</span><span id="__span-26-5"><a id="__codelineno-26-5" name="__codelineno-26-5"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="nt">"price"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="p">{</span>
+</span><span id="__span-26-6"><a id="__codelineno-26-6" name="__codelineno-26-6"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="nt">"lte"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="mi">200</span><span class="w"> </span><span class="c1">// 只对200元以下的文档聚合</span>
+</span><span id="__span-26-7"><a id="__codelineno-26-7" name="__codelineno-26-7"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="p">}</span>
+</span><span id="__span-26-8"><a id="__codelineno-26-8" name="__codelineno-26-8"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="p">}</span>
+</span><span id="__span-26-9"><a id="__codelineno-26-9" name="__codelineno-26-9"></a><span class="err">&nbsp;&nbsp;</span><span class="p">},</span><span class="err">&nbsp;</span>
+</span><span id="__span-26-10"><a id="__codelineno-26-10" name="__codelineno-26-10"></a><span class="err">&nbsp;&nbsp;</span><span class="nt">"size"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="mi">0</span><span class="p">,</span><span class="err">&nbsp;</span>
+</span><span id="__span-26-11"><a id="__codelineno-26-11" name="__codelineno-26-11"></a><span class="err">&nbsp;&nbsp;</span><span class="nt">"aggs"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="p">{</span>
+</span><span id="__span-26-12"><a id="__codelineno-26-12" name="__codelineno-26-12"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="nt">"brandAgg"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="p">{</span>
+</span><span id="__span-26-13"><a id="__codelineno-26-13" name="__codelineno-26-13"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="nt">"terms"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="p">{</span>
+</span><span id="__span-26-14"><a id="__codelineno-26-14" name="__codelineno-26-14"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="nt">"field"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="s2">"brand"</span><span class="p">,</span>
+</span><span id="__span-26-15"><a id="__codelineno-26-15" name="__codelineno-26-15"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="nt">"size"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="mi">20</span>
+</span><span id="__span-26-16"><a id="__codelineno-26-16" name="__codelineno-26-16"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="p">}</span>
+</span><span id="__span-26-17"><a id="__codelineno-26-17" name="__codelineno-26-17"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="p">}</span>
+</span><span id="__span-26-18"><a id="__codelineno-26-18" name="__codelineno-26-18"></a><span class="err">&nbsp;&nbsp;</span><span class="p">}</span>
+</span><span id="__span-26-19"><a id="__codelineno-26-19" name="__codelineno-26-19"></a><span class="p">}</span>
+</span></code></pre></div></td></tr></tbody></table></div>
+<h3 id="metric聚合语法">Metric聚合语法<a class="headerlink" href="#metric聚合语法" title="Permanent link"></a></h3>
+<p>Metric聚合，例如stat聚合：就可以获取min、max、avg等结果。</p>
+<p>语法如下：</p>
+<div class="language-json highlight"><table class="highlighttable"><tbody><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-27-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-27-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-27-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-27-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-27-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-27-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-27-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-27-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-27-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-27-10">10</a></span>
+<span class="normal"><a href="#__codelineno-27-11">11</a></span>
+<span class="normal"><a href="#__codelineno-27-12">12</a></span>
+<span class="normal"><a href="#__codelineno-27-13">13</a></span>
+<span class="normal"><a href="#__codelineno-27-14">14</a></span>
+<span class="normal"><a href="#__codelineno-27-15">15</a></span>
+<span class="normal"><a href="#__codelineno-27-16">16</a></span>
+<span class="normal"><a href="#__codelineno-27-17">17</a></span>
+<span class="normal"><a href="#__codelineno-27-18">18</a></span>
+<span class="normal"><a href="#__codelineno-27-19">19</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-27-1"><a id="__codelineno-27-1" name="__codelineno-27-1"></a><span class="err">GET&nbsp;/ho</span><span class="kc">tel</span><span class="err">/_search</span>
+</span><span id="__span-27-2"><a id="__codelineno-27-2" name="__codelineno-27-2"></a><span class="p">{</span>
+</span><span id="__span-27-3"><a id="__codelineno-27-3" name="__codelineno-27-3"></a><span class="err">&nbsp;&nbsp;</span><span class="nt">"size"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="mi">0</span><span class="p">,</span><span class="err">&nbsp;</span>
+</span><span id="__span-27-4"><a id="__codelineno-27-4" name="__codelineno-27-4"></a><span class="err">&nbsp;&nbsp;</span><span class="nt">"aggs"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="p">{</span>
+</span><span id="__span-27-5"><a id="__codelineno-27-5" name="__codelineno-27-5"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="nt">"brandAgg"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="p">{</span><span class="err">&nbsp;</span>
+</span><span id="__span-27-6"><a id="__codelineno-27-6" name="__codelineno-27-6"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="nt">"terms"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="p">{</span><span class="err">&nbsp;</span>
+</span><span id="__span-27-7"><a id="__codelineno-27-7" name="__codelineno-27-7"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="nt">"field"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="s2">"brand"</span><span class="p">,</span><span class="err">&nbsp;</span>
+</span><span id="__span-27-8"><a id="__codelineno-27-8" name="__codelineno-27-8"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="nt">"size"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="mi">20</span>
+</span><span id="__span-27-9"><a id="__codelineno-27-9" name="__codelineno-27-9"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="p">},</span>
+</span><span id="__span-27-10"><a id="__codelineno-27-10" name="__codelineno-27-10"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="nt">"aggs"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="p">{</span><span class="err">&nbsp;</span><span class="c1">//&nbsp;是brands聚合的子聚合，也就是分组后对每组分别计算</span>
+</span><span id="__span-27-11"><a id="__codelineno-27-11" name="__codelineno-27-11"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="nt">"score_stats"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="p">{</span><span class="err">&nbsp;</span><span class="c1">//&nbsp;聚合名称</span>
+</span><span id="__span-27-12"><a id="__codelineno-27-12" name="__codelineno-27-12"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="nt">"stats"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="p">{</span><span class="err">&nbsp;</span><span class="c1">//&nbsp;聚合类型，这里stats可以计算min、max、avg等</span>
+</span><span id="__span-27-13"><a id="__codelineno-27-13" name="__codelineno-27-13"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="nt">"field"</span><span class="p">:</span><span class="err">&nbsp;</span><span class="s2">"score"</span><span class="err">&nbsp;</span><span class="c1">//&nbsp;聚合字段，这里是score</span>
+</span><span id="__span-27-14"><a id="__codelineno-27-14" name="__codelineno-27-14"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="p">}</span>
+</span><span id="__span-27-15"><a id="__codelineno-27-15" name="__codelineno-27-15"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="p">}</span>
+</span><span id="__span-27-16"><a id="__codelineno-27-16" name="__codelineno-27-16"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="p">}</span>
+</span><span id="__span-27-17"><a id="__codelineno-27-17" name="__codelineno-27-17"></a><span class="err">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="p">}</span>
+</span><span id="__span-27-18"><a id="__codelineno-27-18" name="__codelineno-27-18"></a><span class="err">&nbsp;&nbsp;</span><span class="p">}</span>
+</span><span id="__span-27-19"><a id="__codelineno-27-19" name="__codelineno-27-19"></a><span class="p">}</span>
+</span></code></pre></div></td></tr></tbody></table></div>
+<p>aggs代表聚合，与query同级，此时query的作用是？</p>
+<ul>
+<li>限定聚合的的文档范围</li>
+</ul>
+<p>聚合必须的三要素：</p>
+<ul>
+<li>聚合名称</li>
+<li>聚合类型</li>
+<li>聚合字段</li>
+</ul>
+<p>聚合可配置属性有：</p>
+<ul>
+<li>size：指定聚合结果数量</li>
+<li>order：指定聚合结果排序方式</li>
+<li>field：指定聚合字段</li>
+</ul>
+<h2 id="分词">分词<a class="headerlink" href="#分词" title="Permanent link"></a></h2>
+<p>分词器的作用是什么？</p>
+<ul>
+<li>创建倒排索引时对文档分词</li>
+<li>用户搜索时，对输入的内容分词</li>
+</ul>
+<p>分词器由如下三部分组成：</p>
+<ul>
+<li>字符过滤(character filter)：字符过滤器将原始文本作为字符流接收，并通过添加、删除或更改字符来转换字符流。</li>
+<li>文本切分为分词（tokenizer）：负责初步进行文本分词。在接收字符流后，系统将对其进行分词，并记录分词后的顺序或位置(position)、起始值(start_offset)以及偏移量(end_offset-start_offset)。</li>
+<li>分词后再过滤（token filter）：在对tokenizer处理后的字符流进行进一步处理时，例如进行转换为小写、删除（去除停用词）和新增（添加同义词）等操作。</li>
+</ul>
+<p>常见的分词器：</p>
+<table>
+<thead>
+<tr>
+<th>分词器</th>
+<th>优势</th>
+<th>局限性</th>
+<th>适用场景</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>standard</td>
+<td>内置支持，多语言基础处理</td>
+<td>中文支持差</td>
+<td>英文日志分析</td>
+</tr>
+<tr>
+<td>ik_max_word</td>
+<td>细粒度中文分词</td>
+<td>需维护词典</td>
+<td>电商、内容搜索</td>
+</tr>
+<tr>
+<td>pinyin</td>
+<td>支持拼音搜索</td>
+<td>需配合主分词器</td>
+<td>跨语言搜索</td>
+</tr>
+<tr>
+<td>ngram</td>
+<td>模糊匹配能力强</td>
+<td>索引膨胀风险</td>
+<td>地址、验证码搜索</td>
+</tr>
+<tr>
+<td>pattern</td>
+<td>高度可配置</td>
+<td>正则复杂度影响性能</td>
+<td>结构化日志处理</td>
+</tr>
+</tbody>
+</table>
+<p>错误选择带来的灾难：</p>
+<ul>
+<li>搜索词"变形记"</li>
+<li>索引膨胀</li>
+<li>相关性评分错乱</li>
+</ul>
+<p>IK分词器有几种模式？</p>
+<ul>
+<li>ik_smart：智能切分，粗粒度</li>
+<li>ik_max_word：最细切分，细粒度</li>
+</ul>
+<p>IK分词器如何拓展词条？如何停用词条？</p>
+<ul>
+<li>利用config目录的IkAnalyzer.cfg.xml文件添加拓展词典和停用词典</li>
+<li>在词典中添加拓展词条或者停用词条</li>
+</ul>
+<h2 id="数据同步">数据同步<a class="headerlink" href="#数据同步" title="Permanent link"></a></h2>
+<p>elasticsearch与mysql之间的<strong>数据同步</strong>。</p>
+<p>常见的数据同步方案有三种：</p>
+<ul>
+<li>同步调用</li>
+<li>异步通知</li>
+<li>监听binlog</li>
+</ul>
+<p>方案一：同步调用</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="es/%E5%90%8C%E6%AD%A5%E8%B0%83%E7%94%A8.png" data-desc-position="bottom"><img alt="" src="es/%E5%90%8C%E6%AD%A5%E8%B0%83%E7%94%A8.png"></a></p>
+<p>基本步骤如下：</p>
+<ul>
+<li>hotel-demo对外提供接口，用来修改elasticsearch中的数据</li>
+<li>酒店管理服务在完成数据库操作后，直接调用hotel-demo提供的接口，</li>
+</ul>
+<p>方案二：异步通知</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="es/%E5%BC%82%E6%AD%A5%E9%80%9A%E7%9F%A5.png" data-desc-position="bottom"><img alt="" src="es/%E5%BC%82%E6%AD%A5%E9%80%9A%E7%9F%A5.png"></a></p>
+<p>流程如下：</p>
+<ul>
+<li>hotel-admin对mysql数据库数据完成增、删、改后，发送MQ消息</li>
+<li>hotel-demo监听MQ，接收到消息后完成elasticsearch数据修改</li>
+</ul>
+<p>方案三：监听binlog</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="es/%E7%9B%91%E5%90%ACbinlog.png" data-desc-position="bottom"><img alt="" src="es/%E7%9B%91%E5%90%ACbinlog.png"></a></p>
+<p>流程如下：</p>
+<ul>
+<li>给mysql开启binlog功能</li>
+<li>mysql完成增、删、改操作都会记录在binlog中</li>
+<li>hotel-demo基于canal监听binlog变化，实时更新elasticsearch中的内容</li>
+</ul>
+<p>方式一：同步调用</p>
+<ul>
+<li>优点：实现简单，粗暴</li>
+<li>缺点：业务耦合度高</li>
+</ul>
+<p>方式二：异步通知</p>
+<ul>
+<li>优点：低耦合，实现难度一般</li>
+<li>缺点：依赖mq的可靠性</li>
+</ul>
+<p>方式三：监听binlog</p>
+<ul>
+<li>优点：完全解除服务间耦合</li>
+<li>缺点：开启binlog增加数据库负担、实现复杂度高</li>
+</ul>
+<h2 id="集群">集群<a class="headerlink" href="#集群" title="Permanent link"></a></h2>
+<p>单机的elasticsearch做数据存储，必然面临两个问题：单台机器存储容量有限、单点故障问题、单服务的并发处理能力有限。</p>
+<ul>
+<li>海量数据存储问题：将索引库从逻辑上拆分为N个分片（shard），存储到多个节点</li>
+<li>单点故障问题：将分片数据在不同节点备份（replica ）</li>
+</ul>
+<p><strong>ES集群相关概念</strong>:</p>
+<ul>
+<li>
+<p>集群（cluster）：一组拥有共同的 cluster name 的 节点。</p>
+</li>
+<li>
+<p>节点（node)   ：集群中的一个 Elasticearch 实例</p>
+</li>
+<li>
+<p>分片（shard）：索引可以被拆分为不同的部分进行存储，称为分片。在集群环境下，一个索引的不同分片可以拆分到不同的节点中</p>
+</li>
+</ul>
+<p>解决问题：数据量太大，单点存储量有限的问题。</p>
+<ul>
+<li>
+<p>主分片（Primary shard）：相对于副本分片的定义。</p>
+</li>
+<li>
+<p>副本分片（Replica shard）每个主分片可以有一个或者多个副本，数据和主分片一样。</p>
+</li>
+</ul>
+<p>数据备份可以保证高可用，但是每个分片备份一份，所需要的节点数量就会翻一倍，成本实在是太高了！</p>
+<p>为了在高可用和成本间寻求平衡，我们可以这样做：</p>
+<ul>
+<li>首先对数据分片，存储到不同节点</li>
+<li>然后对每个分片进行备份，放到对方节点，完成互相备份</li>
+</ul>
+<p>这样可以大大减少所需要的服务节点数量，如图，我们以3分片，每个分片备份一份为例：</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="es/%E9%9B%86%E7%BE%A4.png" data-desc-position="bottom"><img alt="" src="es/%E9%9B%86%E7%BE%A4.png"></a></p>
+<p>elasticsearch中集群节点有不同的职责划分：</p>
+<p><strong>主节点</strong>：</p>
+<p>负责管理集群范围内的所有变更，例如增加、 删除索引，或者增加、删除节点等。 而主节点并不需要涉及到文档级别的变更和搜索等操作，所以当集群只拥有一个主节点的情况下，即使流量的增加它也不会成为瓶颈。</p>
+<p>主节点又被细分为专用候选主节点和仅投票主节点。</p>
+<p><strong>数据节点</strong>:</p>
+<p>负责存储、检索和处理数据，提供搜索和聚合功能。</p>
+<p>数据节点又可以细分内容数据节点、热数据节点、温数据节点、冷数据节点、冷冻数据节点。</p>
+<p><strong>协调节点</strong>：</p>
+<p>协调节点负责协调请求的处理过程。一个查询请求会被发送到协调节点上，协调节点确定数据节点，然后让数据节点执行查询，最后协调节点合并数据节点返回的结果集。大多数节点都会兼任这个角色。</p>
+<p><strong>ingest节点</strong>：</p>
+<p>即预处理节点，负责数据预处理，如过滤、转换等，准备好数据再将其索引到数据节点。</p>
+<p><strong>Elasticsearch 的 master 选举流程？</strong></p>
+<ul>
+<li>Elasticsearch的选主是ZenDiscovery模块负责的，主要包含Ping（节点之间通过这个RPC来发现彼此） 和Unicast（单播模块包含一个主机列表以控制哪些节点需要ping通）这两部分。</li>
+<li>对所有可以成为master的节点（node master: true）根据nodeId字典排序，每次选举每个节点都把自己所知道节点排一次序，然后选出第一个（第0位）节点，暂且认为它是master节点。</li>
+<li>如果对某个节点的投票数达到一定的值（可以成为master节点数n/2+1）并且该节点自己也选举自己， 那这个节点就是master。否则重新选举一直到满足上述条件。</li>
+<li>master节点的职责主要包括集群、节点和索引的管理，不负责文档级别的管理；data节点可以关闭http 功能。</li>
+</ul>
+<p><strong>脑裂问题</strong></p>
+<p>脑裂是因为集群中的主节点失联导致重新选主，当网络恢复后，集群中有两个master节点，集群状态的不一致。</p>
+<p>解决脑裂的方案是，要求选票超过 ( eligible节点数量 + 1 ）/ 2 才能当选为主，因此eligible节点数量最好是奇数。对应配置项是discovery.zen.minimum_master_nodes，在es7.0以后，已经成为默认配置，因此一般不会发生脑裂问题。</p>
+<p><strong>分片存储</strong></p>
+<p>当新增文档时，应该保存到不同分片，保证数据均衡，那么coordinating node如何确定数据该存储到哪个分片呢？</p>
+<p>elasticsearch会通过hash算法来计算文档应该存储到哪个分片</p>
+<p>说明：</p>
+<ul>
+<li>_routing默认是文档的id</li>
+<li>算法与分片数量有关，因此索引库一旦创建，<strong>分片数量不能修改</strong>！</li>
+</ul>
+<blockquote>
+<p><strong>为什么堆内存不能超过物理机内存的一半？</strong></p>
+</blockquote>
+<p>堆对Elasticsearch来说绝对重要，它用于许多内存数据结构的快速操作。但还有另外一个非常重要的内存使用者——Lucene。</p>
+<p>Lucene旨在利用底层操作系统来缓存内存中的数据结构。Lucene段存储在单个文件中。因为段一旦形成就不会改变，所以它们非常容易进行缓存，并且，底层操作系统会将热段保留在内存中以便更快地进行访问。这些段包括倒排索引（用于全文搜索）和正排索引（用于聚合）。</p>
+<p>Lucene的性能依赖于与操作系统的这种交互。如果把所有可用的内存都给Elasticsearch堆，那么Lucene就不会有任何剩余的内存，这会严重影响其性能。针对内存的分配，通常的建议是将可用内存的一半分配给Elasticsearch堆，而保留剩下的一半。这种操作的核心在于平衡Elasticsearch堆和Lucene。剩余的内存看起来空闲，但其实并非如此，因为Lucene会利用这些“空闲”内存来提高搜索和索引的性能。这种内存分配策略确保了Elasticsearch与Lucene之间的高效协作，进而能够提升整体系统性能。</p>
+<p>如果实际业务不需要在字符串字段上做聚合操作（开启text类型的fielddata），则可以考虑进一步降低堆大小。堆较小，就可以从Elasticsearch（更快的GC）和Lucene（更多内存缓存）中获得更好的性能。</p>
+<h2 id="内部数据结构">内部数据结构<a class="headerlink" href="#内部数据结构" title="Permanent link"></a></h2>
+<p><strong>倒排索引</strong></p>
+<p>特点：全文搜索速度非常快；不适合做排序</p>
+<p><strong>正排索引</strong></p>
+<p>在Elasticsearch中，正排索引(doc_values)就是一种列式存储结构，默认情况下每个字段的doc_values都是激活的（除了text类型）。</p>
+<p>特点：适合排序、聚合操作；将单个字段的所有值一起存储在单个数据列中；默认情况下，除text之外的所有字段类型均启用正排索引。</p>
+<p><strong>fielddata</strong></p>
+<p>对于text类型字段，不支持正排索引。当text字段被用于聚合、排序或脚本操作时，fielddata会按需构建相应的数据结构。</p>
+<p>fielddata是通过从磁盘读取每个字段的完整倒排索引，反转词项与文档之间的关系，并将结果存储在JVM堆的内存中构建的。这使得在进行聚合、排序和脚本操作时，系统能够高效地获取和处理相关字段的数据。</p>
+<p>特点：仅适用于text字段类型；是基于内存的数据结构，没有序列化到磁盘</p>
+<p>除非业务特殊需要，否则启用fielddata通常没有任何意义，因为它非常耗费内存资源。</p>
+<p><strong>_source字段</strong></p>
+<p>_source字段包含索引时传递的原始JSON文档主体。_source字段本身未构建索引（因此不可搜索），但已存储该字段，以便在执行获取请求（如GET或search请求）时可以将其返回。</p>
+<p><strong>store字段</strong></p>
+<p>存储指定字段的JSON数据</p>
+<h2 id="核心工作原理">核心工作原理<a class="headerlink" href="#核心工作原理" title="Permanent link"></a></h2>
+<h3 id="稳定版本的应用原理">稳定版本的应用原理<a class="headerlink" href="#稳定版本的应用原理" title="Permanent link"></a></h3>
+<p>Elasticsearch使用文档<strong>版本来控制文档的并发更新，并用于解决冲突</strong>。它使用内部版本和外部版本来保证数据的一致性、可靠性。</p>
+<p>当我们在Elasticsearch中创建一个新文档时，它会为该文档分配一个_version:1。当我们后续对该文档进行任何操作（如更新、索引或删除）时，_version都会增加1。</p>
+<p>如何解决或避免Elasticsearch文档版本冲突？</p>
+<ol>
+<li><strong>利用external对版本号进行外部控制</strong>。在external模式下，Elasticsearch相当于将版本控制的责任委托给了外部数据库或其他第三方库，它们负责生成和管理文档的版本号。当使用external版本类型时，Elasticsearch在处理索引请求时会对比传入文档的版本号和已存储文档的版本号。如果传入的版本号大于已存储的，就表明这是一个新版本的文档，Elasticsearch则会执行索引操作并更新文档的版本号。</li>
+<li><strong>利用if_seq_no和if_primary_term作为唯一标识来避免版本冲突</strong>。Elasticsearch会检查传入的if_seq_no和if_primary_term是否与最后一次修改文档的序列号(seq no)和主要项(primary term)匹配。</li>
+<li><strong>批量更新和批量删除中通过proceed忽略冲突</strong>。</li>
+</ol>
+<h3 id="文档更新删除的原理">文档更新/删除的原理<a class="headerlink" href="#文档更新删除的原理" title="Permanent link"></a></h3>
+<p><strong>文档删除</strong></p>
+<p>文档删除本质上是<strong>逻辑删除</strong>而非物理删除。</p>
+<p>在执行文档删除操作后，待删除文档不会立即将文档从磁盘中删除，而是将文档标记为“已删除”状态（版本号_version加1，result标记为deleted）。随着索引的数据越来越多，Elasticsearch将会在后台清理这些标记为“已删除”的文档。</p>
+<p>但如果想要从磁盘上删除这些文档，则需要借助段合并来实现。</p>
+<p><strong>索引删除</strong></p>
+<p>不同于文档删除，索引删除意味着删除其分片、映射和数据。并且，相比于文档删除，索引删除会更直接、快速、暴力。删除索引后，与索引有关的所有数据将从直接从磁盘中删除。</p>
+<p>索引删除本质上是物理删除。</p>
+<p>索引删除包含两个步骤：更新集群；将分片从磁盘删除。</p>
+<p><strong>文档更新</strong></p>
+<p>更新文档本质上是“delete+add”操作。具体来说，表面上是更新，实际上是Elasticsearch将旧文档标记为“已删除”，并增加一个全新的文档。</p>
+<p>同文档删除一样，文档更新后旧文档不能被访问，但旧文档不会立即被物理删除，除非手动或者定时执行了段合并操作。</p>
+<h3 id="elasticsearch写入的原理">Elasticsearch写入的原理<a class="headerlink" href="#elasticsearch写入的原理" title="Permanent link"></a></h3>
+<p><strong>分段</strong></p>
+<p>分段是Elasticsearch中的一个重要概念，其核心目的是更高效地执行搜索和更新操作。段是由一些倒排索引和一些元数据组成的。分段是将索引分成多个小段的过程，每个分段包含一部分索引数据。</p>
+<p>Elasticsearch中的段是不可变的，即段一旦被创建，就不能被修改。与之相反，任何对索引的更改都会生成新的段。</p>
+<p><strong>事务日志文件</strong></p>
+<p>为了防止Elasticsearch集群宕机造成数据丢失，为了保证可靠存储，一个文档被索引之后，Elasticsearch就会将其添加到内存缓冲区，并且同时写入事务日志文件(translog)中。</p>
+<p>translog的作用是保证数据的可靠性和一致性。当Elasticsearch节点出现故障或崩溃时，translog可以用来恢复数据。在节点重新启动后，Elasticsearch会重新读取translog中的所有操作并将其应用到Lucene索引中，从而使数据保持一致。</p>
+<h4 id="写入的实现流程">写入的实现流程<a class="headerlink" href="#写入的实现流程" title="Permanent link"></a></h4>
+<ol>
+<li>协调节点：任何节点都可以接收请求，此时它就是 <strong>协调节点</strong>。协调节点根据 <strong>文档的 <code>_id</code> 哈希值</strong> 计算路由，决定要写入哪个 <strong>主分片（Primary Shard）</strong>。找到目标主分片所在的节点，并将请求转发过去。</li>
+<li>主分片写入：文档先写入内存 buffer，并追加到 <strong>translog（事务日志）</strong>。</li>
+<li>副本分片写入：主分片写成功后，会并行转发给 <strong>所有副本分片</strong>。</li>
+</ol>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="es/es-write-detail.png" data-desc-position="bottom"><img alt="" src="es/es-write-detail.png"></a></p>
+<h4 id="refresh">refresh<a class="headerlink" href="#refresh" title="Permanent link"></a></h4>
+<p>将文档插入Elasticsearch时，文档会被写入内存缓冲区中，然后通过refresh（刷新）操作<strong>定期从该缓冲区刷新到内存段中</strong>。刷新频率由refresh_interval参数控制，默认1s刷新一次，所以说Elasticsearch是<strong>近实时</strong>的搜索引擎，而不是准实时。</p>
+<p>refresh操作在<strong>本质上是将写入数据由内存缓冲区写入内存段中，以保证搜索可见。</strong></p>
+<blockquote>
+<p><strong>并非持久化</strong>：Refresh只是让数据变得<strong>可搜索</strong>，但并没有保证数据已经<strong>安全持久化到磁盘</strong>。数据在Refresh后位于文件系统缓存中，如果此时服务器断电，这部分数据仍然会丢失。</p>
+<p><strong>持久化由Flush负责</strong>：保证数据安全落地到磁盘，是另一个叫 <strong>Flush</strong> 的机制负责的，它依赖事务日志（Translog）并且默认30分钟执行一次或在Translog达到一定大小时触发。</p>
+</blockquote>
+<h4 id="flush">flush<a class="headerlink" href="#flush" title="Permanent link"></a></h4>
+<p>新的数据不断进入 buffer 和 translog，不断将 <code>buffer</code> 数据写入一个又一个新的 <code>segment file</code> 中去，每次 <code>refresh</code> 完 buffer 清空，translog 保留。随着这个过程推进，translog 会变得越来越大。当 translog 达到一定长度的时候，就会触发 <code>flush</code> 操作。</p>
+<p>每隔30分钟（或Translog太大时），仓库启动归档操作：把文件缓存里的所有段（Segments）全部持久化到磁盘，然后清空 translog。</p>
+<p>refresh操作使得写入文档搜索可见；flush操作将文件系统缓存(filesystem cache)写入磁盘，以达到持久化的目的。</p>
+<h4 id="merge">merge<a class="headerlink" href="#merge" title="Permanent link"></a></h4>
+<p>自动刷新流程每秒会创建一个新的段（由动态配置参数refresh_interval决定），导致短时间内段数量暴增。而段数目太多会带来众多问题，包含但不限于如下几点。</p>
+<ul>
+<li>资源消耗：每一个段都会消耗文件句柄、内存和CPU运行周期。段合并的时候会将那些旧的已删除文档从文件系统中清除。</li>
+<li>搜索变慢：每个搜索请求都必须轮流检查每个段，所以段越多，搜索也就越慢。</li>
+</ul>
+<p>Elasticsearch通过在后台进行段合并来解决上述问题。小段被合并到大段，这些大段再被合并到更大的段。</p>
+<p>段合并的时候会将那些旧的已删除文档从文件系统中清除。被删除的文档（或被更新文档的旧版本）不会被拷贝到新的大段中。</p>
+<h3 id="elasticsearch检索的原理">Elasticsearch检索的原理<a class="headerlink" href="#elasticsearch检索的原理" title="Permanent link"></a></h3>
+<ol>
+<li>客户端发起请求。</li>
+<li>协调节点接收请求，任意节点都可以当 <strong>协调节点</strong>。协调节点会把查询请求广播到所有涉及的 <strong>分片</strong>。</li>
+<li>在数据节点中执行查询操作，以收集精准匹配结果或者满足条件的结果。</li>
+<li>在协调节点做结果整合，并计算相关性评分。</li>
+</ol>
+<h2 id="elasticsearch性能优化">Elasticsearch性能优化<a class="headerlink" href="#elasticsearch性能优化" title="Permanent link"></a></h2>
+<ol>
+<li>尽可能减少检索字段数目</li>
+<li>合理设置size值</li>
+<li>尽量使用keyword字段类型</li>
+<li>有效使用filter缓存</li>
+<li>预热文件系统缓存</li>
+</ol>
+<h3 id="写入优化">写入优化<a class="headerlink" href="#写入优化" title="Permanent link"></a></h3>
+<p>1、写入时先将副本分片数置为0，完成写入后再将其复原</p>
+<p>2、优先使用系统自动生成ID的方式。文档ID的生成有两种方式：系统自动生成ID和外部控制自增ID。不过，如果使用外部控制自增ID，Elasticsearch会先尝试读取原来文档的版本号，以判断是否需要更新。</p>
+<p>3、合理调整刷新频率 refresh</p>
+<p>4、合理调整堆内存中的索引缓冲区大小。缓冲区越大，意味着能缓存的数据量越大，相同时间内，写入磁盘的频次低、磁盘IO小，间接提升了写入性能。</p>
+<p>5、给堆外的内存留够空间。堆内存之外的内存留给Lucene使用。</p>
+<p>6、批量写入。批量写入意味着相同时间产生的段会大，段的总个数自然会少。</p>
+<p>7、多线程写入</p>
+<p>8、设置合理的映射。不推荐使用默认的动态映射，一定要手动设置映射，优化不必要字段</p>
+<p>9、合理使用分词器</p>
+<h3 id="查询优化">查询优化<a class="headerlink" href="#查询优化" title="Permanent link"></a></h3>
+<p>全量数据、大文档优化：</p>
+<p>1、不要返回全量或近全量数据</p>
+<p>2、避免使用大文档。不一定要将整本书作为一个文档，更好的做法是将每一章/节甚至每一段作为一个文档，然后在这些文档中添加一个属性，标识它们属于哪一本书的哪一章/节。</p>
+<p>数据建模层面优化：</p>
+<p>1、文档结构务必规范、一致</p>
+<p>2、设置合理的分片数和副本数。一般建议设置为数据节点的1～3倍。对于一般的非高可用场景，一个副本基本足够。</p>
+<p>3、多使用写入前预处理操作。</p>
+<p>4、合理使用边写入边排序机制。排序操作并不在数据写入后进行，而是预先定义好，即在索引创建时设置。这个过程的主要目标是通过牺牲一些写入性能来显著提升检索速度。</p>
+<p>检索方法层面优化：</p>
+<p>1、尽可能减少检索字段数目。提高多个字段搜索速度的常用技术是在索引时将它们的值借助copy_to参数复制到单个字段中，然后在搜索时使用该字段。</p>
+<p>2、设置合理的size值。如果数据量确实很大，则可以考虑通过scroll或者search_after方式来实现<strong>分页查询优化</strong>。</p>
+<p>3、尽量使用keyword字段类型。如果涉及范围检索，我们强烈推荐使用数值类型的字段。这是因为数值类型，包括整型、长整型等，为范围检索提供了更高效的支持。如果仅需精准匹配term级别的检索，那么keyword类型就能搞定。</p>
+<p>4、有效使用filter缓存。filter缓存是指在执行过滤操作时，将结果缓存到内存中，以便在后续的查询中能够快速访问。这样可以避免对同一个过滤器进行重复计算，从而提高查询性能。</p>
+<p>5、对历史索引数据不定期进行段合并</p>
+<p>6、预热文件系统缓存</p>
+<p>7、通过perference优化缓存利用率。</p>
+<p>8、避免使用通配符检索、正则匹配检索。使用正则表达式进行检索时，将扫描整个文档集合，无法使用索引加快搜索。</p>
+<h2 id="elasticsearch缓存">Elasticsearch缓存<a class="headerlink" href="#elasticsearch缓存" title="Permanent link"></a></h2>
+<p>往 es 里写的数据，实际上都写到磁盘文件里去了，<strong>查询的时候</strong>，操作系统会将磁盘文件里的数据自动缓存到 <code>filesystem cache</code> 里面去。</p>
+<p>根据我们自己的生产环境实践经验，最佳的情况下，是仅仅在 es 中就存少量的数据，就是你要<strong>用来搜索的那些索引</strong>，如果内存留给 <code>filesystem cache</code> 的是 100G，那么你就将索引数据控制在 <code>100G</code> 以内，这样的话，你的数据几乎全部走内存来搜索，性能非常之高，一般可以在 1 秒以内。</p>
+<p><strong>节点查询缓存(node query cache)</strong></p>
+<p>在节点查询缓存中，每个节点都有一个所有分片共享的查询缓存。缓存使用<strong>LRU</strong>策略，即当缓存已满时，优先清理最近使用最少的查询结果。用户无法查看节点查询缓存的内容。</p>
+<p>应用场景和缓存条件：</p>
+<ul>
+<li>节点查询缓存适用于term检索和filter检索。</li>
+<li>默认情况下节点查询缓存最多可容纳10000个查询语句，最多占总堆空间的10%。</li>
+<li>对于一个分片内的特定段，只有当该段至少含有10000个文档且段中的文档数量超过了该分片总文档数的3%时，它才会被纳入缓存中。</li>
+<li>缓存策略是基于段的，因此当段进行合并操作时，可能会导致相关的缓存查询结果失效。</li>
+</ul>
+<p><strong>分片请求缓存(shard request cache)</strong></p>
+<p>分片请求缓存会在每个分片上缓存本地结果，这使得频繁使用的搜索请求几乎能立即返回结果。</p>
+<p>分片请求缓存非常适合用于日志用例场景。</p>
+<p><strong>字段缓存</strong></p>
+<p>字段缓存包含field data和global ordinals，它们均用于支持某些字段类型上的聚合。</p>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  <form class="md-feedback" name="feedback" hidden="">
+    <fieldset>
+      <legend class="md-feedback__title">
+        Was this page helpful?
+      </legend>
+      <div class="md-feedback__inner">
+        <div class="md-feedback__list">
+          
+            <button class="md-feedback__icon md-icon" type="submit" title="This page was helpful" data-md-value="1">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 12a8 8 0 0 0-8-8 8 8 0 0 0-8 8 8 8 0 0 0 8 8 8 8 0 0 0 8-8m2 0a10 10 0 0 1-10 10A10 10 0 0 1 2 12 10 10 0 0 1 12 2a10 10 0 0 1 10 10M10 9.5c0 .8-.7 1.5-1.5 1.5S7 10.3 7 9.5 7.7 8 8.5 8s1.5.7 1.5 1.5m7 0c0 .8-.7 1.5-1.5 1.5S14 10.3 14 9.5 14.7 8 15.5 8s1.5.7 1.5 1.5m-5 7.73c-1.75 0-3.29-.73-4.19-1.81L9.23 14c.45.72 1.52 1.23 2.77 1.23s2.32-.51 2.77-1.23l1.42 1.42c-.9 1.08-2.44 1.81-4.19 1.81"></path></svg>
+            </button>
+          
+            <button class="md-feedback__icon md-icon" type="submit" title="This page could be improved" data-md-value="0">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 12a8 8 0 0 0-8-8 8 8 0 0 0-8 8 8 8 0 0 0 8 8 8 8 0 0 0 8-8m2 0a10 10 0 0 1-10 10A10 10 0 0 1 2 12 10 10 0 0 1 12 2a10 10 0 0 1 10 10m-6.5-4c.8 0 1.5.7 1.5 1.5s-.7 1.5-1.5 1.5-1.5-.7-1.5-1.5.7-1.5 1.5-1.5M10 9.5c0 .8-.7 1.5-1.5 1.5S7 10.3 7 9.5 7.7 8 8.5 8s1.5.7 1.5 1.5m2 4.5c1.75 0 3.29.72 4.19 1.81l-1.42 1.42C14.32 16.5 13.25 16 12 16s-2.32.5-2.77 1.23l-1.42-1.42C8.71 14.72 10.25 14 12 14"></path></svg>
+            </button>
+          
+        </div>
+        <div class="md-feedback__note">
+          
+            <div data-md-value="1" hidden="">
+              
+              
+                
+              
+              
+              
+                
+                
+              
+              Thanks for your feedback!
+            </div>
+          
+            <div data-md-value="0" hidden="">
+              
+              
+                
+              
+              
+              
+                
+                
+              
+              Thanks for your feedback! Help us improve this page by using our <a href="..." target="_blank" rel="noopener">feedback form</a>.
+            </div>
+          
+        </div>
+      </div>
+    </fieldset>
+  </form>
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright © 2019 - 2024 wang
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["content.action.edit", "content.code.copy", "content.code.select", "content.tabs.link", "navigation.tabs", "navigation.instant", "navigation.path", "toc.follow"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  
+<script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+document$.subscribe(()=>{ lightbox.reload(); });
+</script></body></html>

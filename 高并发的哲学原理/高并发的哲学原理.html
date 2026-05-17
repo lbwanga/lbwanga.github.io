@@ -1,0 +1,1747 @@
+<!DOCTYPE html><html lang="zh" class="no-js"><head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="个人笔记，博客">
+      
+      
+        <meta name="author" content="wang">
+      
+      
+        <link rel="canonical" href="https://lbwanga.github.io/%E9%AB%98%E5%B9%B6%E5%8F%91%E7%9A%84%E5%93%B2%E5%AD%A6%E5%8E%9F%E7%90%86/%E9%AB%98%E5%B9%B6%E5%8F%91%E7%9A%84%E5%93%B2%E5%AD%A6%E5%8E%9F%E7%90%86.html">
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/logo.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>高并发的哲学原理 - WNotes</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+  
+  
+
+<script id="__analytics">function __md_analytics(){function e(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],e("js",new Date),e("config","G-XXXXXXXXXX"),document.addEventListener("DOMContentLoaded",(function(){document.forms.search&&document.forms.search.query.addEventListener("blur",(function(){this.value&&e("event","search",{search_term:this.value})}));document$.subscribe((function(){var t=document.forms.feedback;if(void 0!==t)for(var a of t.querySelectorAll("[type=submit]"))a.addEventListener("click",(function(a){a.preventDefault();var n=document.location.pathname,d=this.getAttribute("data-md-value");e("event","feedback",{page:n,data:d}),t.firstElementChild.disabled=!0;var r=t.querySelector(".md-feedback__note [data-md-value='"+d+"']");r&&(r.hidden=!1)})),t.hidden=!1})),location$.subscribe((function(t){e("config","G-XXXXXXXXXX",{page_path:t.pathname})}))}));var t=document.createElement("script");t.async=!0,t.src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX",document.getElementById("__analytics").insertAdjacentElement("afterEnd",t)}</script>
+  
+    <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+  
+
+    
+    
+  <link href="../assets/stylesheets/glightbox.min.css" rel="stylesheet"><script src="../assets/javascripts/glightbox.min.js"></script><style id="glightbox-style">
+            html.glightbox-open { overflow: initial; height: 100%; }
+            .gslide-title { margin-top: 0px; user-select: text; }
+            .gslide-desc { color: #666; user-select: text; }
+            .gslide-image img { background: white; }
+            .gscrollbar-fixer { padding-right: 15px; }
+            .gdesc-inner { font-size: 0.75rem; }
+            body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color); }
+            body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color); }
+            body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color); }
+        </style></head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="white" data-md-color-accent="blue">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#现实世界中的高并发场景" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../index.html" title="WNotes" class="md-header__button md-logo" aria-label="WNotes" data-md-component="logo">
+      
+  <img src="../assets/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            WNotes
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              高并发的哲学原理
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/lbwanga/lbwanga.github.io" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"></path></svg>
+  </div>
+  <div class="md-source__repository">
+    lbwanga
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../index.html" class="md-tabs__link">
+        
+  
+  
+    
+  
+  简介
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../Java/Java.html" class="md-tabs__link">
+          
+  
+  
+  Java
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../JUC/JUC.html" class="md-tabs__link">
+        
+  
+  
+    
+  
+  JUC
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../JVM/JVM.html" class="md-tabs__link">
+        
+  
+  
+    
+  
+  JVM
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../MySQL/MySQL.html" class="md-tabs__link">
+        
+  
+  
+    
+  
+  MySQL
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../Redis/Redis%E5%9F%BA%E7%A1%80.html" class="md-tabs__link">
+          
+  
+  
+  Redis
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../ES/ES.html" class="md-tabs__link">
+        
+  
+  
+    
+  
+  ES
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F.html" class="md-tabs__link">
+        
+  
+  
+    
+  
+  设计模式
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../Spring/Spring6.html" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Spring
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../SpringMVC/SpringMVC.html" class="md-tabs__link">
+        
+  
+  
+    
+  
+  SpringMVC
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../SpringBoot/SpringBoot.html" class="md-tabs__link">
+        
+  
+  
+    
+  
+  SpringBoot
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../MQ/MQ.html" class="md-tabs__link">
+        
+  
+  
+    
+  
+  MQ
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C.html" class="md-tabs__link">
+        
+  
+  
+    
+  
+  计算机网络
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F.html" class="md-tabs__link">
+        
+  
+  
+    
+  
+  操作系统
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1/DDD.html" class="md-tabs__link">
+        
+  
+  
+    
+  
+  DDD
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../AI/AI.html" class="md-tabs__link">
+        
+  
+  
+    
+  
+  AI
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../%E5%90%8E%E7%AB%AF%E5%9C%BA%E6%99%AF/%E5%9C%BA%E6%99%AF.html" class="md-tabs__link">
+        
+  
+  
+    
+  
+  后端场景
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../index.html" title="WNotes" class="md-nav__button md-logo" aria-label="WNotes" data-md-component="logo">
+      
+  <img src="../assets/logo.png" alt="logo">
+
+    </a>
+    WNotes
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/lbwanga/lbwanga.github.io" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"></path></svg>
+  </div>
+  <div class="md-source__repository">
+    lbwanga
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix="">
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    简介
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2">
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Java
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Java
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Java/Java.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Java基础
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Java/Java%E9%9B%86%E5%90%88.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Java集合
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../JUC/JUC.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    JUC
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../JVM/JVM.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    JVM
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../MySQL/MySQL.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MySQL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6">
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Redis
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Redis
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Redis/Redis%E5%9F%BA%E7%A1%80.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Redis基础
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Redis/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Redis数据结构
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Redis/Redis%E9%AB%98%E7%BA%A7.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Redis高级
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Redis/应用.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Redis应用
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ES/ES.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ES
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    设计模式
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Spring/Spring6.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Spring
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../SpringMVC/SpringMVC.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SpringMVC
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../SpringBoot/SpringBoot.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SpringBoot
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../MQ/MQ.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MQ
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    计算机网络
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    操作系统
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1/DDD.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DDD
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../AI/AI.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../%E5%90%8E%E7%AB%AF%E5%9C%BA%E6%99%AF/%E5%9C%BA%E6%99%AF.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    后端场景
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+      
+        <li class="md-nav__item">
+  <a href="#现实世界中的高并发场景" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        现实世界中的高并发场景
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="现实世界中的高并发场景">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#高并发场景之电商大促" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        高并发场景之——电商大促
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="高并发场景之——电商大促">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#系统响应慢" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        系统响应慢
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#订单提交失败" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        订单提交失败
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#库存超售" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        库存超售
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#支付超时" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        支付超时
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#恶意攻击" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        恶意攻击
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#高并发场景之社交网络" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        高并发场景之——社交网络
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="高并发场景之——社交网络">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#缓存优化" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        缓存优化
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#异步处理" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        异步处理
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#数据库优化" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        数据库优化
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#水平扩展" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        水平扩展
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#资源预估和监控" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        资源预估和监控
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#高并发场景之金融交易" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        高并发场景之——金融交易
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#高并发场景之网络游戏" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        高并发场景之——网络游戏
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#高并发系统的通用设计方法是什么" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        高并发系统的通用设计方法是什么？
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#计算资源高并发" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        计算资源高并发
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="计算资源高并发">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#基础设施并发" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        基础设施并发
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#突破编程语言的局限性" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        突破编程语言的局限性
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#网络资源高并发" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        网络资源高并发
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#数据库高并发" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        数据库高并发
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="数据库高并发">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#数据库是最大的单点" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        数据库是最大的单点
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+                
+
+
+
+  
+
+
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/lbwanga/lbwanga.github.io/edit/master/docs/高并发的哲学原理/高并发的哲学原理.md" title="编辑此页" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"></path></svg>
+    </a>
+  
+  
+
+
+  <h1>高并发的哲学原理</h1>
+
+<p>高并发的哲学原理就是——找出单点，进行拆分。要将每一个<strong>“大单点”</strong>都拆成<strong>“一个小单点 + 多个资源并行”</strong>的形式。</p>
+<blockquote>
+<p>单点指的是一个 Web 系统中，几乎所有流量都必须经过的特定部分，如果它出现瓶颈或故障，将导致整个系统的性能下降或不可用。</p>
+</blockquote>
+<h2 id="现实世界中的高并发场景">现实世界中的高并发场景<a class="headerlink" href="#现实世界中的高并发场景" title="Permanent link"></a></h2>
+<h3 id="高并发场景之电商大促">高并发场景之——电商大促<a class="headerlink" href="#高并发场景之电商大促" title="Permanent link"></a></h3>
+<p>"大促"是现如今电商平台最常见的营销模式，双 11 和 618 可以说每一个中国人都有所耳闻。</p>
+<p>在电商大促期间，由于用户访问流量和交易量在短时间内会快速增加，就导致了一系列高并发问题的出现：</p>
+<h4 id="系统响应慢">系统响应慢<a class="headerlink" href="#系统响应慢" title="Permanent link"></a></h4>
+<p>用户访问量突然增大，系统规模无法短时间内扩大，导致页面加载缓慢，用户体验差。 我们可以采取以下技术手段来提升系统的总容量：</p>
+<ul>
+<li>静态资源缓存：将静态资源如图片、CSS 和 JavaScript 文件缓存到 CDN（内容分发网络）上，减少大促开始时服务器的带宽需求，加快页面加载速度。</li>
+<li>弹性伸缩：通过自动或手动调整服务器的数量和配置，根据实时负载情况动态分配计算资源，以满足用户访问的需求。</li>
+<li>负载均衡：将用户请求分发到多个服务器上，避免单个服务器过载，提高系统的吞吐能力。</li>
+</ul>
+<h4 id="订单提交失败">订单提交失败<a class="headerlink" href="#订单提交失败" title="Permanent link"></a></h4>
+<p>订单量突然增加，系统可能无法及时处理订单，导致订单提交失败，甚至重复提交订单等问题。常用解决方案：</p>
+<ul>
+<li>异步处理：将订单处理过程异步化，即时返回排队中的状态，避免单个网络请求的时间过长影响用户体验和服务器总容量。</li>
+<li>消息队列：使用消息队列来存储和处理订单，确保订单的顺序和可靠处理。</li>
+<li>幂等性设计：为订单处理接口设计幂等性，在前端加入订单唯一 UUID，防止重复提交订单和重复支付。</li>
+</ul>
+<h4 id="库存超售">库存超售<a class="headerlink" href="#库存超售" title="Permanent link"></a></h4>
+<p>在电商大促中，多个用户可能在同一时刻购买同一款商品，极有可能导致超出库存数量的售卖行为，给经营带来损失。为了解决这个严重的问题，可以采取以下措施：</p>
+<ul>
+<li>预售和抢购限制：提前设置商品的预售数量或限购数量，减少在明确无库存的情况下对库存扣减系统的额外压力。</li>
+<li>使用队列进行库存扣减：使用消息队列来存储和处理订单，确保库存的顺序扣减。我们假设每次扣减库存需要 20ms 的处理时间，那单线程队列就可以完成每秒 50 单的需求，这个容量其实是不小的，我们假设客单价为 1000 元，则单个队列处理器可以承担每秒 5 万元，每分钟 300 万元的压力，这个交易额其实已经很大了，全国能达到每分钟 300 万的电商平台应该也没有很多。</li>
+<li>订单超卖记录：在极限情况下，为了保证系统的总容量能满足大促的要求，我们不会极端严格地限制超卖。如果真的超卖了，需要及时地反映在管理后台，让客服等运营人员介入处理。</li>
+</ul>
+<h4 id="支付超时">支付超时<a class="headerlink" href="#支付超时" title="Permanent link"></a></h4>
+<p>支付系统具有天然的单点性。在电商大促期间，由于用户购买行为集中，支付系统可能面临大量的并发支付请求，难以及时处理所有订单的支付请求，导致用户支付超时，有货卖不出去。这时我们可以做如下处理：</p>
+<ul>
+<li>多节点部署：由于支付系统具有天然的单点性，单个线程经常需要等待，所以我们要尽量地多节点部署，以利用尽量多的 CPU 核心数来提升系统总容量。</li>
+<li>异步支付处理：将支付处理过程异步化，把和用户操作相关的前序步骤和后续步骤都进行异步拆分，只在最核心的地方设置同步等待，减少对用户体验的阻滞。</li>
+<li>合理设置支付超时时间：根据实际情况，合理设置支付超时时间，可以减少单个用户的支付容量以及系统总容量，极端场景下的订单可以在系统自动侦测到了之后进行手动改库修正。</li>
+</ul>
+<h4 id="恶意攻击">恶意攻击<a class="headerlink" href="#恶意攻击" title="Permanent link"></a></h4>
+<p>电商大促期间，由于系统流量集中，使得此时成为了恶意攻击的最佳时机。为了保护系统的安全和稳定，我们可以采取以下措施：</p>
+<ul>
+<li>防火墙和入侵检测系统：部署硬件防火墙和入侵检测系统，它们可以抵挡住低级的基于网络协议漏洞的低端流量攻击。</li>
+<li>限制访问频率：通过限制单个 IP 地址、单个 UUID、单个用户 ID 的访问频率和请求次数，防止恶意攻击者通过大量伪造请求或者是利用机器人抢购造成的系统瘫痪。</li>
+<li>安全加密通信：使用 SSL/TLS 等安全协议对用户和服务器之间的通信进行加密，防止信息泄露和篡改。这一步在 2023 年应该已经全面普及了，如果你的系统还在用 HTTP 协议，需要赶紧升级。</li>
+</ul>
+<h3 id="高并发场景之社交网络">高并发场景之——社交网络<a class="headerlink" href="#高并发场景之社交网络" title="Permanent link"></a></h3>
+<p>在社交网络出现突发热点时，系统需要处理大量的实时数据更新、用户交互和内容传播动作，这些操作同时发生就给系统带来了巨大的压力。我们可以采取如下几个手段：</p>
+<h4 id="缓存优化">缓存优化<a class="headerlink" href="#缓存优化" title="Permanent link"></a></h4>
+<p>利用缓存技术来减轻数据库的压力，提高读取性能。将热门的用户信息、动态内容等存储在缓存中，加快数据的访问速度。在微博场景下，最大的挑战就是热点数据的及时识别：在某条微博、某个账号突然流量暴增时，能够在多短的时间内将该账号、该条微博缓存化，就成了决定系统是否会崩溃的最重要的因素。</p>
+<h4 id="异步处理">异步处理<a class="headerlink" href="#异步处理" title="Permanent link"></a></h4>
+<p>将耗时的操作异步化，使得系统能够更快地响应用户请求。例如，将评论、点赞等操作先放入消息队列中，然后由后台任务异步处理，避免在高峰期对主数据库和核心缓存形成额外压力。</p>
+<h4 id="数据库优化">数据库优化<a class="headerlink" href="#数据库优化" title="Permanent link"></a></h4>
+<p>对热点数据和非热点数据分而治之，减少热点数据所在表的长度，可以最大限度地利用数据库本身的性能特定和内存缓存，极大地提升数据库查询和更新的性能。</p>
+<h4 id="水平扩展">水平扩展<a class="headerlink" href="#水平扩展" title="Permanent link"></a></h4>
+<p>水平扩展是通过增加服务器数量和实施负载均衡来应对高并发访问的策略。通过将系统拆分为多个服务实例，可以同时处理更多请求，提高系统的吞吐量。系统能够以多快的速度进行水平扩展，直接影响普通用户的感受。只要扩容足够快，大多数用户几乎无法察觉到系统曾经宕机过。</p>
+<h4 id="资源预估和监控">资源预估和监控<a class="headerlink" href="#资源预估和监控" title="Permanent link"></a></h4>
+<p>在活动高峰期前，进行系统资源的预估和规划，确保系统能够承受预期的并发流量。同时，实时监控系统的运行状态，及时发现和解决潜在的性能问题。这一条只适用于节假日，明星们不按套路出牌，本条在明星场景下没什么用。</p>
+<h3 id="高并发场景之金融交易">高并发场景之——金融交易<a class="headerlink" href="#高并发场景之金融交易" title="Permanent link"></a></h3>
+<h3 id="高并发场景之网络游戏">高并发场景之——网络游戏<a class="headerlink" href="#高并发场景之网络游戏" title="Permanent link"></a></h3>
+<h3 id="高并发系统的通用设计方法是什么">高并发系统的通用设计方法是什么？<a class="headerlink" href="#高并发系统的通用设计方法是什么" title="Permanent link"></a></h3>
+<p>高并发系统遇到性能瓶颈，一定是某个单点资源达到了极限，例如数据库、后端云服务器、网络带宽等，需要找到这个瓶颈资源，拆分它，提升整个系统的容量。具体来说，有如下几个设计方向：</p>
+<ol>
+<li><strong>负载均衡</strong>：这是解决高并发问题的最基本和最直接的方式。负载均衡可以将请求分散到多个服务器上，从而使得每个服务器的负载保持在一个相对较低的水平，提高了系统的整体处理能力。</li>
+<li><strong>缓存技术</strong>：缓存是提高系统性能的一种重要手段。通过将经常访问的数据存储在内存中，可以大大减少对数据库的访问，从而提高系统的响应速度。</li>
+<li><strong>异步处理</strong>：异步处理是一种将耗时的操作转化为后台任务进行处理的方式，这样主线程就可以立即返回，不需要等待这些操作完成。这种方式可以提高系统的并发处理能力。</li>
+<li><strong>消息队列</strong>：消息队列是一种用于处理大量并发请求的技术。通过将请求放入消息队列中，然后由专门的服务进程来处理这些请求，可以避免主线程被阻塞，从而提高系统的并发处理能力。</li>
+<li><strong>数据库优化</strong>：对于数据库来说，优化SQL语句、合理设置索引、使用数据库集群等都可以提高数据库的处理能力，从而提高整个系统的性能。</li>
+<li><strong>水平扩展</strong>：当系统的负载达到一定程度时，可以通过增加更多的服务器来扩展系统的能力。这通常需要对系统进行微服务化改造，每个服务都可以独立地部署和扩展。</li>
+<li><strong>服务隔离</strong>：在高并发系统中，通常会有多个服务同时运行。为了保证服务的独立性和稳定性，需要将不同的服务隔离开来，避免一个服务的故障影响到其他服务。</li>
+</ol>
+<h2 id="计算资源高并发">计算资源高并发<a class="headerlink" href="#计算资源高并发" title="Permanent link"></a></h2>
+<h3 id="基础设施并发">基础设施并发<a class="headerlink" href="#基础设施并发" title="Permanent link"></a></h3>
+<p>基础设施并发，全称为“基础设施并发管理”，指的是在计算机系统中同时有多个应用程序或任务在共享和访问计算机系统的各种资源（比如 CPU、内存、网络等）的情况下，保证这些资源的正确使用和公平分配的技术能力。</p>
+<h3 id="突破编程语言的局限性">突破编程语言的局限性<a class="headerlink" href="#突破编程语言的局限性" title="Permanent link"></a></h3>
+<h2 id="网络资源高并发">网络资源高并发<a class="headerlink" href="#网络资源高并发" title="Permanent link"></a></h2>
+<h2 id="数据库高并发">数据库高并发<a class="headerlink" href="#数据库高并发" title="Permanent link"></a></h2>
+<h3 id="数据库是最大的单点">数据库是最大的单点<a class="headerlink" href="#数据库是最大的单点" title="Permanent link"></a></h3>
+<p>在⼀个系统中，多个 API 调⽤产⽣的 多种⾏为最终都会作⽤于同⼀张表上，只有这样才能保证系统的正常运⾏。这也是数据库最核⼼的价值所在 ——API 可以并发执⾏，⽽数据库必须逐个处理请求。</p>
+<p>⽆论进程、线程、协程如何并发执⾏，数据库的⾃增、事务和锁都是原⼦性的。这种原⼦化能⼒正是和数据库配合的业务服务器能够多台并发运⾏的基础，也是多台服务器能够被称为“⼀个系统”的逻辑基础：如果两个系统的数据库不在⼀起，那它们就不是同⼀个系统。</p>
+<p>MySQL 是整个 Web 系统中唯⼀⼀个能够在意外掉电重启后保持数据不丢失的组件。那么它是如何实现的呢 ？答案很简单，它依赖于计算机中唯⼀⼀个断电不丢数据的部件——磁盘。“数据库的单点究竟在哪⾥”的答案已经显⽽易见：数据库的单点就单在了磁盘上。</p>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  <form class="md-feedback" name="feedback" hidden="">
+    <fieldset>
+      <legend class="md-feedback__title">
+        Was this page helpful?
+      </legend>
+      <div class="md-feedback__inner">
+        <div class="md-feedback__list">
+          
+            <button class="md-feedback__icon md-icon" type="submit" title="This page was helpful" data-md-value="1">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 12a8 8 0 0 0-8-8 8 8 0 0 0-8 8 8 8 0 0 0 8 8 8 8 0 0 0 8-8m2 0a10 10 0 0 1-10 10A10 10 0 0 1 2 12 10 10 0 0 1 12 2a10 10 0 0 1 10 10M10 9.5c0 .8-.7 1.5-1.5 1.5S7 10.3 7 9.5 7.7 8 8.5 8s1.5.7 1.5 1.5m7 0c0 .8-.7 1.5-1.5 1.5S14 10.3 14 9.5 14.7 8 15.5 8s1.5.7 1.5 1.5m-5 7.73c-1.75 0-3.29-.73-4.19-1.81L9.23 14c.45.72 1.52 1.23 2.77 1.23s2.32-.51 2.77-1.23l1.42 1.42c-.9 1.08-2.44 1.81-4.19 1.81"></path></svg>
+            </button>
+          
+            <button class="md-feedback__icon md-icon" type="submit" title="This page could be improved" data-md-value="0">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 12a8 8 0 0 0-8-8 8 8 0 0 0-8 8 8 8 0 0 0 8 8 8 8 0 0 0 8-8m2 0a10 10 0 0 1-10 10A10 10 0 0 1 2 12 10 10 0 0 1 12 2a10 10 0 0 1 10 10m-6.5-4c.8 0 1.5.7 1.5 1.5s-.7 1.5-1.5 1.5-1.5-.7-1.5-1.5.7-1.5 1.5-1.5M10 9.5c0 .8-.7 1.5-1.5 1.5S7 10.3 7 9.5 7.7 8 8.5 8s1.5.7 1.5 1.5m2 4.5c1.75 0 3.29.72 4.19 1.81l-1.42 1.42C14.32 16.5 13.25 16 12 16s-2.32.5-2.77 1.23l-1.42-1.42C8.71 14.72 10.25 14 12 14"></path></svg>
+            </button>
+          
+        </div>
+        <div class="md-feedback__note">
+          
+            <div data-md-value="1" hidden="">
+              
+              
+                
+              
+              
+              
+                
+                
+              
+              Thanks for your feedback!
+            </div>
+          
+            <div data-md-value="0" hidden="">
+              
+              
+                
+              
+              
+              
+                
+                
+              
+              Thanks for your feedback! Help us improve this page by using our <a href="..." target="_blank" rel="noopener">feedback form</a>.
+            </div>
+          
+        </div>
+      </div>
+    </fieldset>
+  </form>
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright © 2019 - 2024 wang
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["content.action.edit", "content.code.copy", "content.code.select", "content.tabs.link", "navigation.tabs", "navigation.instant", "navigation.path", "toc.follow"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  
+<script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+document$.subscribe(()=>{ lightbox.reload(); });
+</script></body></html>
